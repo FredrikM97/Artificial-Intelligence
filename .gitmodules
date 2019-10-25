@@ -1,12 +1,6 @@
 [submodule "realtime_system"]
 	path = realtime_system
 	url = git@github.com:FredrikM97/realtime_system.git
-[submodule "Seminar"]
-	path = Seminar
-	url = git@github.com:MrYakobo/realtidsrapport.git
-[submodule "realtidsrapport"]
-	path = realtidsrapport
-	url = git@github.com:MrYakobo/realtidsrapport.git
 [submodule "Realtime_systems/realtidsrapport"]
 	path = Realtime_systems/realtidsrapport
 	url = git@github.com:MrYakobo/realtidsrapport.git
