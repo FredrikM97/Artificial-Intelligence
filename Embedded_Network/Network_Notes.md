@@ -1,3 +1,6 @@
+# Lecture A
+
+
 # Closed Network
 * Clos network specified by ($IN, N_1, N_2, N_3, OUT$)
 ## Condition for clos network to be (strictly) non-blocking 
@@ -160,10 +163,10 @@ K: Adjustment factor to account for refraction, K=4/3
 
 # Lecture 7
 ## Free space loss
-$FSPL = (4\pid/\lambda)^2$
+$FSPL = (4\pi d/\lambda)^2$
 
 With directive antennas:
-- P_t/P_r = (4\pid)²/\lambda²G_1G_2 = (4\pifd)^2/C²G_1G_2
+- P_t/P_r = (4\pi d)²/\lambda²G_1G_2 = (4\pi fd)^2/C²G_1G_2
 $P_t:$ Signal power at transmitted
 $P_r:$ Signal power at received
 $\lambda:$ carrier wavelength (m)
@@ -172,7 +175,7 @@ c: speed of light (3*10⁸ m/s)
 $G_1$ and $G_2$: Antenna gains
 
 Isotropic antennas:
-$L_{dB} = 10log(P_t/P_r) = 20log(4\pid/\lambda) = -20log(\lambda) + 20log(d) + 21.98 dB = 20log(4\pifd/c) = 20log(f) + 20log(d) - 147.56dB$
+$L_{dB} = 10log(P_t/P_r) = 20log(4\pi d/\lambda) = -20log(\lambda) + 20log(d) + 21.98 dB = 20log(4\pi fd/c) = 20log(f) + 20log(d) - 147.56dB$
 
 ## Path Loss Exponent in practical systems
 - Reflection, scattering etc..
@@ -203,8 +206,77 @@ $L_{dB} = 10log(P_t/P_r) = 20log(4\pid/\lambda) = -20log(\lambda) + 20log(d) + 2
 - Lightweight, build for proproetary embedded systems
 * Built for unreliable networks
 
-## Challenges of IoT security
+## Things connection
+- PAN: Few meters around invididual
+- LAN: Small geographical area to connect end devices
+- WAN: Wide geopgraphical area to connect LAN
+- Evolved into LPWAN (Low power wide area network)
 
+## Wireless technologies
+- Protocols: ZigBee, Bluetooth, LoRaWAN
+- Short, medium, wide ranges
+- LPWAN, supports, long range communication for low bit rate devices (sensors, actuators)
+
+### ZigBee
+- IEEE 802.15.4 standards
+- Low data rate, long battery life, PAN
+- Home automation, medical devices, low power, low bandwidth
+- Data-rate: 20-250 kbps
+- CSMA-CA channel access
+- Quick wake-up, Less than 30 ms, compared to Bluetooth: 3s
+
+- Star, tree or Mesh network structure
+- ZigBee end device: Only to talk to router or cordinator
+- Sleeps most of the time
+
+### Bluetooth
+- Started as IEEE 802.15.1
+- PAN
+- Default standard for audio between mobile devices
+- 2.4 GHz ISM band
+- Sleep mode until connection reestablished
+- Beacon use BLE technology: Buildings, coffee shops etc. to prove location services
+- Piconet: Master and slave network, Basic unit of bluetooth networking
+- Scatternet: Allow devices to share same area, Efficient use of bandwidth
+
+- Classes of transmitters: 
+1) 100mW, Max range, power control mandatory
+2) 2.4 mW, power control
+3) 1 mW, Lowest power
+
+### Frequency hopping
+- Resistance to interference and multipath effects
+- Divided into 1 MHz physical channels
+- Typically, 79 different frequencies, total bandwidth of 80 MH< from 2.402 GHz -> 2.4835 GHz
+
+## 4G/5G
+- High mobility bandwidth (cars, trains) 4G system - 100 Mbps
+- Low mobility (stationary users) 4G 1 Gbps
+- LTE and WiMax two popular 4G systems
+
+## LoRaWAN
+- Power limited devices
+- 0.3 kbps - 50 kbps
+LAN (local area network), WAN ( Wireless), PAN (personal area network)
+
+- Physical layer for LPWAN protocols
+- Operated on non-licensed band below 1 GHz
+- Multipath fading
+- Point to point
+
+# Lecture 9
+## Cloud computing
+- Economic improvement
+- Professional network management
+
+## Edge computing
+- IoT enabled devices such as sensors and actuators
+## Fog computing
+- Handle data before sending to cloud (local data)
+- Between Edge and cloud
+
+# Lecture 10
+- Different type of attacks..
 
 
 
