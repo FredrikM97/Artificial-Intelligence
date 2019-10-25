@@ -4,3 +4,9 @@
 [submodule "Seminar"]
 	path = Seminar
 	url = git@github.com:MrYakobo/realtidsrapport.git
+[submodule "realtidsrapport"]
+	path = realtidsrapport
+	url = git@github.com:MrYakobo/realtidsrapport.git
+[submodule "Realtime_systems/realtidsrapport"]
+	path = Realtime_systems/realtidsrapport
+	url = git@github.com:MrYakobo/realtidsrapport.git
