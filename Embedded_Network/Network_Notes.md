@@ -1,6 +1,50 @@
-# Lecture A
+# Lecture 1 (A)
+## Switch learning
+- Empty database at startup
+- Learns by reading source address and store it in forwarding table
+- If destination address is unknown the frame is forwarded to all other ports
+## Spanning tree protocol (STP)
+- Bridge/Switch dynamically chosen as "root"
+- Least cost path is chosen between each bridge to root
+# Packet switched networks
+- Data into packets sharing the bandwidth with other users
+- Better bandwidth utilization
+- Harder to implement real-time communication because no dedicated bandiwidth
+
+## Feedvack Error control
+- Ability to detect errors
+
+## Checksum
+- Used in IP-header, TCP/UDP header and data
+
+## ARP (Address resolution protocol)
+- ARP lookup table
+
+# Lecture 3 (C)
+## Parrallel computers
+* Distributed memory MIMD
+* Shared memory MIMD
+* Distributed shared memory MIMD
+## Static (direct) networks
+- Diameter: Longest shortest path between two nodes
+- Node degree: Number of links to neighbors
+- Scalability
+
+## Fat tree of switches
+## Shared medium
+## Hybrid networks
 
 
+## Group communication
+- Multicast, one to many, barrier synchronization
+
+## Routing/switching
+- Package switching
+- Circuit switching
+- Wormhole switching
+Halt signal on conflict
+
+- Source/transparent routing
 # Closed Network
 * Clos network specified by ($IN, N_1, N_2, N_3, OUT$)
 ## Condition for clos network to be (strictly) non-blocking 
@@ -9,10 +53,24 @@
 ## Condition for a Clos network to be rearrangeably nonblocking
 * $N_2 \geq max(IN, OUT)$
 
-# Lecture 4
+
+# Lecture 4 (D)
 * Optical Interconnections and networks
 * WAN
 * Data communication and telecommunication equipment
+
+## Wavelength routing with OADM (optical add/Drop multiplexers)
+* Using different colors in light spectrum
+
+## Free space optical interconnection
+* Diffractive optics technology
+* Novel fiber optic
+
+## Fiber-ribbon link
+- Multiple fibers in parallel
+- Array of laser diodes
+- Array of photo diodes
+
 
 # Lecture 5
 * Embedded System
@@ -30,8 +88,6 @@
 - 1G, 2G, 3G, 4G
 - Doppler spread caused by movement
 - Noise
-## Electromagnetic signal
-- Function of time (also be expected as a function of frequency)
 
 ## Relationship - Data rate and brandwidth
 - Greater bandwidth -> higher information carry capacity
@@ -95,9 +151,12 @@
 - Data-rate conversations, two stations with different data-rate can exchange information
 
 - Packages treated independently
-### Advantages
+
+Advantages:
 - Increased delivery diplay on heavy traffic but still accept new packages
-## Disadvantage
+
+Disadvantage:
+
 - Delay can be huge with many packages, package require overhead information, destination and sequencing info
 - More processing at each node
 
@@ -166,7 +225,7 @@ K: Adjustment factor to account for refraction, K=4/3
 $FSPL = (4\pi d/\lambda)^2$
 
 With directive antennas:
-- P_t/P_r = (4\pi d)²/\lambda²G_1G_2 = (4\pi fd)^2/C²G_1G_2
+- $P_t/P_r = (4\pi d)²/\lambda²G_1G_2 = (4\pi fd)^2/C²G_1G_2$
 $P_t:$ Signal power at transmitted
 $P_r:$ Signal power at received
 $\lambda:$ carrier wavelength (m)
@@ -181,7 +240,7 @@ $L_{dB} = 10log(P_t/P_r) = 20log(4\pi d/\lambda) = -20log(\lambda) + 20log(d) + 
 - Reflection, scattering etc..
 - Received power decreases logarithmic with distance
 
-- P_t/P_r = (4\pi/\lambda)²d = (4\pif/c)²d^n
+- $P_t/P_r = (4\pi/\lambda)²d = (4\pi f/c)²d^n$
 
 ## Effect of multipath propagation
 - Copies may arrive at different phases
