@@ -1,0 +1,11 @@
+Task 2) 
+The code does not go into deadlock, this is because circular wait does not occur (due to the timer, remove the timer will create a deadlock). 
+
+Task 3)
+A solution would be to let the last phils pick up the inverse of previous phils forks. Instead of starting with left to right, it takes right to left. 
+
+Task 4)
+It works pretty well, in order to stop the program a Thread.sleep is used that request a interrupt for  all threads in order to check the counter values.
+
+Task 5)
+DONE

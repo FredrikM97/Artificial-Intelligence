@@ -1,0 +1,30 @@
+Created by Wagner Morais and Johannes van Esch on 28/08/18.
+
+In Part 1, students will implement the functions declared in the iRegister.h file and include comments, post and pre conditions, as well as test cases.
+REMEMBER: C declarations and macro definitions are placed in a header file (.h). Documentation of function declarations include: WHAT the function does, parameters and return value. The actual implementation is included in the .c files and documentation includes HOW a function does something.
+
+1. GETTING FAMILIAR WITH iRegister.h file: Start the assignment by getting familiar if the iRegister data structure and the functions declarations that can modify and display a iRegister data structure.
+ 1.1 before each function declaration, students should: 
+  1.1.1 put a comment block giving at a brief description,
+  1.1.2 describe all of the parameters to the function,
+  1.1.3 describe the return value 
+  1.1.4 pre-condition: what should the input paramters represent / satisfy
+  1.1.5 post-condition: what will hold after calling the function
+        properties: specify at least some properties that the function should satisfy; see the remainder for concrete examples
+  1.1.6 test-cases: write at least 4 test-cases representing different combination of allowed / forbidden inputs and their outputs; at least one of the test-cases should be an instance of the specified properties
+  
+2. IMPLEMENTING FUNCTIONS IN iRegister.c file: Refer to the iRegister.h file, where the declaration and purpose of each function is given. As it is, the iRegister.c file contains an example of the implementation of the resetBit function.
+ 2.1 implement all functions declared at iRegister.h in the iRegister.c file
+ 
+3. IMPLEMENTING TESTCASES IN main.c.
+
+4. COMPILING AND EXECUTING: Compile and link iregister.c and main.c and run main.
+ 4.1 You will have to modify the command "gcc /PATH_TO_C_FILE/FILE.c –o /PATH_TO_EXECUTABLE/EXECUTABLE" to compile and link multiple c files. 
+ 
+/*
+Description:
+return:
+Pre-con:
+Post-con:
+Properties:
+*/
