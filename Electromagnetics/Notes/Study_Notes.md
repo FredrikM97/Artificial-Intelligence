@@ -64,6 +64,8 @@ In decibel:
 $|H(f)|_{dB} = 20log|H(f)|$
 In phase:
 $L^{H(f)} = -arctan(f/f_B)$
+
+However! Since we know the filter we can use H(f) and convert it to polar form and use that to calculate the $V_{out}$
 #### Phasors
 Lower grade means it will be after a phasor with higher grade
 ## Cascade Amplifier

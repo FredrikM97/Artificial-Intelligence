@@ -11,7 +11,7 @@
 - Better bandwidth utilization
 - Harder to implement real-time communication because no dedicated bandiwidth
 
-## Feedvack Error control
+## Feedback Error control
 - Ability to detect errors
 
 ## Checksum
@@ -49,7 +49,7 @@ Halt signal on conflict
 * Clos network specified by ($IN, N_1, N_2, N_3, OUT$)
 ## Condition for clos network to be (strictly) non-blocking 
 * $N_2 \geq IN + OUT - 1$
-* This is necessary if $N_1 \geq OUT and N_3 \geq IN$
+* This is necessary if $N_1 \geq OUT$ and $N_3 \geq IN$
 ## Condition for a Clos network to be rearrangeably nonblocking
 * $N_2 \geq max(IN, OUT)$
 
@@ -106,7 +106,7 @@ Halt signal on conflict
   
 ## Signal to noise Ratio (SNR, S/N)
 - Typically messured at receiver, Higher SNR, better quality, low need repeaters
-- $(SNR)_{dB} = 10\log_{10}(signal power/noise power)$
+- $(SNR)_{dB} = 10\log_{10}$(signal power/noise power)
 
 ## Shannon Capacity Formula
 - Theoretical maximum that can be achieved (other parameters not incuded in real life system such as white noise)
@@ -136,10 +136,10 @@ Halt signal on conflict
 - End to end circuit though switching nodes
 - Data: Analog digital or binary
 - Deallocation of dedicated resources
-- Not 100¤ utilization, Network dedicated to user on establish
+- Not 100% utilization, Network dedicated to user on establish
 
 ## Telecommuncation network
-- Subscribers (devices attacked to network)
+- Subscribers (devices attached to network)
 - Subscriber line (between subscriber and network)
 - End office: Switching center
 - Trunks: branches between exchanges
@@ -250,7 +250,7 @@ $L_{dB} = 10log(P_t/P_r) = 20log(4\pi d/\lambda) = -20log(\lambda) + 20log(d) + 
 - Doppler: Fluctuation caused by movements
 - Multi-path: Multiple signals arrive at receiver
 
-* Slow fading: Little noise ($T_c remains almost "unchanged" $, $T_c >> T_b$)
+* Slow fading: Little noise ($T_c$ remains almost "unchanged", $T_c >> T_b$)
 * Fast fading: Much noise and $T_c$ change a lot.
 
 * Flat fading: $B_c >> B_s$, signal fits within bandwidth
