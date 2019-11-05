@@ -218,7 +218,7 @@ void piface_clear(void)
 }
 void piface_delay(void){
 	int i;
-	for(i=0; i<250;i++){
+	for(i=0; i<150;i++){
 		LCD_DELAY;
 	}
 }

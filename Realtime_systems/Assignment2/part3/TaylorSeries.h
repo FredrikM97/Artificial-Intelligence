@@ -5,6 +5,6 @@ struct expStruct {
 
 typedef struct expStruct ExpStruct;
 
-ExpStruct * iexp ( int );
+ExpStruct * iexp ( int, int*);
 
-float data2pow(int ,int );
+float data2pow(int ,int , int*);

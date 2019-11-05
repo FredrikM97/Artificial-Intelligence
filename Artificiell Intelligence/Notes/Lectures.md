@@ -55,4 +55,24 @@ Describe what the agent can do and how the environment is (from powerpoint examp
 * Goal-based agent
 * Utility-based 
 * Learning agent 
-## 
+
+# Lecture 2 (5/11-2019)
+
+## Uninformed search algorithm
+* Initial state  $\theta(0)$
+* List of possible actions \alpha -> for agents
+* Goal test
+* Path cost
+
+One solution $\theta(0)$ -> $\theta(1)$ -> .. -> $\theta(N)$
+
+Different algorithms for uninformed search:
+1) Breadth-first
+2) Depth-first
+3) Iteratiev deepening
+
+## Evaluation of algorithm
+* Completeness
+* Optimality 
+* Time complexity (Number of nodes expanded during search)
+* Space complexity (maz number of nodes in memory)

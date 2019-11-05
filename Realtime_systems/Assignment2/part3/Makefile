@@ -2,7 +2,7 @@
 
 OBJS	= lib/startup.o iregister.o lib/syscalls.o lab1.o piface.o TaylorSeries.o
 ELF	    = kernel.elf
-MAIN	= kernel.img
+MAIN	= rteskernel.img
 
 CROSS	= arm-none-eabi-
 CC	    = $(CROSS)gcc
