@@ -76,3 +76,10 @@ Different algorithms for uninformed search:
 * Optimality 
 * Time complexity (Number of nodes expanded during search)
 * Space complexity (maz number of nodes in memory)
+
+## A* search algorithm
+* Good for calculating distance between points (example an map)
+* Higher value (sum) lower priority in list
+* Distance 1 + Distance 2 (straight line) from point to finish
+  * Distance 1 handle how far between nodes
+  * Distance 2 tells if we get further or closer to goal
