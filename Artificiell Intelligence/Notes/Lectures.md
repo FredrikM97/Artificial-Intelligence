@@ -83,3 +83,14 @@ Different algorithms for uninformed search:
 * Distance 1 + Distance 2 (straight line) from point to finish
   * Distance 1 handle how far between nodes
   * Distance 2 tells if we get further or closer to goal
+
+
+# Lecture 2 (Laboration introduction)
+Create four different agents
+* Random agent (random event)
+* Fixed agent (Fixed frequence of actions)
+* Reflex agent (Check if conditions are met)
+* Agent with memory (Remember past decisions)
+
+Mobile robot
+- 
