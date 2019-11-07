@@ -8,7 +8,7 @@
 # IMPORTANT: for each successful call to simxStart, there
 # should be a corresponding call to simxFinish at the end!
 import Lab1_Agents_Task1_World as World
-from random import randrange, uniform
+
 # connect to the server
 robot = World.init()
 # print important parts of the robot
@@ -25,13 +25,26 @@ while robot: # main Control loop
                'ultraSonicSensorLeft:',World.getSensorReading("ultraSonicSensorLeft"),\
                "ultraSonicSensorRight:", World.getSensorReading("ultraSonicSensorRight"))
 
-	
+    ##############################################
+    # Reasoning: figure out which action to take #
+    ##############################################
+    if simulationTime<5000:
+        motorSpeed = dict(speedLeft=1, speedRight=1.5)
+    elif simulationTime<10000:
+        motorSpeed = dict(speedLeft=-1.5, speedRight=-1.0)
+    elif simulationTime<15000:
+        print ("Turning for a bit...",)
+        World.execute(dict(speedLeft=2, speedRight=-2),15000,-1)
+        print ("... got dizzy, stopping!")
+        print ("BTW, nearest energy block is at:",World.getSensorReading("energySensor"))
+    else:
+        motorSpeed = dict(speedLeft=0, speedRight=0)
+        
     ########################################
     # Action Phase: Assign speed to wheels #
     ########################################
     # assign speed to the wheels
-    World.execute(dict(speedLeft=uniform(1, 4), speedRight=uniform(1, 4)), 1000, -1)
-    motorSpeed = dict(speedLeft=8, speedRight=8)
     World.setMotorSpeeds(motorSpeed)
     # try to collect energy block (will fail if not within range)
-    World.collectNearestBlock()
+    if simulationTime%10000==0:
+        print ("Trying to collect a block...",World.collectNearestBlock())

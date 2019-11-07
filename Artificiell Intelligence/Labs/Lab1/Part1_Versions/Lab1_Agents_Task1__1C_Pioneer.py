@@ -65,9 +65,7 @@ while robot: # main Control loop
     
     if closest[2] < 0.5:
         #print("Collecting")
-        World.collectNearestBlock()
-
-    print()
+        World.collectNearestBlock(
     
     ########################################
     # Action Phase: Assign speed to wheels #
