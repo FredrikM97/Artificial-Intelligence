@@ -6,24 +6,27 @@ import re
 import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
+from scipy.stats.stats import pearsonr
 __author__ = 'fyt'
 
 class Agent:
-    def __init__(self, n):
-        self.hand = createHand(n)
+    def __init__(self, hand):
+        self.hand = hand
         self.bid = 0
         self.totBid = 0
         self.win = 0
-        self.memBet = []
+        self.opponentBid = []
+        self.opponentCardValue = []
+        self.enemyType = "unknown"
 
 ################ Stuff to set #######################
     def setBid(self, bid):
         self.setTotalBid(bid)
         self.bid = bid
 
-    def setHand(self,n):
+    def setHand(self,hand):
         if len(deck) > 3:
-            self.hand = createHand(n)
+            self.hand = hand
         else:
             print("Not enough cards in deck")
 
@@ -35,10 +38,14 @@ class Agent:
         self.win = self.win + win
         self.totBid = 0
 
+    def setEnemyType(self, enemy):
+        self.enemyType = enemy
     # Remember opponent earlier bets and previous losses
-    def setMemory(self, bet):
-        self.memBet.append(bet)
-        len(self.memBet)
+    def addOpponentBid(self, bet):
+        self.opponentBid.append(bet)
+        
+    def addOpponentCards(self, cardValue):
+        self.opponentCardValue.append(cardValue)
 
 ################ Stuff to get #######################   
 
@@ -55,7 +62,7 @@ class Agent:
         return self.win
 
     def getMemory(self):
-        return self.memBet
+        return self.opponentBid
 
 ################ Agents #######################
 
@@ -67,49 +74,65 @@ class Agent:
     def fixedAgent(self,n):
         return 10*n
 
-    def reflexAgent(self,agent):
-        agentHand = checkHands(self.getHand())
+    # Check his own hand
+    def reflexAgent(self):
+        agentHand = getHandValue(self.getHand())
         return round(50*(1-(100/(agentHand+100))))
 
-    # parameters: Second agent
+    # parameters: Opponent agent, check opponents betting
     def reflexMemAgent(self, agent):
-        agentHand = checkHands(self.getHand())
-        memBet = agent.getBid()
-        return round(50*(1-(memBet)/(agentHand+memBet)))
+        agentHand = getHandValue(self.getHand())
+        opponentBid = agent.getBid()
+        return round(50*(1-(opponentBid)/(agentHand+opponentBid)))
 
+    # parameters: Opponent agent, Opponent with understanding of opponent
     def reflexMem2Agent(self, agent):
-        agentHand = checkHands(self.getHand())
-        memBet = agent.getBid()
-        
-        # Fixed agent
-        if self.understandEnemy() == 1:
-            return round(50*(1-(100)/(agentHand+100)))
+        agentHand = getHandValue(self.getHand())
+        opponentBid = agent.getBid()
+
+        temp = self.getEnemyType() 
+        if temp != "unknown":
+            self.enemyType = temp
+            
         # Reflex agent
-        elif self.understandEnemy() == 2:
-            return round(50*(1-(memBet)/(agentHand+memBet)))
-        # Random agent
+        if self.enemyType == "reflex":
+            return round(50*(1-(opponentBid)/(agentHand+opponentBid)))
+        # Random agent, fixed agent or unknown agent
         else:
             return round(50*(1-(100)/(agentHand+100)))
-################ Help functions #######################
 
-    # Realise what opponent it is playing against
-    def understandEnemy(self):
-        if len(self.getMemory())>5:
-            if sum([self.getMemory()[0],self.getMemory()[1],self.getMemory()[2]]) == sum([self.getMemory()[3],self.getMemory()[4],self.getMemory()[5]]):
-                #print("Its the Fixed Agent")
-                return 1
-            #elif self.getMemory()[0] != self.getMemory()[3]:
-                #print("Its the random Agent")
-                return 2
-            # TODO If I bet low then he would more likely bet higher
-            elif self.getMemory()[0] != self.getMemory()[3]:
-                #print("Its the Reflex Agent")
-                return 2
-            else:
-                return 0
+################ Help functions #######################
+    # Check correlation to find out what kind of agent is playing
+    def getEnemyType(self):
+        # Chunk data
+        
+        if len(self.opponentBid) >= (3*5) and len(self.opponentBid) % 3 == 0:
+            meanValues = list(self.createChunks(self.opponentBid,3))
+            #print("Mean value:" + str(meanValues))
+            #print("Opponent cards:" + str(self.opponentCardValue))
+            corr = np.corrcoef(self.opponentCardValue,meanValues)[1,0]
+            # Fixed: Nan Correlation??
+
+            plt.scatter(meanValues, self.opponentCardValue)
+            
+            if str(corr) == "nan":
+                return "fixed"
+            # Reflex:  high correlation
+            elif float(corr) > 0.5:
+                return "reflex"
+            # Random: Almost 0 correlation
+            elif corr < 0.3 and corr > -0.3:
+                return "random"
+        return "unknown"
+
+    # Create chunks of size n
+    def createChunks(self, data, n):
+        for i in range(0, len(data), n):
+            yield int(np.mean(data[i:i + n]))
 
 ################ Construct deck #######################
 
+# Construct a deck and shuffle it
 def constructDeck():
     suit = ["C","D","H","S"] 
     rank = ["2","3","4","5","6","7","8","9","10","J","Q","K","A"]
@@ -119,10 +142,12 @@ def constructDeck():
 
 ################ hand Actions #######################
 
+# Return a hand with the size of n
 def createHand(n):
     newHand = deck[:n]
     del deck[-n:], deck[:n]
     return newHand
+
 # Remove characters from list
 def maskHand(mask):
     # Remove all suits
@@ -138,7 +163,8 @@ def maskHand(mask):
     mask.sort()
     return mask
 
-def checkHands(agent):
+# Get value of hand
+def getHandValue(agent):
     mask = maskHand(agent)
     if(check_ThreeOfCards(mask)):
         return mask[0]<<(5*1)
@@ -161,44 +187,41 @@ def check_ThreeOfCards(hand):
 
 ################ Main loop #######################
 
-winRate = []
+
 deck = constructDeck()
-agent1 = Agent(3)
-agent2 = Agent(3)
+agent1 = Agent(createHand(3))
+agent2 = Agent(createHand(3))
 
+# If Negative Agent 1 won most if positive agent 2 won most
+for y in range(50):
+    deck = constructDeck()
 
-# Statistic for plot range
-for x in range(1):
-    # If Negative Agent 1 won most if positive agent 2 won most
-    agentWin = 0
-    for y in range(100):
-        deck = constructDeck()
+    # Start handout of cards
+    agent1.setHand(createHand(3))
+    agent2.setHand(createHand(3))
 
-        # Start handout of cards
-        agent1.setHand(3)
-        # Start bidding phase 0 - 3
-        for i in range(1,4):
-            # Store bid
-            agent1.setBid(agent1.reflexMem2Agent(agent2))
-            agent2.setBid(agent2.randomAgent())
-            #Store bid of opponent
-            agent1.setMemory(agent2.getBid())
-        # Showdown phase
-        if checkHands(agent1.getHand()) >= checkHands(agent2.getHand()):
-            agent1.setWinning(agent1.getTotalBid() + agent2.getTotalBid())
-            agent2.setWinning((-1*agent2.getTotalBid()))
-            agentWin = agentWin - 1
-            print("Agent 1 won: ${}".format(agent1.getWinning()))
-            
-        else:
-            agent2.setWinning(agent1.getTotalBid() + agent2.getTotalBid())
-            agent1.setWinning((-1*agent1.getTotalBid()))
-            agentWin = agentWin + 1
-            print("Agent 2 won: ${}".format(agent2.getWinning()))
+    # Start bidding phase 0 - 3
+    for i in range(1,4):
+        # Store bid
+        agent1.setBid(agent1.reflexMem2Agent(agent2))
+        agent2.setBid(agent2.reflexMemAgent(agent1))
+
+        #Store bid of opponent
+        agent1.addOpponentBid(agent2.getBid())
+    #Store cards of opponent
+    agent1.addOpponentCards(getHandValue(agent2.getHand()))
+
+    # Showdown phase
+    if getHandValue(agent1.getHand()) >= getHandValue(agent2.getHand()):
+        agent1.setWinning(agent1.getTotalBid() + agent2.getTotalBid())
+        agent2.setWinning((-1*agent2.getTotalBid()))
+        print("Agent 1 won: ${}".format(agent1.getWinning()))
         
-    winRate.append(agentWin)
-    
-print("Winnings \n Agent1 {} Agent2 {}".format(agent1.getWinning(),agent2.getWinning()))
-agent1.understandEnemy()
-#plt.hist(winRate, normed=True, bins=100)
+    else:
+        agent2.setWinning(agent1.getTotalBid() + agent2.getTotalBid())
+        agent1.setWinning((-1*agent1.getTotalBid()))
+        print("Agent 2 won: ${}".format(agent2.getWinning()))
+        
+print("Winnings: Agent1 {} Agent2 {}".format(agent1.getWinning(),agent2.getWinning()))
+print("Opponent Agent is a: " + str(agent1.getEnemyType()) + " Agent")
 #plt.show()
