@@ -19,7 +19,7 @@ movingTime = 10000
 minDistance = 0.4
 isStuck = False
 speed = 2
-rotation = 0.3
+rotation = 0.2
 prioSearch = 1
 currentTarget = 0
 executeTime = 0
@@ -44,8 +44,8 @@ while robot: # main Control loop
     distanceX = World.getSensorReading('ultraSonicSensorRight')
     distanceY = World.getSensorReading('ultraSonicSensorLeft')
 
-    distanceX1 = (World.getSensorReading('ultraSonicSensorMoreRight')-0.2)
-    distanceY1 = (World.getSensorReading('ultraSonicSensorMoreLeft')-0.2)
+    distanceX1 = (World.getSensorReading('ultraSonicSensorMoreRight')-0.1)
+    distanceY1 = (World.getSensorReading('ultraSonicSensorMoreLeft')-0.1)
     if distanceX >= distanceX1:
         distanceX = distanceX1
     if distanceY >= distanceY1:
@@ -68,8 +68,7 @@ while robot: # main Control loop
     # In case the robot is stuck in area, Then ignore candy and find a way out
     elif isStuck == True:
         # Conditional move
-        if prioSearch > 4 or simulationTime % 6000 == 0:
-            rotation = uniform(1,3)
+        
         if prioSearch > 20**(currentTarget+1) and len(World.findEnergyBlocks()) > currentTarget:
             currentTarget = currentTarget +1
 
@@ -77,11 +76,9 @@ while robot: # main Control loop
             motorSpeed = dict(speedLeft=-rotation, speedRight=rotation)
         elif distanceY < minDistance and distanceX > distanceY:
             motorSpeed = dict(speedLeft=rotation, speedRight=-rotation)
-        elif distanceX < minDistance:
-            motorSpeed = dict(speedLeft=-(rotation), speedRight=(rotation))
-        elif distanceY < minDistance:
-            motorSpeed = dict(speedLeft=(rotation), speedRight=-(rotation))
 
+        if prioSearch > 4 or simulationTime % 6000 == 0:
+            rotation = uniform(2,3)
     # Stuck handler
     if movingTime <= simulationTime:
             isStuck = not isStuck
@@ -93,7 +90,7 @@ while robot: # main Control loop
     print("Closest {} Stuck {} Distance {} Prio {}".format(closest[2], isStuck, closest[2], prioSearch))
 
     # Try pickup
-    if closest[2] < 0.9:
+    if closest[2] <= 0.5:
         World.collectNearestBlock()
         movingTime = simulationTime + 2000
         prioSearch = 1

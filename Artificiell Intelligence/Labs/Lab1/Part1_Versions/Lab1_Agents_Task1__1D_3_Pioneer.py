@@ -16,12 +16,13 @@ robot = World.init()
 # print important parts of the robot
 print(sorted(robot.keys()))
 movingTime = 10000
-minDistance = 0.35
+minDistance = 0.4
 isStuck = False
 speed = 2
-rotation = 2
+rotation = 0.2
 prioSearch = 1
 currentTarget = 0
+executeTime = 0
 while robot: # main Control loop
     #######################################################
     # Perception Phase: Get information about environment #
@@ -39,47 +40,45 @@ while robot: # main Control loop
 	
     closest = World.findEnergyBlocks()[currentTarget]
     motorSpeed = dict(speedLeft=0, speedRight=0)
+
     distanceX = World.getSensorReading('ultraSonicSensorRight')
     distanceY = World.getSensorReading('ultraSonicSensorLeft')
+
+    distanceX1 = (World.getSensorReading('ultraSonicSensorMoreRight')-0.1)
+    distanceY1 = (World.getSensorReading('ultraSonicSensorMoreLeft')-0.1)
+    if distanceX >= distanceX1:
+        distanceX = distanceX1
+    if distanceY >= distanceY1:
+        distanceY = distanceY1
+    
     if distanceX == float("inf"):
         distanceX = 10
     if distanceY == float("inf"):
         distanceY = 10
-        2
-    # In case both is stuck            
-    #if distanceX < minDistance and distanceY < minDistance:
-    #    World.execute(dict(speedLeft=-2, speedRight=-2), 2000,-1)
-    #    World.execute(dict(speedLeft=2, speedRight=-2), 2000,-1)
-    #    continue
-            
+
     # Go towards nearest block
-    if distanceX > minDistance or distanceY > minDistance:
-        motorSpeed = dict(speedLeft=speed, speedRight=speed)
-    else:
-        World.execute(dict(speedLeft=speed, speedRight=-speed), 1000,-1)
+    motorSpeed = dict(speedLeft=(speed+0.05), speedRight=speed)
+
     if isStuck == False:
-        if closest[3] < (-1*minDistance) and distanceY > minDistance:
+        if closest[3] < (-1*0.3) or distanceY < minDistance:
             motorSpeed = dict(speedLeft=-rotation, speedRight=rotation)
-        elif closest[3] > minDistance and distanceX > minDistance:
+        elif closest[3] > 0.3 or distanceX < minDistance:
             motorSpeed = dict(speedLeft=rotation, speedRight=-rotation)
 
     # In case the robot is stuck in area, Then ignore candy and find a way out
     elif isStuck == True:
         # Conditional move
-        if prioSearch > 4:
-            rotation = uniform(2,4)
+        
         if prioSearch > 20**(currentTarget+1) and len(World.findEnergyBlocks()) > currentTarget:
             currentTarget = currentTarget +1
-            
+
         if distanceX < minDistance and distanceY > distanceX:
             motorSpeed = dict(speedLeft=-rotation, speedRight=rotation)
         elif distanceY < minDistance and distanceX > distanceY:
             motorSpeed = dict(speedLeft=rotation, speedRight=-rotation)
-        elif distanceX < minDistance:
-            motorSpeed = dict(speedLeft=-(rotation+1), speedRight=(rotation+1))
-        elif distanceY < minDistance:
-            motorSpeed = dict(speedLeft=(rotation+1), speedRight=-(rotation+1))
 
+        if prioSearch > 4 or simulationTime % 6000 == 0:
+            rotation = uniform(2,3)
     # Stuck handler
     if movingTime <= simulationTime:
             isStuck = not isStuck
@@ -91,11 +90,12 @@ while robot: # main Control loop
     print("Closest {} Stuck {} Distance {} Prio {}".format(closest[2], isStuck, closest[2], prioSearch))
 
     # Try pickup
-    if closest[2] < 0.6:
+    if closest[2] <= 0.5:
         World.collectNearestBlock()
         movingTime = simulationTime + 2000
         prioSearch = 1
         currentTarget = 0
     
+
+    # Do the action
     World.setMotorSpeeds(motorSpeed)
-   

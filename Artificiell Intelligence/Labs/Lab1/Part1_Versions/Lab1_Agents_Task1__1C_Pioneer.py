@@ -29,19 +29,6 @@ while robot: # main Control loop
     # Reasoning: figure out which action to take #
     ##############################################
 	
-    '''
-    if simulationTime<5000:
-        motorSpeed = dict(speedLeft=1, speedRight=1.5)
-    elif simulationTime<10000:
-        motorSpeed = dict(speedLeft=-1.5, speedRight=-1.0)
-    elif simulationTime<15000:
-        print ("Turning for a bit...",)
-        World.execute(dict(speedLeft=2, speedRight=-2),15000,-1)
-        print ("... got dizzy, stopping!")
-        print ("BTW, nearest energy block is at:",World.getSensorReading("energySensor"))
-    else:
-        motorSpeed = dict(speedLeft=0, speedRight=0)
-    '''
     # TODO
     # Find closest, args(blockHandle, blockName, distance, direction)
     # Get direction, if direction is less than keep going forward
