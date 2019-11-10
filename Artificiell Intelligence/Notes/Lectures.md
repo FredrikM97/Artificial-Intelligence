@@ -85,7 +85,7 @@ Different algorithms for uninformed search:
   * Distance 2 tells if we get further or closer to goal
 
 
-# Lecture 2 (Laboration introduction)
+# Lecture 3 (Laboration introduction)
 Create four different agents
 * Random agent (random event)
 * Fixed agent (Fixed frequence of actions)
