@@ -1,1 +1,3 @@
-
+[submodule "realtidsrapport"]
+	path = realtidsrapport
+	url = git@github.com:MrYakobo/realtidsrapport.git
