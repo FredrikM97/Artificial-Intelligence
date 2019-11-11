@@ -1,3 +1,8 @@
+---
+title: Title
+author: Authors
+#geometry: margin=3.2cm
+---
 # Laboration report 1
 This report discuss the following parts of the AI laboration: Part 1 that is to create a robot that can move and navigate though in an environment and a part 2 that consist of creating a poker game with at least two players. The report includes the following: Part 1 (a-d + bonus), Part 2 (a-e + bonus).
 
@@ -7,10 +12,14 @@ Since the robot it not very smart it doesnt actually know anything about its sur
 
 ## Part 2 (poker)
 The poker game is built upon the different agents. As seen in the project (all parts is included in this, and bonus). The project is structured with the following classes: Agent, Board, Deck, Hand and Simulation and additional agents that inherit the Agent class. The main program is called by creating an object from Simulation. Since all is object we can do multiple agents on one board. By passing the agent object as an index we can store each opponent for the agent and it can make decision based on correlation. For example: The agent, reflexAgentMem2 knows about their opponent, its hand and can from there make a decision. It will take a few rounds before it knows who the opponent it (minimal amount of data to do correlation) and it will check them all. It will always try to make the highest bid in order to get the most in the win pot. 
-According to ![image](FixedvsRandom.png) we can see that both the agents perform almost equally and the graph is normally distributed if their mean bet is 25 and do 1000 games, and each game contains 50 rounds. Reminder that this check for part d only checks agent 0 (can be modified in main and is therefor assumed that this is the agent we are looking at.
+According to figure \ref{Fixed} we can see that both the agents perform almost equally and the graph is normally distributed if their mean bet is 25 and do 1000 games, and each game contains 50 rounds. Reminder that this check for part d only checks agent 0 (can be modified in main and is therefor assumed that this is the agent we are looking at.
 
 
 # Conclusion
 Additional improvements could be made to the first part, including algorithm for better search or more sensors to give a better view of the surrounding.
 
-The second part is flexible/dynamic and proves that it handles multiple agents of different kindes and is easy to implement new onces without breaking the game. A few part is less dynamic like the performance check of an agent (only handle first if not changed in the Simulation code). 
+The second part is flexible and dynamic since it can handle multiple agents of different kindes and is easy to implement new onces without breaking the game. A few part is less dynamic like the performance check of an agent (only handle first if not changed in the Simulation code). 
+
+
+# Appendix
+![Distribution of balance of Fixed agent against Random agent\label{Fixed}](FixedvsRandom.png)
