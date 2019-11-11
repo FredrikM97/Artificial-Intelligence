@@ -289,7 +289,7 @@ class Simulation:
             # Showdown
             self.showdown(board)
         
-        return [p.balance for p in self.players]
+        return self
             
     def createPlayer(self, players): # Done
         for player in players:
@@ -321,12 +321,14 @@ class Simulation:
 def run_plot(games,agent):
     agentScore = []
     for x in range(0,games):
-        agentScore.append(run(games)[agent])
+        game = run(games)
+        agentScore.append([p.balance for p in game.players][agent])
+        printFinal(game)
     createPlot(agentScore)
 
 def run(games):
         game = Simulation(50)
-        game.createPlayer([["Johnny", fixedAgent()], ["Burp",randomAgent()]])
+        game.createPlayer([["Johnny", reflexMem2Agent()], ["Burp",randomAgent()]])
         return game.start()
 
 def printFinal(game):
@@ -349,4 +351,5 @@ def createPlot(data):
 
 if __name__ == "__main__":
     #game.createPlayer(fixedAgent(), "Becky")
-    run_plot(1000,0)
+    run_plot(100,0)
+    

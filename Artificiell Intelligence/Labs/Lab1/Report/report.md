@@ -1,11 +1,9 @@
 ---
-title: Title
-author: Authors
-#geometry: margin=3.2cm
+title: Laboration 1
+author: Fredrik Mårtensson
+abstract: This report discuss the following parts of the AI laboration. Part 1 that is to create a robot that can move and navigate though in an environment and a part 2 that consist of creating a poker game with at least two players. The report includes the following, part 1 (a-d + bonus), part 2 (a-e + bonus).
 ---
-# Laboration report 1
-This report discuss the following parts of the AI laboration: Part 1 that is to create a robot that can move and navigate though in an environment and a part 2 that consist of creating a poker game with at least two players. The report includes the following: Part 1 (a-d + bonus), Part 2 (a-e + bonus).
-
+# Method
 ## Part 1 (robot)
 The different agents is doing as it is told according to the (a-c) assignments. However the reflex with memory works a little different. In order to confirm that the robot doesnt run into the walls so the critera for bonus part will be uphold additional sensors were introduced. It was discovered during the lab that it is hard to promise that it wont hit a wall unless we have full control over the area around the robot. The greater view the more information and the decision can be based on it to give a better path for the robot.
 Since the robot it not very smart it doesnt actually know anything about its surrounding except what is in front of it. It can take a lot of time to finish the map and the possibility to stay on one place on the map have a high probability. The current way is to first try to pick the ball if that doesnt work it will start to go random in order to find alternative ways to target, the time it will go random increases the longer the time it takes for it to find a ball. Alternative solutions for would be to store what the robot have done and try to create an internal map by storing data from the sensors. This would make the robot know were and what it is doing and from there navigate though the map. Alternative use an algorithm that make the robot cover the full map, this could however mean that it would ignore were the balls are until it is close enough.
