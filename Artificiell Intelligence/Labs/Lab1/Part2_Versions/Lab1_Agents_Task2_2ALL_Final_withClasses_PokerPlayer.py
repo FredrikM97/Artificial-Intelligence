@@ -13,14 +13,18 @@ from collections import Counter
 np.seterr(divide='ignore', invalid='ignore')
 __author__ = 'fyt'
 
+class Observer:
+    def update(self, board):
+        pass
+    def getAgents(self, game):
+        pass
 class Agent:
     def __init__(self):
         self.hand = []
         self.bid = 0
         self.totBid = 0
         self.balance = 0
-        ## Params: bid, cardValue, Type
-        self.opponents = {}
+        
 
 ################ Stuff to set #######################None
     # Params opponent
@@ -38,47 +42,6 @@ class Agent:
     def addBalance(self, balance):
         self.balance += balance
         self.totBid = 0
-
-    def addOpponent(self, players): 
-        for opponent in players:
-            if opponent == self or opponent in self.opponents:
-                continue
-
-            self.opponents[opponent] = {
-                'name':opponent.name,
-                'type':'unknown',
-                'bid':[],
-                'cardVal':[]
-            }
-    def getOpponents(self, opponent):
-        if self == opponent:
-            return -1
-        return self.opponents[opponent]
-
-    ################ Help functions #######################
-    # Check correlation to find out what kind of agent is playing
-    def getAgentType(self, opponent):
-        bid = self.opponents[opponent]['bid']
-        cardVal = self.opponents[opponent]['cardVal']
-
-        # Chunk data
-        if len(bid) >= (3*5) and len(bid) % 3 == 0 and len(cardVal) > 0:
-            meanValues = list(self.createChunks(bid,3))
-            corr = np.corrcoef(cardVal,meanValues)[1,0]
-            if str(corr) == "nan":
-                return "fixed"
-            # reflex:  high correlation
-            elif float(corr) > 0.5:
-                return "reflex"
-            # Random: Almost 0 correlationopponent
-            elif corr < 0.3 and corr > -0.3:
-                return "random"
-        return "unknown"
-
-    # Create chunks of size n
-    def createChunks(self, data, n):
-        for i in range(0, len(data), n):
-            yield int(np.mean(data[i:i + n]))
 
 ################ Agents #######################
 class randomAgent(Agent):
@@ -107,58 +70,140 @@ class reflexAgent(Agent):
         self.setBid(round(50*(1-(100/(agentHand+100)))))
         return self.bid
 
-class reflexMemAgent(Agent):
+class reflexMemAgent(Agent,Observer):
     def __init__(self):
         super().__init__()
+        ## Params: bid, cardValue, Type
+        self.opponents = {}
+    
+    def update(self,board):
+        for key in board.playerHands.keys():
+            if key == self: continue
+            self.addOpponent(key)
+            self.opponents[key]['cardVal'].append(board.playerHands[key])
+            self.opponents[key]['bid'].extend(board.boardBids[key]) 
+
+    def getAgents(self):
+        print("Balance: " + str(self.balance))
 
     # Check opponents betting (dont handle multiple opponents)
     def bidding(self, board):
-        agentHand = self.hand.getHandValue()
-        for player in board.game.players:
-            opponentBid = player.bid
-        self.setBid(round(50*(1-(opponentBid)/(agentHand+opponentBid))))
-        return self.bid
-
-class reflexMem2Agent(Agent):
-    def __init__(self):
-        super().__init__()
-    # parameters: Opponent agent, Opponent with understanding of opponent
-    def bidding(self, board):
-        
         myHand = self.hand.getHandValue()
-        
-        # Just assume that there is only one other player :)
-        # If no other have bid
-        if len(board.boardBids) == 0:
-            opponentBid = 100
-        else:
-            for player in board.boardBids.keys():
-                if player == self:
-                    continue
-                opponentBid = board.boardBids[player]
-                
-        oldBid = 0
+
+        oldBid = 50
         newBid = 0
         for player in board.game.players:
             if player == self:
                 continue
-            
-            temp = self.getAgentType(player) 
-            
+            opponentBid = player.bid
+
+            newBid = round(50*(1-(opponentBid)/(myHand+opponentBid)))
+
+            if newBid <= oldBid:
+                    oldBid = newBid
+                    self.setBid(oldBid)
+        return self.bid
+
+    def addOpponent(self, player): 
+        if player in self.opponents:
+            return -1
+
+        self.opponents[player] = {
+            'name':player.name,
+            'type':'unknown',
+            'bid':[],
+            'cardVal':[]
+        }
+        return 0
+class reflexMem2Agent(Agent,Observer):
+    def __init__(self):
+        super().__init__()
+        ## Params: bid, cardValue, Type
+        self.opponents = {}
+    
+    def update(self,board):
+        for key in board.playerHands.keys():
+            if key == self: continue
+            self.addOpponent(key)
+            self.opponents[key]['cardVal'].append(board.playerHands[key])
+            self.opponents[key]['bid'].extend(board.boardBids[key]) 
+
+    def getAgents(self):
+        for player in self.opponents:
+            print(self.opponents[player]['name'] +  " is: " + self.opponents[player]['type'] + " Agent")
+        print("Balance: " + str(self.balance))
+
+    def addOpponent(self, player): 
+        if player == self or player in self.opponents:
+            return -1
+
+        self.opponents[player] = {
+            'name':player.name,
+            'type':'unknown',
+            'bid':[],
+            'cardVal':[]
+        }
+        return 0
+
+    # parameters: Opponent agent, Opponent with understanding of opponent
+    def bidding(self, board):
+        
+        myHand = self.hand.getHandValue()
+        oldBid = 50
+        newBid = 0
+        for player in self.opponents:
+            if player == self:
+                continue
+
+            # Get type
+            temp = self.getAgentType(player)
+            # In case that bids on the board could be empty
+            if len(board.boardBids[player]) == 0:
+                opponentBid = 100
+            else:
+                opponentBid = board.boardBids[player][-1:][0]
             if temp != "unknown":
                 self.opponents[player]['type'] = temp    
             # reflex agent
             if temp == "reflex":
-                #self.setBid(round(50*(1-(opponentBid)/(myHand+opponentBid))))
                 newBid = round(50*(1-(opponentBid)/(myHand+opponentBid)))
             # Random agent, fixed agent or unknown agent
             else:
-                #self.setBid(round(50*(1-(100)/(myHand+100))))
                 newBid = round(50*(1-(100)/(myHand+100)))
+                # TODO
             if newBid <= oldBid:
                 oldBid = newBid
                 self.setBid(oldBid)
+
         return self.bid
+
+    # Check correlation to find out what kind of agent is playing
+    def getAgentType(self, opponent):
+        bid = self.opponents[opponent]['bid']
+        cardVal = self.opponents[opponent]['cardVal']
+        
+        # Chunk data
+        if len(bid) > 3*2 and len(bid) % 3 == 0 and len(cardVal) > 0:
+            #print("derp " + str(bid) + " and " + str(cardVal))
+            meanValues = list(self.createChunks(bid,3))
+            corr = np.corrcoef(cardVal,meanValues)[1,0]
+
+            #print(str(corr) + " sec " + str(meanValues) + " third " +  str(list(self.createChunks(bid,3))))
+            if str(corr) == "nan":
+                return "fixed"
+            # reflex:  high correlation
+            elif float(corr) > 0.5:
+                return "reflex"
+            # Random: Almost 0 correlationopponent
+            elif corr < 0.3 and corr > -0.3:
+                return "random"
+        return "unknown"
+
+    # Create chunks of size n
+    def createChunks(self, data, n):
+        for i in range(0, len(data), n):
+            yield int(np.mean(data[i:i + n]))
+    
 
 
 ################ deck class #######################
@@ -194,7 +239,7 @@ class Hand:
     # Get value of hand
     def getHandValue(self):
         hand = self.maskHand()
-        return max(Counter(hand))<<(5*max(Counter(hand).values()))
+        return max(Counter(hand))<<(5*(max(Counter(hand).values())-1))
 # Knows all info on the board
 class Board:
     def __init__(self, game):
@@ -204,40 +249,48 @@ class Board:
         self.deck = Deck()
         self.game = game
         self.round = 0
+
     def __len__(self):
         return len(self.boardBids)
 
     def handOut(self, cardAmount): # Done
         if len(self.deck) >= (len(self.game.players)*cardAmount):
             for player in self.game.players:
+                self.boardBids[player] = []
                 player.setHand(Hand(self.deck, cardAmount))
         else:
             return -1
 
+        return self
+        
     # Only memorise bit of one Round!
     def bid(self):
         self.round = self.round + 1
         for player in self.game.players:
-            self.boardBids[player] = player.bidding(self)
+            self.boardBids[player].append(player.bidding(self))
             player.addBalance((-1*player.bid))  
             self.sumWinPot(player.bid)
-
-        for player1 in self.game.players:
-            for player2 in self.game.players:
-                if player1 == player2:
-                    continue
-                player1.opponents[player2]['bid'].append(self.boardBids[player2])
         return self
 
-    def addPlayerHands(self):
+    def showdown(self):    
+        # Add each players hand to the board player  hand
         for player in self.game.players:
             self.playerHands[player] = player.hand.getHandValue()
 
+        for player in self.game.players:
+            if issubclass(player.__class__, Observer): 
+                player.update(self)
+
+        # Showdown phase - Get winner
+        winner = sorted(self.playerHands.items(), key=lambda x: x[1])[-1][0]
+        for player in self.game.players:
+            if player == winner:
+                player.addBalance(self.winPot)
+
+        return self
+
     def sumWinPot(self, bid):
         self.winPot = self.winPot + bid
-
-    def addPlayerHand(self, player):
-        self.playerHands[player] = player.getHandValue()
 
 ################ Main loop #######################
 
@@ -260,8 +313,7 @@ class Simulation:
             board.bid().bid().bid()
 
             # Showdown
-            self.showdown(board)
-        
+            board.showdown()
         return self
             
     def createPlayer(self, players): # Done
@@ -269,26 +321,8 @@ class Simulation:
             player[1].name = player[0]
             self.players.append(player[1])
 
-        for player in self.players:
-            player.addOpponent(self.players)
-
+        
         return self
-
-    def showdown(self, board):    
-        # Add each players hand to the board player  hand
-        board.addPlayerHands()
-
-        # Store opponents cardVals in each agent
-        for player1 in self.players:
-            for player2 in self.players:
-                if player1 == player2:
-                    continue
-                player1.opponents[player2]['cardVal'].append(board.playerHands[player2])                 
-        # Showdown phase - Get winner
-        winner = sorted(board.playerHands.items(), key=lambda x: x[1])[-1][0]
-        for player in self.players:
-            if player == winner:
-                player.addBalance(board.winPot)
         
 # How many games and which agent to plot
 def run_plot(games,agent):
@@ -296,24 +330,25 @@ def run_plot(games,agent):
     for x in range(0,games):
         game = run(games)
         agentScore.append([p.balance for p in game.players][agent])
-        printFinal(game)
-    #createPlot(agentScore)
+    createPlot(agentScore)
     
 
 def run(games):
         # Min 8 rounds to know the other agents
-        game = Simulation(3)
-        game.createPlayer([["Johnny", reflexMem2Agent()], ["Burp",randomAgent()], ["Na", fixedAgent()]])
-        return game.start()
+        game = Simulation(6)
+        game.createPlayer([["Johnny",reflexMem2Agent()], ["Burp",reflexMemAgent()], ["Bab",randomAgent()]]) 
+        #, ["Na", fixedAgent()]
+        game.start()
+        printFinal(game)
+        return game
 
 def printFinal(game):
     # Print final
+    
     for player in game.players:
-        print("\n" + player.name + ":")
-        for opponent in player.opponents.values():
-            getType = str(opponent['type'])
-            print(opponent['name'] +  " is: " + getType + " Agent")
-        print("Balance: " + str(player.balance))
+        print("\n" + str(player.name) + ":")
+        if issubclass(player.__class__, Observer): player.getAgents()
+        else: print("Balance: " + str(player.balance) )
 
 def createPlot(data):
         counts, bins = np.histogram(data)
@@ -326,5 +361,6 @@ def createPlot(data):
 
 if __name__ == "__main__":
     #game.createPlayer(fixedAgent(), "Becky")
-    run_plot(1,0)
+    run(1)
+    #run_plot(1,0)
     
