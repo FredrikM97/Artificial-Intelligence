@@ -140,10 +140,10 @@ Example uninteresting paths
 * If player has better choice m at n's parent node or any node further up the node n will never be reached (Under the condition that the player isnt stupid)
 * According to alpha-beta example: If $\alpha >= \beta$ then dont go further down into $\beta$ path.
 * In graph, $\alpha$ want to be as high (positive) as possible and $\beta$ want to be as low as possible (negative), Depth limit reached when it doesnt choose that path.
-* So $\alpha$ is my player, $\beta$ is the opponent. Root will be the $\alpha$, then it takes turn between $\beta$ and $\alpha$
+* So $\alpha$ is my player, $\=beta$ is the opponent. Root will be the $\alpha$, then it takes turn between $\beta$ and $\alpha$
 
 ## Evaluation Function (Missing data)
-$f(n) = W_i$......
+$f(n) = W_i$....2..
 
 ## Reinforcement learning
 A method to learn an evaluation function, for chess

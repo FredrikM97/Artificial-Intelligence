@@ -1,13 +1,14 @@
 from itertools import product
 from random import shuffle
 from random import randint
-import operator
-import re
+#import operator
+#import re
 import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 from scipy.stats.stats import pearsonr
 from functools import partial
+from collections import Counter
 
 np.seterr(divide='ignore', invalid='ignore')
 __author__ = 'fyt'
@@ -54,17 +55,6 @@ class Agent:
             return -1
         return self.opponents[opponent]
 
-################ Stuff to get #######################   
-
-    def getBid(self):
-        return self.bid
-
-    def getTotalBid(self):
-        return self.totBid
-
-    def getHand(self):
-        return self.hand
-
     ################ Help functions #######################
     # Check correlation to find out what kind of agent is playing
     def getAgentType(self, opponent):
@@ -98,7 +88,7 @@ class randomAgent(Agent):
     # Random bidding
     def bidding(self, board):
         self.setBid(randint(0,50))
-        return self.getBid()
+        return self.bid
 
 class fixedAgent(Agent):
     def __init__(self):
@@ -106,16 +96,16 @@ class fixedAgent(Agent):
     # Fixed bidding
     def bidding(self, board):
         self.setBid(5 + 10*board.round)
-        return self.getBid()
+        return self.bid
 
 class reflexAgent(Agent):
     def __init__(self):
         super().__init__()
     # Check his own hand
     def bidding(self, board):
-        agentHand = self.getHand().getHandValue()
+        agentHand = self.hand.getHandValue()
         self.setBid(round(50*(1-(100/(agentHand+100)))))
-        return self.getBid()
+        return self.bid
 
 class reflexMemAgent(Agent):
     def __init__(self):
@@ -123,11 +113,11 @@ class reflexMemAgent(Agent):
 
     # Check opponents betting (dont handle multiple opponents)
     def bidding(self, board):
-        agentHand = self.getHand().getHandValue()
+        agentHand = self.hand.getHandValue()
         for player in board.game.players:
-            opponentBid = player.getBid()
+            opponentBid = player.bid
         self.setBid(round(50*(1-(opponentBid)/(agentHand+opponentBid))))
-        return self.getBid()
+        return self.bid
 
 class reflexMem2Agent(Agent):
     def __init__(self):
@@ -135,7 +125,7 @@ class reflexMem2Agent(Agent):
     # parameters: Opponent agent, Opponent with understanding of opponent
     def bidding(self, board):
         
-        myHand = self.getHand().getHandValue()
+        myHand = self.hand.getHandValue()
         
         # Just assume that there is only one other player :)
         # If no other have bid
@@ -165,10 +155,10 @@ class reflexMem2Agent(Agent):
             else:
                 #self.setBid(round(50*(1-(100)/(myHand+100))))
                 newBid = round(50*(1-(100)/(myHand+100)))
-            if newBid >= oldBid:
+            if newBid <= oldBid:
                 oldBid = newBid
                 self.setBid(oldBid)
-        return self.getBid()
+        return self.bid
 
 
 ################ deck class #######################
@@ -198,30 +188,13 @@ class Hand:
     def maskHand(self):
         mask = [list(c)[1] for c in self.hand]
         dic = {key: val +2 for val, key in enumerate(self.deck.rank)}
-        return [dic[s] for s in mask]
+        return sorted([dic[s] for s in mask], reverse=True)
 
 
     # Get value of hand
     def getHandValue(self):
         hand = self.maskHand()
-        if(self.check_ThreeOfCards(hand)):
-            return hand[0]<<(5*1)
-        elif(self.check_Pair(hand)):
-            return hand[0]<<(5*2)
-        else:
-            return self.check_HighCards(hand)
-
-    ################ Check hand value #######################
-
-    def check_HighCards(self, hand):
-        return hand[2]
-
-    def check_Pair(self, hand):
-        return hand[0] == hand[1] or hand[1] == hand[2]
-
-    def check_ThreeOfCards(self, hand):
-        return hand[0] == hand[1] and hand[0] == hand[2] 
-
+        return max(Counter(hand))<<(5*max(Counter(hand).values()))
 # Knows all info on the board
 class Board:
     def __init__(self, game):
@@ -246,8 +219,8 @@ class Board:
         self.round = self.round + 1
         for player in self.game.players:
             self.boardBids[player] = player.bidding(self)
-            player.addBalance((-1*player.getBid()))  
-            self.sumWinPot(player.getBid())
+            player.addBalance((-1*player.bid))  
+            self.sumWinPot(player.bid)
 
         for player1 in self.game.players:
             for player2 in self.game.players:
@@ -258,7 +231,7 @@ class Board:
 
     def addPlayerHands(self):
         for player in self.game.players:
-            self.playerHands[player] = player.getHand().getHandValue()
+            self.playerHands[player] = player.hand.getHandValue()
 
     def sumWinPot(self, bid):
         self.winPot = self.winPot + bid
@@ -324,11 +297,13 @@ def run_plot(games,agent):
         game = run(games)
         agentScore.append([p.balance for p in game.players][agent])
         printFinal(game)
-    createPlot(agentScore)
+    #createPlot(agentScore)
+    
 
 def run(games):
-        game = Simulation(50)
-        game.createPlayer([["Johnny", reflexMem2Agent()], ["Burp",randomAgent()]])
+        # Min 8 rounds to know the other agents
+        game = Simulation(3)
+        game.createPlayer([["Johnny", reflexMem2Agent()], ["Burp",randomAgent()], ["Na", fixedAgent()]])
         return game.start()
 
 def printFinal(game):
@@ -351,5 +326,5 @@ def createPlot(data):
 
 if __name__ == "__main__":
     #game.createPlayer(fixedAgent(), "Becky")
-    run_plot(100,0)
+    run_plot(1,0)
     
