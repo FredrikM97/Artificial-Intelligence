@@ -90,10 +90,10 @@ def init():
             ret_lm,  leftMotorHandle = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_leftMotor', vrep.simx_opmode_oneshot_wait)
             ret_rm,  rightMotorHandle = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_rightMotor', vrep.simx_opmode_oneshot_wait)
             ret_pr,  pioneerRobotHandle = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx', vrep.simx_opmode_oneshot_wait)
-            ret_sl,  ultraSonicSensorLeft = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor2',vrep.simx_opmode_oneshot_wait)
-            ret_sr,  ultraSonicSensorRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor7',vrep.simx_opmode_oneshot_wait)
-            ret_sr1,  ultraSonicSensorMoreLeft = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor4',vrep.simx_opmode_oneshot_wait)
-            ret_sr2,  ultraSonicSensorMoreRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor5',vrep.simx_opmode_oneshot_wait)
+            ret_sl,  ultraSonicSensorLeft = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor4',vrep.simx_opmode_oneshot_wait)
+            ret_sr,  ultraSonicSensorRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor5',vrep.simx_opmode_oneshot_wait)
+            ret_sr1,  ultraSonicSensorMoreLeft = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor2',vrep.simx_opmode_oneshot_wait)
+            ret_sr2,  ultraSonicSensorMoreRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor7',vrep.simx_opmode_oneshot_wait)
             ret_sr2,  ultraSonicSensorBackRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor13',vrep.simx_opmode_oneshot_wait)
 
             blockHandleArray = []

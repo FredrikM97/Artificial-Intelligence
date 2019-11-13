@@ -34,6 +34,9 @@ while robot: # main Control loop
     # Action Phase: Assign speed to wheels #
     ########################################
     # assign speed to the wheels
+    
     World.setMotorSpeeds(motorSpeed)
+    if simulationTime % 1000 == 0:
+        World.execute(dict(speedLeft=-5, speedRight=5), 550,-1)
     # try to collect energy block (will fail if not within range)
     World.collectNearestBlock()

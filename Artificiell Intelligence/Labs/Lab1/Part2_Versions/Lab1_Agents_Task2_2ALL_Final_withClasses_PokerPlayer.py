@@ -1,12 +1,8 @@
 from itertools import product
-from random import shuffle
-from random import randint
-#import operator
-#import re
+from random import shuffle, randint
 import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
-from scipy.stats.stats import pearsonr
 from functools import partial
 from collections import Counter
 
@@ -336,7 +332,7 @@ def run_plot(games,agent):
 def run(games):
         # Min 8 rounds to know the other agents
         game = Simulation(6)
-        game.createPlayer([["Johnny",reflexMem2Agent()], ["Burp",reflexMemAgent()], ["Bab",randomAgent()]]) 
+        game.createPlayer([["Johnny",reflexMem2Agent()], ["Burp",reflexMem2Agent()], ["Bab",randomAgent()]]) 
         #, ["Na", fixedAgent()]
         game.start()
         printFinal(game)

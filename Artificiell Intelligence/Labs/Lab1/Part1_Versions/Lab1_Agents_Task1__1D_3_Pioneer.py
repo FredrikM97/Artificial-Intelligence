@@ -15,87 +15,95 @@ import math
 robot = World.init()
 # print important parts of the robot
 print(sorted(robot.keys()))
-movingTime = 10000
+movingTime = 2000
+movingTime2 = 2000
 minDistance = 0.4
-isStuck = False
-speed = 2
-rotation = 0.2
+findTarget = False
+speed = 5
+rotation = 1.1
 prioSearch = 1
 currentTarget = 0
 executeTime = 0
+state = ''
 while robot: # main Control loop
     #######################################################
     # Perception Phase: Get information about environment #
     #######################################################
     simulationTime = World.getSimulationTime()
-    if simulationTime%1000==0:
-        # print some useful info, but not too often
-        print ('Time:',simulationTime,\
-               'ultraSonicSensorLeft:',World.getSensorReading("ultraSonicSensorLeft"),\
-               "ultraSonicSensorRight:", World.getSensorReading("ultraSonicSensorRight"))
 
+    closest = World.findEnergyBlocks()[currentTarget]
+
+    SensorRight = World.getSensorReading('ultraSonicSensorMoreRight') # Sensor 7
+    SensorLeft = World.getSensorReading('ultraSonicSensorMoreLeft')# Sensor 2
+
+    SensorRight1 = (World.getSensorReading('ultraSonicSensorRight')-0.1) # Sensor 5
+    SensorLeft1 = (World.getSensorReading('ultraSonicSensorLeft')-0.1) # Sensor 4
+
+    if SensorRight >= SensorRight1:
+        SensorRight = SensorRight1
+    if SensorLeft >= SensorLeft1:
+        SensorLeft = SensorLeft1
+    
+    if SensorRight == float("inf"):
+        SensorRight = 10
+    if SensorLeft == float("inf"):
+        SensorLeft = 10
     ##############################################
     # Reasoning: figure out which action to take #
     ##############################################
 	
-    closest = World.findEnergyBlocks()[currentTarget]
-    motorSpeed = dict(speedLeft=0, speedRight=0)
-
-    distanceX = World.getSensorReading('ultraSonicSensorRight')
-    distanceY = World.getSensorReading('ultraSonicSensorLeft')
-
-    distanceX1 = (World.getSensorReading('ultraSonicSensorMoreRight')-0.1)
-    distanceY1 = (World.getSensorReading('ultraSonicSensorMoreLeft')-0.1)
-    if distanceX >= distanceX1:
-        distanceX = distanceX1
-    if distanceY >= distanceY1:
-        distanceY = distanceY1
     
-    if distanceX == float("inf"):
-        distanceX = 10
-    if distanceY == float("inf"):
-        distanceY = 10
 
-    # Go towards nearest block
-    motorSpeed = dict(speedLeft=(speed+0.05), speedRight=speed)
+    if SensorRight < minDistance and SensorRight < SensorLeft:
+        state = 'left'
+    elif SensorLeft < minDistance and SensorLeft < SensorRight:
+        state = 'right'
+    else:
+        state = 'forward'
 
-    if isStuck == False:
-        if closest[3] < (-1*0.3) or distanceY < minDistance:
-            motorSpeed = dict(speedLeft=-rotation, speedRight=rotation)
-        elif closest[3] > 0.3 or distanceX < minDistance:
-            motorSpeed = dict(speedLeft=rotation, speedRight=-rotation)
+    
+    if round(SensorRight,2) == round(SensorLeft,2) and  round(SensorLeft,2) <= 0.38:
+        state='stuck'
 
-    # In case the robot is stuck in area, Then ignore candy and find a way out
-    elif isStuck == True:
-        # Conditional move
-        
-        if prioSearch > 20**(currentTarget+1) and len(World.findEnergyBlocks()) > currentTarget:
-            currentTarget = currentTarget +1
+    elif findTarget and movingTime >= simulationTime:
+        if closest[3] < (-1*0.3) or SensorRight < minDistance:
+            state = 'left'
+        elif closest[3] > 0.3 or SensorLeft < minDistance:
+            state = 'right'
+        else:
+            state = 'forward'
+    
 
-        if distanceX < minDistance and distanceY > distanceX:
-            motorSpeed = dict(speedLeft=-rotation, speedRight=rotation)
-        elif distanceY < minDistance and distanceX > distanceY:
-            motorSpeed = dict(speedLeft=rotation, speedRight=-rotation)
+    ######## State machine ########
+    if state == 'left':
+        motorSpeed = dict(speedLeft=-rotation, speedRight=rotation)
+    elif state == 'right':
+        motorSpeed = dict(speedLeft=rotation, speedRight=-rotation)
+    elif state == 'stuck':
+        World.execute(dict(speedLeft=rotation, speedRight=-rotation),2000,-1)
+    elif state == 'forward': # Forward
+        motorSpeed = dict(speedLeft=(speed+0.3), speedRight=speed)
 
-        if prioSearch > 4 or simulationTime % 6000 == 0:
-            rotation = uniform(2,3)
-    # Stuck handler
-    if movingTime <= simulationTime:
-            isStuck = not isStuck
-            movingTime = simulationTime + 2000*prioSearch
-            prioSearch = prioSearch + 1
-
-            
-    #print("right: {} Left {} Closest {} Stuck {} Distance {}".format(distanceX, distanceY, closest[2], isStuck, closest[2]))
-    print("Closest {} Stuck {} Distance {} Prio {}".format(closest[2], isStuck, closest[2], prioSearch))
+    print("State {0}\tSearch {1} Distance {2:.4f} Prio {3} \n Right: {4:.2f} Left: {5:.2f}".format(state, findTarget, closest[2], prioSearch , round(SensorRight,2), round(SensorLeft,2)))
 
     # Try pickup
-    if closest[2] <= 0.5:
-        World.collectNearestBlock()
-        movingTime = simulationTime + 2000
+
+    if closest[2] <= 1.5 and prioSearch < 2 and movingTime2 < simulationTime: #and prioSearch < 4 and movingTime2 < simulationTime:
+        findTarget = True
+        prioSearch += 1
+        movingTime = simulationTime + 4000
+    if movingTime < simulationTime and findTarget:
+        findTarget = False
+        movingTime2 = simulationTime + 4000
         prioSearch = 1
-        currentTarget = 0
+
+    if closest[2] <= 0.8:
+        World.collectNearestBlock()
+    
     
 
-    # Do the action
-    World.setMotorSpeeds(motorSpeed)
+    ##############################################
+                    # Action:#
+    ##############################################
+    if not state == 'stuck':
+        World.setMotorSpeeds(motorSpeed)

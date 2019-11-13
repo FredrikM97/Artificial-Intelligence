@@ -140,7 +140,7 @@ Example uninteresting paths
 * If player has better choice m at n's parent node or any node further up the node n will never be reached (Under the condition that the player isnt stupid)
 * According to alpha-beta example: If $\alpha >= \beta$ then dont go further down into $\beta$ path.
 * In graph, $\alpha$ want to be as high (positive) as possible and $\beta$ want to be as low as possible (negative), Depth limit reached when it doesnt choose that path.
-* So $\alpha$ is my player, $\=beta$ is the opponent. Root will be the $\alpha$, then it takes turn between $\beta$ and $\alpha$
+* So $\alpha$ is my player, $\beta$ is the opponent. Root will be the $\alpha$, then it takes turn between $\beta$ and $\alpha$
 
 ## Evaluation Function (Missing data)
 $f(n) = W_i$....2..
@@ -166,3 +166,77 @@ Local beam search:
 * Expand all k states and test their children states
 * Keep the k best children state
 * Repeat until goal state found
+
+# Lecture 5 (12/11-2019)
+## Logical agent
+* Search algorithms $\rightarrow$ meta programming
+* Something more logical needded were we can specify rules
+
+PEAS description (The wumpus world example):
+* Performance measure: +1000 gold, -1000 falling into pit/eaten by monster, -1 per action, -10 by using arrow
+* Environment: 4x4 grid
+* Actuators: Move, turn (right,left), grab shoot
+* Sensors
+  
+Exploring the world (Example)
+* At start position: $x_{1,1} = (0,0,0,0,0)$, size dependant on PEAS description about the world
+* Checking $x_{1,1} = (1,0,0,1,0)$, breezee and smell found
+* And so on..
+
+## Logic
+* Formal language for representing information so conclusions can be drawn
+
+Logic has:
+* Syntax: Symbols in represention language and how they are combined into sentences
+* Semantics: Facts about the world and what they refers to
+* Inference procedure: New sencenece from previous sentences
+
+Entailment $A |= B$:
+* Sencence A entails the sencence B
+  * If A is true then be must be true
+
+Interference engine
+* Algorithm that produces the entailed conclusions automatically
+  * For any user defined knowledge base
+
+Propositional (boolean) logic
+* Atomic sentence
+* Complex sentence
+  
+Semantics: Rules for sencence is true or false
+
+
+Automate Inference:
+
+* Model enumeration
+* Inference rules
+Inference rules:
+
+* Atecedent / Consequent = "Before"/"After".
+* If KB contains the antecedent it we can add the consequent because it is guaranteed KB will entail it
+
+Common used inference rules:
+
+* Modus Ponens And Elimination
+* Modus Tolens or Introduction
+* Unit Resolution and Introduction
+
+## Horn clauses and forward-backward chaining
+Forward chaining:
+* Use current facts in KB to trigger all possible inferences
+
+Backward chaining:
+* Work backward from the query proposition Q
+* If a rule has Q as conclusion, see if antecedents can be found to be true
+
+## Summary of lecture
+Repersation language has syntax and semantics
+Proporsitional logic
+* Proposition symbols
+* Logical connectives 
+Interference:
+* Model checking
+* Interference rules (e.g resolution)
+* Horn clauses
+
+

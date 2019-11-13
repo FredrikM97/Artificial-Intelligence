@@ -13,11 +13,11 @@ config := config
 # Directory for figures
 images := image
 
+# -V fontsize=11pt \
+# -V mainfont="DejaVu Sans" \
+# -V geometry:"top=1.5cm, bottom=2.5cm, left=1.5cm, right=1.5cm" 
 doc:
 	sed 's/\///g' $(source).md | pandoc \
-		-V mainfont="DejaVu Sans" \
-		-V fontsize=11pt \
-		-V geometry:"top=1.5cm, bottom=2.5cm, left=1.5cm, right=1.5cm" \
 		-V geometry:a4paper \
 		-V date=`date '+%F'` \
 		-V docomentclass=report \
