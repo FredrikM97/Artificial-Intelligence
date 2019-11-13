@@ -9,21 +9,41 @@
 # should be a corresponding call to simxFinish at the end!
 import Lab1_Agents_Task1_World as World
 from random import randrange, uniform, randrange
+import vrep
 import math
 
+
+def add_new_Sensor(robot):
+    new_Sensors = [
+        {'name':'Pioneer_p3dx_ultrasonicSensor2','altName': 'left'},
+        {'name':'Pioneer_p3dx_ultrasonicSensor4','altName': 'middleLeft'},
+        {'name':'Pioneer_p3dx_ultrasonicSensor5','altName': 'middleRight'},
+        {'name':'Pioneer_p3dx_ultrasonicSensor7','altName': 'right'}
+    ]
+    for sensor in new_Sensors:
+        
+        _,  sensorHandler_ = vrep.simxGetObjectHandle(robot['clientID'], sensor['name'],vrep.simx_opmode_oneshot_wait)
+        def factory(sensorHandler_):
+            def sensor_method():
+                rawSR = vrep.simxReadProximitySensor(robot['clientID'], sensorHandler_, vrep.simx_opmode_oneshot_wait)
+            # Calculate Euclidean distance
+                if rawSR[1]: # if true, obstacle is within detection range, return distance to obstacle
+                    return math.sqrt(rawSR[2][0]*rawSR[2][0] + rawSR[2][1]*rawSR[2][1] + rawSR[2][2]*rawSR[2][2])
+                else: # if false, obstacle out of detection range, return inf.
+                    return 10
+            return sensor_method
+        robot[sensor['altName']] = factory(sensorHandler_)
+            
 # connect to the server
 robot = World.init()
-# print important parts of the robot
+add_new_Sensor(robot)
 print(sorted(robot.keys()))
-movingTime = 2000
-movingTime2 = 2000
+movingTime = cooldownTime = 2000
 minDistance = 0.4
 findTarget = False
 speed = 5
 rotation = 1.1
 prioSearch = 1
-currentTarget = 0
-executeTime = 0
 state = ''
 while robot: # main Control loop
     #######################################################
@@ -31,23 +51,19 @@ while robot: # main Control loop
     #######################################################
     simulationTime = World.getSimulationTime()
 
-    closest = World.findEnergyBlocks()[currentTarget]
+    closest = World.findEnergyBlocks()[0]
 
-    SensorRight = World.getSensorReading('ultraSonicSensorMoreRight') # Sensor 7
-    SensorLeft = World.getSensorReading('ultraSonicSensorMoreLeft')# Sensor 2
-
-    SensorRight1 = (World.getSensorReading('ultraSonicSensorRight')-0.1) # Sensor 5
-    SensorLeft1 = (World.getSensorReading('ultraSonicSensorLeft')-0.1) # Sensor 4
+    SensorRight = (robot['right']())##robot['right']() # Sensor 7
+    SensorLeft = (robot['left']()) # Sensor 2
+    
+    SensorRight1 = (robot['middleRight']()-0.1) # Sensor 5
+    SensorLeft1 = (robot['middleLeft']()-0.1) # Sensor 4
 
     if SensorRight >= SensorRight1:
         SensorRight = SensorRight1
     if SensorLeft >= SensorLeft1:
         SensorLeft = SensorLeft1
     
-    if SensorRight == float("inf"):
-        SensorRight = 10
-    if SensorLeft == float("inf"):
-        SensorLeft = 10
     ##############################################
     # Reasoning: figure out which action to take #
     ##############################################
@@ -88,13 +104,13 @@ while robot: # main Control loop
 
     # Try pickup
 
-    if closest[2] <= 1.5 and prioSearch < 2 and movingTime2 < simulationTime: #and prioSearch < 4 and movingTime2 < simulationTime:
+    if closest[2] <= 1.5 and prioSearch < 2 and cooldownTime < simulationTime: 
         findTarget = True
         prioSearch += 1
         movingTime = simulationTime + 4000
     if movingTime < simulationTime and findTarget:
         findTarget = False
-        movingTime2 = simulationTime + 4000
+        cooldownTime = simulationTime + 4000
         prioSearch = 1
 
     if closest[2] <= 0.8:

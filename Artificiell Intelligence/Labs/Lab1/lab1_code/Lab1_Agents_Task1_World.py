@@ -20,12 +20,6 @@ def getSensorReading(sensor):
         return getObstacleDist(robot.ultraSonicSensorLeft)
     elif sensor=="ultraSonicSensorRight":
         return getObstacleDist(robot.ultraSonicSensorRight)
-    elif sensor=="ultraSonicSensorMoreRight":
-        return getObstacleDist(robot.ultraSonicSensorMoreRight)
-    elif sensor=="ultraSonicSensorMoreLeft":
-        return getObstacleDist(robot.ultraSonicSensorMoreLeft)
-    elif sensor=="ultraSonicSensorBackRight":
-        return getObstacleDist(robot.ultraSonicSensorBackRight)
     elif sensor=="energySensor":
         blockHandle,blockName,distance,direction = findEnergyBlocks()[0]
         return EasyDict(distance=distance,direction=direction)
@@ -92,9 +86,6 @@ def init():
             ret_pr,  pioneerRobotHandle = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx', vrep.simx_opmode_oneshot_wait)
             ret_sl,  ultraSonicSensorLeft = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor4',vrep.simx_opmode_oneshot_wait)
             ret_sr,  ultraSonicSensorRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor5',vrep.simx_opmode_oneshot_wait)
-            ret_sr1,  ultraSonicSensorMoreLeft = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor2',vrep.simx_opmode_oneshot_wait)
-            ret_sr2,  ultraSonicSensorMoreRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor7',vrep.simx_opmode_oneshot_wait)
-            ret_sr2,  ultraSonicSensorBackRight = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx_ultrasonicSensor13',vrep.simx_opmode_oneshot_wait)
 
             blockHandleArray = []
             for i_block in range(12):
@@ -113,9 +104,6 @@ def init():
                              pioneerRobotHandle=pioneerRobotHandle,
                              ultraSonicSensorLeft=ultraSonicSensorLeft,
                              ultraSonicSensorRight=ultraSonicSensorRight,
-                             ultraSonicSensorMoreLeft=ultraSonicSensorMoreLeft,
-                             ultraSonicSensorMoreRight=ultraSonicSensorMoreRight,
-                             ultraSonicSensorBackRight=ultraSonicSensorBackRight,
                              energySensor=None)
             connectionTime = vrep.simxGetLastCmdTime(robot.clientID)
             return robot
