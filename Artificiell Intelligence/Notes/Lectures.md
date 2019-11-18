@@ -1,4 +1,4 @@
-
+<!-- https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols -->
 # Lecture 1 (4/11-2019)
 
 Introduction
@@ -239,4 +239,61 @@ Interference:
 * Interference rules (e.g resolution)
 * Horn clauses
 
+# Lecture 6 (18/11-2019)
 
+Why first order logic? (FOL)
+* Propositional logic:: Create an generalisation of the object. Instead of specify each object from the beginning
+
+Syntax:
+* Lgical symbols: Logical connectivives, quantifiers, equality symbols and truth constants
+* Non-logical symbols: Constants(objects), predicates, Functions
+
+Term
+1. Object constant is a term
+2. Complete functions containt is a term
+
+Well-formed formula (wff)
+* wff is something that could be true or false
+  1. Complete predicate sumbols is a wff
+  2. Equality between to terms
+  3. Negation of a wff is a wff
+  4. Two wffs connected by a connective is a wff
+
+Variables: unspecified onbjects in the domain
+Sentence: Well formed formula without any free variables
+
+* Atomic sentence: Complete predicate symbol (relation), comes from model/interpretation
+* Complex sentence: FOrmed by sentences and connectives, determined by truth tables
+  
+
+Contexts:
+* $\forall:$ For all
+* $\exists:$ For someone exists
+* $\land:$ And
+* $\lor:$ Or
+  
+Example:
+* $\forall_x$ King(x) $\implies$ Person(x) - All kings are persons)
+* $\exists_x$ At(x,Stanford) $\lor$ Smart(x) - Someone at stanfod is smart
+
+Order matter!! Example:
+* $\forall_x$ $\exists_y$ Loves(x,y) - Everybody loves somebody
+* $\exists_y$ $\forall_x$ Loves(x,y) - Somebody is loved by everyone
+  
+With deMorgan:
+* $\exists_x \neg P(x) \equiv \neg\exists_x P(x)$
+* ....
+
+
+Additional:
+A mother is a female parent
+* $\forall_{x,c}$ Female(mother(x) $\land$ Parent(Mother(c),c))
+
+## Reduce to propositional logic
+* Model checking
+* Resolution
+
+Universal instantiation (UI)
+Existential Instantiation (EI)
+
+UI + EI => propositional sentence
