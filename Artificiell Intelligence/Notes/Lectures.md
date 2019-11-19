@@ -297,3 +297,39 @@ Universal instantiation (UI)
 Existential Instantiation (EI)
 
 UI + EI => propositional sentence
+
+# Lecture 7 (19/11-2019)
+Problems:
+* Partial observability
+* Noise sensors
+* Uncertainty in action of outcomes
+* Immense complexity in modelling and predicting state of the environment
+  
+Why FOL fail:
+* Laziness: 
+* Ignorance
+* Practical reasons
+
+Solution: Decision theory:
+* Decision theory = Probability theory + utility theory
+  
+Probability:
+1. Probability to a proposition based on the percepts (info the agent have)
+2. Proposition is either true or false
+3. Evidence is information that the agent receives
+4. Propr/unconditional probability
+5. Posterior/conditional probability
+
+Utility:
+1. Plan doesnt need to guarantee to acheive the goal
+2. To make choices
+3. ...
+
+
+Interpretation of probability:
+* CLassic interpretation
+* Frequence interpretation
+* Bayesian Interpretation
+
+
+Full joint distribution

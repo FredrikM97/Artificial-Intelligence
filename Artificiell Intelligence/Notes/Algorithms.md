@@ -92,10 +92,30 @@ Exploration problemsarise when the agent has no idea about the states and action
 
 # Chapter 5
 
-
 ## Minimax
+Computes minimax decision from the current state.
+Uses simple recursive compitation of the minimax values of each successor state.
+Recursion proceeds down to the elaves and then minimax values backed up though the tree
+
+Depth-first exploration of game tree. If max deph is m and b legal moves at each point: TIme complexity. $O(b^m)$ and space complexity $O(bm)$ for an algorithm that generates all action at once. Or $O(m)$ for actions one at a time.
+
+In two-player zero-sum games withperfect information,theminimaxalgorithm canselect optimal moves by a depth-first enumeration of the game tree
+
+## Alpha beta pruning
+The alpha–beta search algorithm computes the same optimal move as minimax, but achieves much greater efficiency by eliminating subtrees that are provably irrelevant (cant influence the final decision).
 
 
+Usually, it is not feasible to consider the whole game tree (even with alpha–beta), so we need to cut the search off at some point and apply a heuristic evaluation function that estimates the utility of a state.
+
+$\alpha$: The highest value found at any point along the max 
+$\beta$: The lowest value found at any point along the min
+
+Best case $O(b^{m/2})$
+## Sum
+* Games of chance can be handled by an extension to the minimax algorithm that eval-uates achance nodeby taking the average utility of all its children,  weighted by theprobability of each child.
+
+* Optimal play in games of imperfect information, such as Kriegspiel and bridge, re-quires reasoning  about  the current  and future belief statesof each player.   A simple approximation can be obtained by averaging the value of an action over each possible configuration of missing information.
+* Programs have bested even champion human players at games such as chess, checkers,and Othello.  Humans retain the edge in several games of imperfect information, such as poker,  bridge,  and Kriegspiel,  and in games with very large branching factors and little good heuristic knowledge, such as Go.
 ## Reinforcement learning
 
 ## Support vector machine
