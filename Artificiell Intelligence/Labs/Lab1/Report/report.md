@@ -24,4 +24,4 @@ The second part is flexible and dynamic since it can handle multiple agents of d
 
 
 # Appendix
-![Distribution of balance of Fixed agent against Random agent\label{Fixed}](FixedvsRandom.png)
+![Distribution of balance of Fixed agent against Random agent\label{Fixed}](image/FixedvsRandom.png)
