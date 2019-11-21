@@ -2,6 +2,11 @@ import numpy as np
 import math
 import heapq
 
+class node():
+    def __init__(self):
+        self.parent = []
+        self.g = 0
+        
 # Priority Queue based on heapq
 class PriorityQueue:
     def __init__(self):
@@ -15,8 +20,7 @@ class PriorityQueue:
 
 # An example of search algorithm
 # modify it and implment the missing part
-def search(map, start, goal, ...):
-
+def search(map, start, goal):
     # cost moving to another cell
     moving_cost = 1
 
@@ -30,7 +34,7 @@ def search(map, start, goal, ...):
 
     # expanded list with cost value for each cell
     cost = {}
-
+    
     # init. starting node
     start.parent = None
     start.g = 0
@@ -45,7 +49,7 @@ def search(map, start, goal, ...):
 
         # for each neighbour of the current cell
         # Implement get_neighbors function (return nodes to expand next)
-        # (make sure you avoid repetitions!)
+        # (make sure you avoid repetitions!) (if less value -> replace Otherwise dont do anything)
         for next in get_neighbors(current):
 
             # compute cost to reach next cell
@@ -58,3 +62,11 @@ def search(map, start, goal, ...):
             came_from[next] = current
 
     return came_from, cost
+
+    # Do dis
+    def get_neighbors(self):
+        
+        
+    # Do dis
+    def cost_function():
+        pass
