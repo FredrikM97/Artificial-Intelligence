@@ -1,7 +1,9 @@
 import numpy as np
 import math
 import heapq
+from random import randint
 
+## Redo dis to random pick a spot in heapq
 class Queue:
     def __init__(self):
         self.elements = []
@@ -10,11 +12,11 @@ class Queue:
     def add(self, item, priority):
         heapq.heappush(self.elements,(priority,item))
     def remove(self):
-        return heapq.heappop(self.elements)[1]
+        return self.elements[randint(0, len(self.elements)-1)][1]
     def printArray(self):
         return self.elements
 
-class bfs:
+class random:
     def __init__(self,start, goal):
         self.parent = [] # No parent
         self.g = 0 #Total path cost
@@ -52,7 +54,7 @@ class bfs:
 # modify it and implment the missing part
 def search(map, start, goal):
     # cost moving to another cell
-    robot = bfs(start, goal)
+    robot = random(start, goal)
     # open list
 
     frontier = Queue() # Remember steps

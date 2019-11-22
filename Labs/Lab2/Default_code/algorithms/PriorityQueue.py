@@ -9,3 +9,5 @@ class Queue:
         heapq.heappush(self.elements,(priority,item))
     def remove(self):
         return heapq.heappop(self.elements)[1]
+    def printArray(self):
+        return self.elements

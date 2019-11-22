@@ -8,13 +8,13 @@ class Queue:
     def isEmpty(self):
         return len(self.elements) == 0
     def add(self, item, priority):
-        heapq.heappush(self.elements,(priority,item))
+        heapq.heappush(self.elements,(-1*priority,item))
     def remove(self):
         return heapq.heappop(self.elements)[1]
     def printArray(self):
         return self.elements
 
-class bfs:
+class dfs:
     def __init__(self,start, goal):
         self.parent = [] # No parent
         self.g = 0 #Total path cost
@@ -48,11 +48,12 @@ class bfs:
             }
         return self.node[node]
 
+
 # An example of search algorithm
 # modify it and implment the missing part
 def search(map, start, goal):
     # cost moving to another cell
-    robot = bfs(start, goal)
+    robot = dfs(start, goal)
     # open list
 
     frontier = Queue() # Remember steps
@@ -64,6 +65,7 @@ def search(map, start, goal):
         # check if the goal is reached
         if np.array_equal(current,robot.goal):
             print("Found the goal!!")
+            print(frontier.printArray())
             break
 
         # for each neighbour of the current cell
