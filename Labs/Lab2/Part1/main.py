@@ -13,14 +13,14 @@ def main():
     
     mapObj = Plotting(_map_, start, goal)
 
-    for x in range(0,4):
+    #for x in range(0,3):
         # Get the new map from the search algorithm, Search Type [0: BFS, 1: DFS, 2: Random]
-        newMap = iS.search(_map_, start, goal, x)
+    newMap = iS.search(_map_, start, goal, 0)
 
         # Display result directly
         #dp.staticPlot(newMap,_map_, start, goal,-1)
 
         # Dynamically draw the map
-        mapObj.dynamPlot(newMap)
+    mapObj.dynamPlot(newMap)
     #mapObj.dynamPlot(newMap)
 main()

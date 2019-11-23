@@ -47,18 +47,17 @@ class Plotting:
         cmap = cm.rainbow(np.linspace(0.0, 10/(colorCode + 10), colorCode))
 
         #fig = plt.figure() 
-        plt.subplots()
+        plt.figure()
         self.createTerrain()
-        plt.ion()  # make show non-blocking
-        plt.show() # show the figure
-        axes = plt.gca()
+        #plt.ion()  # make show non-blocking
+        #plt.show() # show the figure
+
+        axes=plt.gca()  
         axes.set_xlim([0,60])
-        axes.set_ylim([0,60])
-        # Invert the axes
-        ax=plt.gca()                            
-        ax.set_ylim(ax.get_ylim()[::-1])        
-        ax.xaxis.tick_top()                      
-        ax.yaxis.tick_left()         
+        axes.set_ylim([0,60])                          
+        axes.set_ylim(axes.get_ylim()[::-1])        
+        axes.xaxis.tick_top()                      
+        axes.yaxis.tick_left()         
         
         #plt.imshow(self.map) #Destoys the map
         #plt.axis([0, 10, 0, 1])
@@ -68,13 +67,18 @@ class Plotting:
 
         for keys in newMap.items():
             cnt+= 1
-            if not keys[1]['cost'] == -1:
-                plt.scatter(keys[0][0], keys[0][1],color='g')#cmap[keys[1]['cost']]
-            
-                if cnt % 10 * keys[1]['cost'] == 0:
-                    plt.draw() 
-                    plt.pause(0.1)  # give the gui time to process the draw events
-            else: 
-                plt.scatter(keys[0][0], keys[0][1],color='r')
+            plt.scatter(keys[0][0], keys[0][1],color='g')#cmap[keys[1]['cost']])#
+        
+            if cnt % 10 * keys[1]['cost'] == 0:
+                plt.draw() 
+                #plt.pause(0.1)  # give the gui time to process the draw events
+    
 
-        plt.pause(10)
+        node = newMap[self.goal]
+        cords = self.goal
+        while node['cost'] != 0:
+            plt.scatter(cords[0], cords[1],color="y")
+            node = newMap[node['parent']]
+            cords = node['parent']
+        plt.show() # show the figure
+        plt.pause(30)

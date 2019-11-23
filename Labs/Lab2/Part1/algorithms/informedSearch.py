@@ -10,16 +10,19 @@ def search(map, start, goal, algType):
     frontier = Queue()
 
 
-
     # add starting cell to open list
     frontier.add(start,0)
+
+    # add to path
+    robot.addNode(None,start, 0) 
+
     # if there is still nodes to open
     while not frontier.isEmpty():
         current = frontier.remove()
         # check if the goal is reached
         if np.array_equal(current,robot.goal):
             print("Found the goal!!")
-            print(frontier.printArray())
+            #print(frontier.printArray())
             break
 
         # for each neighbour of the current cell
@@ -30,8 +33,7 @@ def search(map, start, goal, algType):
 
             # If object is an obstacle dont add it to the queue
             if obj[1] == -1:
-                # Add to path with a value that displays obstacle
-                robot.addNode(current,obj[0], -1) 
+                continue
 
             else:
 
@@ -77,31 +79,37 @@ def get_neighbors(current,map):
 
 # Greedy search cost -  Manhattan ( |x1 - x2| + |y1 - y2|.)
 def greedy_man_cost_function(robot, node, current):
-    # Get robot goal position
-    # Get Current position
     goal = robot.goal
     pos = node
+
+    startdistance = abs(robot.start[0]-robot.goal[0]) + abs(robot.start[1]-goal[1])
     #print("Distance: ", abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]))
-    return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
+    return startdistance - abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
 
 # Greedy search cost -  Euclides (√((x1 - x2)² + (y1 - y2)²))
 def greedy_euc_cost_function(robot, node, current):
-    # If getting closer increase
     goal = robot.goal
     pos = node
-    return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1]))
+    startdistance = math.sqrt((robot.start[0]-robot.goal[0])*(robot.start[0]-goal[0]))
+    
+    return startdistance - math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]))# + (pos[1]-goal[1])*(pos[1]-goal[1]))
 
 # A* search cost function - Manhattan f(x) = g(x) + h(x)
 def AStar_man_cost_function(robot, node, current):
     goal = robot.goal
     pos = node
-    return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + robot.getNode(current)['cost'] + robot.getNode(current)['cost']
+    startdistance = abs(robot.start[0]-goal[0]) + abs(robot.start[1]-goal[1])
+
+    return startdistance - abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + robot.getNode(current)['cost'] +1
 
 # A* search cost function - Manhattan f(x) = g(x) + h(x)
 def AStar_euc_cost_function(robot, node, current):
     goal = robot.goal
     pos = node
-    return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + robot.getNode(current)['cost']
+
+    startdistance = math.sqrt((robot.start[0]-goal[0])*(robot.start[0]-goal[0]))
+
+    return startdistance - math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + robot.getNode(current)['cost'] +1
 
 
 def int2str(val1,val2):
