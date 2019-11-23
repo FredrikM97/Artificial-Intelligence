@@ -45,7 +45,8 @@ def search(map, start, goal, algType):
                     cost = AStar_man_cost_function(robot, obj[0], current)
                 elif algType == 3: # A* with euclides distance
                     cost = AStar_euc_cost_function(robot, obj[0], current)
-
+                elif algType == 4
+                    cost = SmartSearchT_cost_function(robot,obj[0], current)
                 # add next cell to open list
                 if not robot.exists(obj[0]):
                     frontier.add(obj[0], cost)
@@ -111,7 +112,8 @@ def AStar_euc_cost_function(robot, node, current):
 
     return startdistance - math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + robot.getNode(current)['cost'] +1
 
-
+def SmartSearchT_cost_function():
+    pass
 def int2str(val1,val2):
     return tuple([val1,val2])
     

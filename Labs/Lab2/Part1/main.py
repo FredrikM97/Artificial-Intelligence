@@ -15,7 +15,7 @@ def main():
 
     #for x in range(0,3):
         # Get the new map from the search algorithm, Search Type [0: BFS, 1: DFS, 2: Random]
-    newMap = iS.search(_map_, start, goal, 0)
+    newMap = iS.search(_map_, start, goal, 3)
 
         # Display result directly
         #dp.staticPlot(newMap,_map_, start, goal,-1)

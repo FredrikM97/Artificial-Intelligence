@@ -55,9 +55,9 @@ class Plotting:
         axes=plt.gca()  
         axes.set_xlim([0,60])
         axes.set_ylim([0,60])                          
-        axes.set_ylim(axes.get_ylim()[::-1])        
-        axes.xaxis.tick_top()                      
-        axes.yaxis.tick_left()         
+        #axes.set_ylim(axes.get_ylim()[::-1])        
+        #axes.xaxis.tick_top()                      
+        #axes.yaxis.tick_left()         
         
         #plt.imshow(self.map) #Destoys the map
         #plt.axis([0, 10, 0, 1])
