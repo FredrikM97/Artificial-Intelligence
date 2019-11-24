@@ -48,16 +48,19 @@ class Plotting:
 
         #fig = plt.figure() 
         plt.figure()
-        self.createTerrain()
-        #plt.ion()  # make show non-blocking
-        #plt.show() # show the figure
 
         axes=plt.gca()  
         axes.set_xlim([0,60])
         axes.set_ylim([0,60])                          
-        #axes.set_ylim(axes.get_ylim()[::-1])        
+        axes.set_ylim(axes.get_ylim()[::-1])  
+        
+        self.createTerrain()
+        plt.ion()  # make show non-blocking
+        plt.show() # show the figure
+
+              
         #axes.xaxis.tick_top()                      
-        #axes.yaxis.tick_left()         
+        #axes.yaxis.tick_top()         
         
         #plt.imshow(self.map) #Destoys the map
         #plt.axis([0, 10, 0, 1])
@@ -71,7 +74,7 @@ class Plotting:
         
             if cnt % 10 * keys[1]['cost'] == 0:
                 plt.draw() 
-                #plt.pause(0.1)  # give the gui time to process the draw events
+                plt.pause(0.1)  # give the gui time to process the draw events
     
 
         node = newMap[self.goal]
@@ -80,5 +83,5 @@ class Plotting:
             plt.scatter(cords[0], cords[1],color="y")
             node = newMap[node['parent']]
             cords = node['parent']
-        plt.show() # show the figure
+        #plt.show() # show the figure
         plt.pause(30)

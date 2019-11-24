@@ -45,7 +45,7 @@ def search(map, start, goal, algType):
                     cost = AStar_man_cost_function(robot, obj[0], current)
                 elif algType == 3: # A* with euclides distance
                     cost = AStar_euc_cost_function(robot, obj[0], current)
-                elif algType == 4
+                elif algType == 4:
                     cost = SmartSearchT_cost_function(robot,obj[0], current)
                 # add next cell to open list
                 if not robot.exists(obj[0]):
@@ -83,7 +83,7 @@ def greedy_man_cost_function(robot, node, current):
     goal = robot.goal
     pos = node
 
-    startdistance = abs(robot.start[0]-robot.goal[0]) + abs(robot.start[1]-goal[1])
+    startdistance = abs(robot.start[0]-goal[0]) + abs(robot.start[1]-goal[1])
     #print("Distance: ", abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]))
     return startdistance - abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
 
@@ -91,9 +91,7 @@ def greedy_man_cost_function(robot, node, current):
 def greedy_euc_cost_function(robot, node, current):
     goal = robot.goal
     pos = node
-    startdistance = math.sqrt((robot.start[0]-robot.goal[0])*(robot.start[0]-goal[0]))
-    
-    return startdistance - math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]))# + (pos[1]-goal[1])*(pos[1]-goal[1]))
+    return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1]))
 
 # A* search cost function - Manhattan f(x) = g(x) + h(x)
 def AStar_man_cost_function(robot, node, current):
@@ -101,19 +99,18 @@ def AStar_man_cost_function(robot, node, current):
     pos = node
     startdistance = abs(robot.start[0]-goal[0]) + abs(robot.start[1]-goal[1])
 
-    return startdistance - abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + robot.getNode(current)['cost'] +1
+    return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + robot.getNode(current)['cost']
 
 # A* search cost function - Manhattan f(x) = g(x) + h(x)
 def AStar_euc_cost_function(robot, node, current):
     goal = robot.goal
     pos = node
 
-    startdistance = math.sqrt((robot.start[0]-goal[0])*(robot.start[0]-goal[0]))
-
-    return startdistance - math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + robot.getNode(current)['cost'] +1
+    return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + robot.getNode(current)['cost']
 
 def SmartSearchT_cost_function():
     pass
+
 def int2str(val1,val2):
     return tuple([val1,val2])
     
