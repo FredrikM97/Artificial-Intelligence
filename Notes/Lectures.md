@@ -333,3 +333,7 @@ Interpretation of probability:
 
 
 Full joint distribution
+
+# Lecture 8 (25/11-2019)
+Naive Bayes
+Bayesian networks

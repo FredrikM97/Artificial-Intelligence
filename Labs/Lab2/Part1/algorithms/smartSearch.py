@@ -1,26 +1,21 @@
 import numpy as np
-from .uninformedAlgorithm import Algorithm, BFSQueue, DFSQueue, RandomQueue
+import math
+from .informedAlgorithm import Algorithm, Queue
 
-# Map, start pos, goal pos, Search Type [0: BFS, 1: DFS, 2: Random]
-def search(map, start, goal, searchType):
+# Map, start pos, goal pos
+def search(map, start, goal):
     # cost moving to another cell
-    robot = Algorithm(start, goal)
+    robot = Algorithm(map, start, goal)
     # open list
-    if searchType == 0:
-        frontier = BFSQueue()
-    elif searchType == 1:
-        frontier = DFSQueue()
-    elif searchType == 2:
-        frontier = RandomQueue()
-
-
+    frontier = Queue()
+    startPosition = 'None'
 
     # add starting cell to open list
     frontier.add(start,0)
 
     # add to path
     robot.addNode(None,start, 0) 
-    
+
     # if there is still nodes to open
     while not frontier.isEmpty():
         current = frontier.remove()
@@ -33,16 +28,17 @@ def search(map, start, goal, searchType):
         # Implement get_neighbors function (return nodes to expand next)
         # (make sure you avoid repetitions!) (if less value -> replace Otherwise dont do anything)
 
-        for obj in get_neighbors(list(current),map).items():   
+        for obj in get_neighbors(list(current),map[0]).items():   
 
             # If object is an obstacle dont add it to the queue
             if obj[1] == -1:
-                # Add to path with a value that displays obstacle
-                robot.addNode(current,obj[0], -1) 
+                continue
 
             else:
 
-                cost = cost_function(robot, current)
+               
+                cost = SmartSearchT_cost_function(robot,obj[0], current,startPosition)
+
                 # add next cell to open list
                 if not robot.exists(obj[0]):
                     frontier.add(obj[0], cost)
@@ -50,11 +46,8 @@ def search(map, start, goal, searchType):
                 # add to path
                 robot.addNode(current,obj[0], cost) 
 
-                
-
     return robot.node
 
-# Do dis
 def get_neighbors(current,map):
     # Get the neighbors around
     x = current[0]
@@ -74,10 +67,39 @@ def get_neighbors(current,map):
 
     return info
 
-# Do dis
-def cost_function(robot, current):
-    return robot.getNode(current)['cost'] +1 
-
 def int2str(val1,val2):
     return tuple([val1,val2])
+
+def SmartSearchT_cost_function(robot, node, current,startPosition):
+    goal = robot.goal
+    pos = node
+    top = robot.map[1][1]
+    bottom = robot.map[1][1]
+    xaxis = robot.map[1][2]
+
+
+   
+    if startPosition == 'None':
+        if robot.start[0] > 30:
+            con1 = abs(60 - pos[0])*10
+        elif robot.start[0] <= 30:
+            con1 = abs(0 - pos[0])*10
+
+        if con1 < 2:
+            startPosition = 'straight'
+
+    if startPosition == 'straight':
+        con1 = abs(60-pos[1])*10
+
+        if con1 < 2:
+            startPosition = 'search'
+    print(con1)
+    if startPosition == 'search':
+    # distance: goal and pos + middle 
+        con1 = abs(pos[1]-goal[1]) + abs(pos[0]-goal[0]) + 
+
+    # If x
+
+    return con1
     
+   

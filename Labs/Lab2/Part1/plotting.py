@@ -47,8 +47,8 @@ class Plotting:
         cmap = cm.rainbow(np.linspace(0.0, 10/(colorCode + 10), colorCode))
 
         #fig = plt.figure() 
-        plt.figure()
-
+        #plt.figure()
+        plt.clf
         axes=plt.gca()  
         axes.set_xlim([0,60])
         axes.set_ylim([0,60])                          

@@ -1,7 +1,9 @@
+import copy
 import numpy as np
 import matplotlib.pyplot as plt
 from algorithms import uninformedSearch as uS
 from algorithms import informedSearch as iS
+from algorithms import smartSearch as sS
 from plotting import Plotting
 import path_planning as pp
 import matplotlib.pyplot as plt
@@ -11,16 +13,15 @@ def pathFunc(newMap, goal):
     example_solved_path = [[],[]]
     node = newMap[goal]
     cords = goal
-    print("Hurr durr hurr: ", node)
-    while node['cost'] > 0:
+    while node['cost'] != 0:
         example_solved_path[1].insert(0,cords[0])
         example_solved_path[0].insert(0,cords[1])
         node = newMap[node['parent']]
         cords = node['parent']
     return example_solved_path
 
-def mapFunc(_map_, newMap):
-    example_solved_map = _map_
+def mapFunc(map, newMap):
+    example_solved_map = copy.copy(map)
     for keys in newMap.items():
         if example_solved_map[keys[0][0],keys[0][1]] >=0:
             example_solved_map[keys[0][0],keys[0][1]] = int(keys[1]['cost'])
@@ -28,24 +29,45 @@ def mapFunc(_map_, newMap):
 
 def main():  
     #_map_ = pp.generateMap2d([60,60])
-    _map_ = pp.generateMap2d_obstacle([60,60])[0]
-    start, goal = tuple(np.argwhere(_map_ == -2)[0]), tuple(np.argwhere(_map_ == -3)[0])
-    print("Start value: ",start, " Goal value: ", goal)
+    _map_ = pp.generateMap2d_obstacle([60,60])
     
-    mapObj = Plotting(_map_, start, goal)
+    # X,Y: Wrong, someone the data is placed Y,X)
+    start, goal = tuple(np.argwhere(_map_[0] == -2)[0]), tuple(np.argwhere(_map_[0] == -3)[0])
+    print("Start value: ",start, " Goal value: ", goal)
 
-    #for x in range(0,3):
-        # Get the new map from the search algorithm, Search Type [0: BFS, 1: DFS, 2: Random]
-    for x in range(0,4):
-        newMap = iS.search(_map_, start, goal, x)
+    #copy_map = copy.copy(_map_)
+    #pp.plotMap(copy_map[0], copy_map[0],'Map')
+    mapObj = Plotting(_map_[0], start, goal)
+    data = [['BFS', 'DFS', 'Random'],['Greedy - Manhattan', 'Greedy - Euklides', 'A* - Manhattan', 'A* - Euklides'],['Special']]
 
-    # Display result directly
-    #dp.staticPlot(newMap,_map_, start, goal,-1)
+    pp.plotMap(_map_[0], _map_[0],'Map')
 
-    # Dynamically draw the map
+    '''
+    for x in range(0,3):
+        for y in range(0,4):
+            if x == 0 and y < 3:
 
-        pp.plotMap(mapFunc(_map_, newMap),pathFunc(newMap, goal))
-    #mapObj.dynamPlot(newMap)
-    #mapObj.dynamPlot(newMap)
+                print("Uninformed")
+                newMap = uS.search(_map_[0], start, goal, y)
+                pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x][y])
+            elif x == 1:
+                print("Informed")
+                newMap = iS.search(_map_[0], start, goal, y) 
+                pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x][y])
+            elif x == 2:
+                print("Special")
+                newMap = sS.search(_map_, start, goal) 
+                pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x][y])
+                break
+    '''             
+    print("Special")
+    newMap = sS.search(_map_, start, goal) 
+    #pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[0][0])
 
+        # Special case
+               # Uninformed
+        #  # Informed
+        #         # Special
+    mapObj.dynamPlot(newMap)
+            
 main()

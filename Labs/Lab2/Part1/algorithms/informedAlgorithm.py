@@ -1,13 +1,13 @@
 import heapq
 from random import randint
 class Algorithm:
-    def __init__(self,start, goal):
+    def __init__(self, map, start, goal):
         self.parent = [] # No parent
-        self.g = 0 #Total path cost
         self.start = start # Start position
         self.goal = goal # TO search for
         self.moving_cost = 1 # Each move cost
         self.node = {}
+        self.map = map
 
     def addNode(self,parent, node, cost):
         if not node in self.node:
