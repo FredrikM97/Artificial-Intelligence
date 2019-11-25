@@ -5,7 +5,8 @@ from functools import partial
 
 #Game modules
 from game.observer import Observer
-from game.agentClasses import *
+from Agents.reflexMem2 import reflexMem2Agent
+from Agents.random import randomAgent
 from game.board import Board
 
 
@@ -18,7 +19,8 @@ class Simulation:
     def __init__(self, rounds=50):
         # Max two agents, choose between agents in Agent class
         self.players = [] 
-        self.cardAmount = 3 
+        self.cardAmount = 5
+        self.startAmount = 100
         self.rounds = rounds
         
     def start(self):
@@ -60,7 +62,7 @@ def printFinal(game):
     # Print final
     for player in game.players:
         print("\n" + str(player.name) + ":")
-        if issubclass(player.__class__, Observer): player.getAgents()
+        if issubclass(player.__class__, Observer): player.getOpponents()
         else: print("Balance: " + str(player.balance) )
 
 def createPlot(data):

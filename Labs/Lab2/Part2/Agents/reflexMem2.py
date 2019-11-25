@@ -1,81 +1,9 @@
-from .agent import Agent
-from .observer import Observer
+
+from game.agent import Agent
+from game.observer import Observer
 import numpy as np
 
-from random import randint
 
-################ Agents #######################
-class randomAgent(Agent):
-    def __init__(self):
-        super().__init__()
-
-    # Random bidding
-    def bidding(self, board):
-        self.setBid(randint(0,50))
-        return self.bid
-
-class fixedAgent(Agent):
-    def __init__(self):
-        super().__init__()
-    # Fixed bidding
-    def bidding(self, board):
-        self.setBid(5 + 10*board.round)
-        return self.bid
-
-class reflexAgent(Agent):
-    def __init__(self):
-        super().__init__()
-    # Check his own hand
-    def bidding(self, board):
-        agentHand = self.hand.getHandValue()
-        self.setBid(round(50*(1-(100/(agentHand+100)))))
-        return self.bid
-
-class reflexMemAgent(Agent,Observer):
-    def __init__(self):
-        super().__init__()
-        ## Params: bid, cardValue, Type
-        self.opponents = {}
-    
-    def update(self,board):
-        for key in board.playerHands.keys():
-            if key == self: continue
-            self.addOpponent(key)
-            self.opponents[key]['cardVal'].append(board.playerHands[key])
-            self.opponents[key]['bid'].extend(board.boardBids[key]) 
-
-    def getAgents(self):
-        print("Balance: " + str(self.balance))
-
-    # Check opponents betting (dont handle multiple opponents)
-    def bidding(self, board):
-        myHand = self.hand.getHandValue()
-
-        oldBid = 50
-        newBid = 0
-        for player in board.game.players:
-            if player == self:
-                continue
-            opponentBid = player.bid
-
-            newBid = round(50*(1-(opponentBid)/(myHand+opponentBid)))
-
-            if newBid <= oldBid:
-                    oldBid = newBid
-                    self.setBid(oldBid)
-        return self.bid
-
-    def addOpponent(self, player): 
-        if player in self.opponents:
-            return -1
-
-        self.opponents[player] = {
-            'name':player.name,
-            'type':'unknown',
-            'bid':[],
-            'cardVal':[]
-        }
-        return 0
 class reflexMem2Agent(Agent,Observer):
     def __init__(self):
         super().__init__()
@@ -89,7 +17,7 @@ class reflexMem2Agent(Agent,Observer):
             self.opponents[key]['cardVal'].append(board.playerHands[key])
             self.opponents[key]['bid'].extend(board.boardBids[key]) 
 
-    def getAgents(self):
+    def getOpponents(self):
         for player in self.opponents:
             print(self.opponents[player]['name'] +  " is: " + self.opponents[player]['type'] + " Agent")
         print("Balance: " + str(self.balance))
