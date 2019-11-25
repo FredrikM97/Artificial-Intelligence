@@ -64,7 +64,7 @@ class reflexMem2Agent(Agent,Observer):
                 oldBid = newBid
                 self.setBid(oldBid)
 
-        return self.bid
+        return ["bid",self.bid]
 
     # Check correlation to find out what kind of agent is playing
     def getAgentType(self, opponent):

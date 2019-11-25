@@ -6,20 +6,14 @@ class Agent:
         self.balance = balance
 
 ################ Stuff to set #######################
-    def call(self):
-        # Possible to call as long bid is above 0
-        if self.bid > 0:
-            self.bid = 5    
-            self.setTotalBid(self.bid)
-        else:
-            return -1
-    def fold(self):
-        pass
 
     # Params opponent
     def setBid(self, bid):
-        self.bid = bid
-        self.setTotalBid(bid)
+        if self.balance > bid:
+            self.bid = bid
+            self.setTotalBid(bid)
+        else: 
+            return -1
         
     def setHand(self,hand):
         self.hand = hand
@@ -29,5 +23,6 @@ class Agent:
         self.totBid += bid
 
     def addBalance(self, balance):
+        if self.balance <= balance: return -1 
         self.balance += balance
         self.totBid = 0

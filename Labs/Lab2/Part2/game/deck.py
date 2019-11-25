@@ -7,7 +7,7 @@ class Deck:
     def __init__(self):
         self.suit = ["C","D","H","S"] 
         self.rank = ["2","3","4","5","6","7","8","9","T","J","Q","K","A"]
-        self.deck = list(s + r for (s, r) in product(self.suit, self.rank))
+        self.deck = list(r + s for (r, s) in product(self.rank, self.suit))
         shuffle(self.deck)
 
     def __len__(self):

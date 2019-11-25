@@ -36,6 +36,7 @@ class Simulation:
 
             # Showdown
             board.showdown()
+            
         return self
             
     def createPlayer(self, players): # Done

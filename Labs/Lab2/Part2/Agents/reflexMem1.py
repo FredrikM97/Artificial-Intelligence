@@ -34,7 +34,7 @@ class reflexMemAgent(Agent,Observer):
             if newBid <= oldBid:
                     oldBid = newBid
                     self.setBid(oldBid)
-        return self.bid
+        return ["bid",self.bid]
 
     def addOpponent(self, player): 
         if player in self.opponents:

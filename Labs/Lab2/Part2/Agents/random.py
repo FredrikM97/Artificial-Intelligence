@@ -9,4 +9,4 @@ class randomAgent(Agent):
     # Random bidding
     def bidding(self, board):
         self.setBid(randint(0,50))
-        return self.bid
+        return ["bid",self.bid]
