@@ -1,6 +1,6 @@
 import heapq
 from random import randint
-class Algorithm:
+class Struct:
     def __init__(self):
         self.parent = [] # No parent
         self.moving_cost = 1 # Each move cost
@@ -20,7 +20,7 @@ class Algorithm:
             return self.createNode(node, 0, 0)
         else:
             return self.node[node]
-
+    
     def exists(self, node):
         return node in self.node
 
@@ -45,3 +45,38 @@ class Queue:
     def printArray(self):
         return self.elements
 
+class BFSQueue:
+    def __init__(self):
+        self.elements = []
+    def isEmpty(self):
+        return len(self.elements) == 0
+    def add(self, item, priority):
+        heapq.heappush(self.elements,(priority,item))
+    def remove(self):
+        return heapq.heappop(self.elements)[1]
+    def printArray(self):
+        return self.elements
+
+class DFSQueue:
+    def __init__(self):
+        self.elements = []
+    def isEmpty(self):
+        return len(self.elements) == 0
+    def add(self, item, priority):
+        heapq.heappush(self.elements,(-1*priority,item))
+    def remove(self):
+        return heapq.heappop(self.elements)[1]
+    def printArray(self):
+        return self.elements
+
+class RandomQueue:
+    def __init__(self):
+        self.elements = []
+    def isEmpty(self):
+        return len(self.elements) == 0
+    def add(self, item, priority):
+        heapq.heappush(self.elements,(priority,item))
+    def remove(self):
+        return self.elements[randint(0, len(self.elements)-1)][1]
+    def printArray(self):
+        return self.elements

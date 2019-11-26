@@ -1,30 +1,12 @@
 import numpy as np
 import math
-from .informedAlgorithm import Algorithm, Queue
+from algorithms.struct import Struct, Queue
 
-class SmartSearch(Algorithm):
+
+class SmartSearch(Struct,Queue):
     def __init__(self):
         super().__init__()
-        self.frontier = Queue()
-
-    def get_neighbors(self,current):
-        # Get the neighbors around
-        x = current[0]
-        y = current[1]
-        
-        info = {}
-        # Get all the items from the four directions
-        paths = [(x-1,y), (x+1,y),(x,y+1), (x,y-1)]
-        maplen = len(self.map[0])
- 
-
-        for pos in paths:
-            con1 = pos[0] >= 0 and pos[1] >= 0
-            con2 = pos[0] < maplen and pos[1] < maplen
-            if con1 and con2:
-                info[pos] = int(self.map[0][[pos[0]],[pos[1]]][0])
-
-        return info    
+        self.frontier = Queue() 
 
     def cost_function(self, node, current):
         goal = self.goal

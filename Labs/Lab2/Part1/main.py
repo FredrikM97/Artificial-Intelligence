@@ -1,11 +1,11 @@
 import copy
 import numpy as np
 import matplotlib.pyplot as plt
-from algorithms import uninformedSearch as uS
-from algorithms import informedSearch as iS
-from algorithms import smartSearch as sS
+#from algorithms import uninformedSearch as uS
+#from algorithms import informedSearch as iS
+#from algorithms import smartSearch as sS
 
-from search import Search
+#from algorithmSearch.search import Search
 
 from plotting import Plotting
 import path_planning as pp
@@ -41,33 +41,23 @@ def main():
     #copy_map = copy.copy(_map_)
     #pp.plotMap(copy_map[0], copy_map[0],'Map')
     mapObj = Plotting(_map_[0], start, goal)
-    data = [['BFS', 'DFS', 'Random'],['Greedy - Manhattan', 'Greedy - Euklides', 'A* - Manhattan', 'A* - Euklides'],['Special']]
+    data = accessable_classes = [    
+        'BFS',
+        'DFS', 
+        'Random', 
+        'Greedy_euc', 
+        'Greedy_man',
+        'Astar_euc', 
+        'Astar_man', 
+        'Special'
+    ]
 
     #pp.plotMap(_map_[0], _map_[0],'Map')
 
-    '''
-    for x in range(0,3):
-        for y in range(0,4):
-            if x == 0 and y < 3:
-
-                print("Uninformed")
-                newMap = uS.search(_map_[0], start, goal, y)
-                pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x][y])
-            elif x == 1:
-                print("Informed")
-                newMap = iS.search(_map_[0], start, goal, y) 
-                pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x][y])
-            elif x == 2:
-                print("Special")
-                newMap = sS.search(_map_, start, goal) 
-                pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x][y])
-                break
-    '''             
-    print("Special")
-    #newMap = Search.SmartSearch(_map_, start, goal).search()
-    newMap = Search(_map_, start, goal).search()
-    pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[0][0])
-    
+    from algorithmSearch.search import defineClass
+    for x in range(0,8):
+        newMap = defineClass(_map_, start, goal, x)
+        pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x])
     plt.show()
         # Special case
                # Uninformed
