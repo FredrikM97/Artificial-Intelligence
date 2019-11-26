@@ -171,7 +171,7 @@ def plotMap(map2d_, path_, title_ =''):
     plt.draw()
     
     #plt.savefig()
-    plt.show()
+    #plt.show()
 
 ## Example
 ## Map description

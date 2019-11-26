@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 from algorithms import uninformedSearch as uS
 from algorithms import informedSearch as iS
 from algorithms import smartSearch as sS
+
+from search import Search
+
 from plotting import Plotting
 import path_planning as pp
 import matplotlib.pyplot as plt
@@ -40,7 +43,7 @@ def main():
     mapObj = Plotting(_map_[0], start, goal)
     data = [['BFS', 'DFS', 'Random'],['Greedy - Manhattan', 'Greedy - Euklides', 'A* - Manhattan', 'A* - Euklides'],['Special']]
 
-    pp.plotMap(_map_[0], _map_[0],'Map')
+    #pp.plotMap(_map_[0], _map_[0],'Map')
 
     '''
     for x in range(0,3):
@@ -61,13 +64,15 @@ def main():
                 break
     '''             
     print("Special")
-    newMap = sS.search(_map_, start, goal) 
-    #pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[0][0])
-
+    #newMap = Search.SmartSearch(_map_, start, goal).search()
+    newMap = Search(_map_, start, goal).search()
+    pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[0][0])
+    
+    plt.show()
         # Special case
                # Uninformed
         #  # Informed
         #         # Special
-    mapObj.dynamPlot(newMap)
+    #mapObj.dynamPlot(newMap)
             
 main()

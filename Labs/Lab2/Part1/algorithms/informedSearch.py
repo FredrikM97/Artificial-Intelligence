@@ -22,7 +22,6 @@ def search(map, start, goal, algType):
         # check if the goal is reached
         if np.array_equal(current,robot.goal):
             print("Found the goal!!")
-            #print(frontier.printArray())
             break
 
         # for each neighbour of the current cell
