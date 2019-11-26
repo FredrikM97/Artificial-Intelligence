@@ -161,7 +161,7 @@ def plotMap(map2d_, path_, title_ =''):
                 colorsMap2d[irow][icol] = [1.0, 0.0, 0.0, 1.0]
 
 
-    plt.figure()
+    fig = plt.figure()
     plt.title(title_)
     plt.imshow(colorsMap2d, interpolation='nearest')
     plt.colorbar()
@@ -169,7 +169,7 @@ def plotMap(map2d_, path_, title_ =''):
     plt.ylim(0,map2d_.shape[0])
     plt.xlim(0,map2d_.shape[1])
     plt.draw()
-    
+
     #plt.savefig()
     #plt.show()
 

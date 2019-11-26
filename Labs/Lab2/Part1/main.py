@@ -55,9 +55,11 @@ def main():
     #pp.plotMap(_map_[0], _map_[0],'Map')
 
     from algorithmSearch.search import defineClass
+
     for x in range(0,8):
         newMap = defineClass(_map_, start, goal, x)
         pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x])
+
     plt.show()
         # Special case
                # Uninformed
