@@ -47,7 +47,7 @@ class Greedy_man(Struct,Queue):
         goal = self.goal
         pos = node
 
-        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) +1
+        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
 
 
 
@@ -61,7 +61,7 @@ class Astar_euc(Struct,Queue):
         goal = self.goal
         pos = node
 
-        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + self.getNode(current)['cost'] +1
+        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + self.getNode(current)['cost']
 
 class Astar_man(Struct,Queue):
     def __init__(self):
@@ -73,7 +73,7 @@ class Astar_man(Struct,Queue):
         goal = self.goal
         pos = node
 
-        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + self.getNode(current)['cost'] +1
+        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + self.getNode(current)['cost']
 
 class Special(Struct,Queue):
     def __init__(self):

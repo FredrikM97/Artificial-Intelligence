@@ -15,6 +15,7 @@ accessable_classes = [
 ]
 
 def defineClass(_map_, start, goal,type):
+    
     class Search(accessable_classes[type]):
         def __init__(self, map, start, goal):
             super().__init__()
@@ -32,6 +33,7 @@ def defineClass(_map_, start, goal,type):
                 # check if the goal is reached
                 if np.array_equal(current,self.goal):
                     print("Found the goal!!")
+                    self.g = self.calculatePathCost()
                     break
 
 
@@ -53,7 +55,7 @@ def defineClass(_map_, start, goal,type):
                         # add to path
                         self.addNode(current,obj[0], cost) 
                 
-            return self.node
+            return [self.node, self.g]
 
         def get_neighbors(self,current):
             # Get the neighbors around
@@ -78,11 +80,13 @@ def defineClass(_map_, start, goal,type):
             return tuple([val1,val2])
 
         def calculatePathCost(self):
+    
             g = 0
             node = self.getNode(self.goal)
-            while node['cost'] != 0:
+            while node['parent'] != None:
                 g += 1
                 node = self.getNode(node['parent'])
 
             return g
-    return Search(_map_, start, goal).search()
+
+    return [Search(_map_, start, goal).search(), accessable_classes[type].__name__]

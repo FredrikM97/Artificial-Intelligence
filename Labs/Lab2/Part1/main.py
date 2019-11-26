@@ -16,7 +16,7 @@ def pathFunc(newMap, goal):
     example_solved_path = [[],[]]
     node = newMap[goal]
     cords = goal
-    while node['cost'] != 0:
+    while node['parent'] != None:
         example_solved_path[1].insert(0,cords[0])
         example_solved_path[0].insert(0,cords[1])
         node = newMap[node['parent']]
@@ -40,31 +40,21 @@ def main():
 
     #copy_map = copy.copy(_map_)
     #pp.plotMap(copy_map[0], copy_map[0],'Map')
-    mapObj = Plotting(_map_[0], start, goal)
-    data = accessable_classes = [    
-        'BFS',
-        'DFS', 
-        'Random', 
-        'Greedy_euc', 
-        'Greedy_man',
-        'Astar_euc', 
-        'Astar_man', 
-        'Special'
-    ]
-
-    #pp.plotMap(_map_[0], _map_[0],'Map')
+    
+    
+    # Empty map
+    pp.plotMap(_map_[0], _map_[0],'Map')
 
     from algorithmSearch.search import defineClass
 
     for x in range(0,8):
-        newMap = defineClass(_map_, start, goal, x)
-        pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),data[x])
-
+        data = defineClass(_map_, start, goal, x)
+        newMap = data[0][0]
+        pp.plotMap(mapFunc(_map_[0], newMap),pathFunc(newMap, goal),str(data[1]) + ", g: " + str(data[0][1]))
+        print(str(data[1]) + " " + str(data[0][1]))
     plt.show()
-        # Special case
-               # Uninformed
-        #  # Informed
-        #         # Special
+
+    #mapObj = Plotting(_map_[0], start, goal)
     #mapObj.dynamPlot(newMap)
             
 main()

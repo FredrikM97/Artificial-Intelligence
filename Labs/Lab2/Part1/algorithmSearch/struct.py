@@ -5,6 +5,7 @@ class Struct:
         self.parent = [] # No parent
         self.moving_cost = 1 # Each move cost
         self.node = {}
+        self.g = 0
 
     def addNode(self,parent, node, cost):
         if not node in self.node:
