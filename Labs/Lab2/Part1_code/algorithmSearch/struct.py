@@ -5,30 +5,31 @@ class Struct:
         self.parent = [] # No parent
         self.moving_cost = 1 # Each move cost
         self.node = {}
-        self.g = 0
 
-    def addNode(self,parent, node, cost):
+    def addNode(self,parent, node, cost, g):
         if not node in self.node:
-            self.createNode(node, parent, cost)
+            self.createNode(node, parent, cost, g)
         else:
             # Only update parent and cost if new cost is better
             if self.node[node]['cost'] > cost:
                 self.node[node]['parent'] = parent
                 self.node[node]['cost'] = cost
+                self.node[node]['g'] = g
                 
     def getNode(self, node):
         if not node in self.node:
-            return self.createNode(node, 0, 0)
+            return self.createNode(node)
         else:
             return self.node[node]
     
     def exists(self, node):
         return node in self.node
 
-    def createNode(self,node, parent, cost):
+    def createNode(self,node, parent=0, cost=0, g=0):
         self.node[node] = {
                 'parent':parent,
-                'cost':cost
+                'cost':cost,
+                'g':g
             }
         return self.node[node]
 

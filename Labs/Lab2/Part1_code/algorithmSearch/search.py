@@ -14,48 +14,45 @@ accessable_classes = [
     Special
 ]
 
-def defineClass(_map_, start, goal,type):
+def defineClass(_map_, start, goal,type, depthLimit=-1):
     
     class Search(accessable_classes[type]):
-        def __init__(self, map, start, goal):
+        def __init__(self, map, start, goal, depthLimit):
             super().__init__()
             self.start = start # Start position
             self.goal = goal # TO search for
             self.map = map
+            self.steps = 0
+            self.depthLimit = depthLimit
+            self.g = 0
 
         def search(self):
             
             self.frontier.add(self.start,0)
-            self.addNode(None,self.start, 0) 
+            self.addNode(None,self.start, 0, 0) 
             # if there is still nodes to open
             while not self.frontier.isEmpty():
                 current = self.frontier.remove()
-                # check if the goal is reached
-                if np.array_equal(current,self.goal):
-                    print("Found the goal!!")
-                    self.g = self.calculatePathCost()
-                    break
-
-
-                for obj in self.get_neighbors(list(current)).items():   
-
-                    # If object is an obstacle dont add it to the queue
-
-                    if obj[1] == -1:
-                        continue
-                        
-                    else:
-
-                        cost = self.cost_function(obj[0], current)
-
-                        # add next cell to open list
-                        if not self.exists(obj[0]):
-                            self.frontier.add(obj[0], cost)
-
-                        # add to path
-                        self.addNode(current,obj[0], cost) 
                 
-            return [self.node, self.g]
+                # If Maximum depth is reached
+                if not self.depthLimit == -1 and self.depthLimit <= self.node[current]['g'] or np.array_equal(current,self.goal):
+                    self.g = self.node[current]['g']
+                    break
+                self.steps += 1
+
+                # Start checking each node
+                for obj in self.get_neighbors(list(current)).items():   
+                    
+                    cost = self.cost_function(obj[0], current)
+
+                    # add next cell to open list
+                    if not self.exists(obj[0]):
+                        self.frontier.add(obj[0], cost)
+        
+                    # add to path
+                    self.addNode(current,obj[0], cost, self.node[current]['g'] + 1) 
+                
+            return [self.node, self.g, self.steps]
 
         def get_neighbors(self,current):
             # Get the neighbors around
@@ -66,11 +63,7 @@ def defineClass(_map_, start, goal,type):
             # Get all the items from the four directions
             paths = [(x-1,y), (x+1,y),(x,y+1), (x,y-1)]
 
-            # In case of with or without obstacles
-            if len(self.map) == 2:
-                map = self.map[0]
-            else: 
-                map = self.map
+            map = self.mapType()
             
             maplen = len(map)
     
@@ -78,22 +71,20 @@ def defineClass(_map_, start, goal,type):
             for pos in paths:
                 con1 = pos[0] >= 0 and pos[1] >= 0
                 con2 = pos[0] < maplen and pos[1] < maplen
-                if con1 and con2:
+                if con1 and con2 and map[[pos[0]],[pos[1]]][0] != -1:
                     info[pos] = int(map[[pos[0]],[pos[1]]][0])
 
-            return info   
+            return info
+               
+        def mapType(self):
+            # In case of with or without obstacles
+            if len(self.map) == 2:
+                map = self.map[0]
+            else: 
+                map = self.map
+            return map
 
         def int2str(self,val1,val2):
             return tuple([val1,val2])
 
-        def calculatePathCost(self):
-    
-            g = 0
-            node = self.getNode(self.goal)
-            while node['parent'] != None:
-                g += 1
-                node = self.getNode(node['parent'])
-
-            return g
-
-    return [Search(_map_, start, goal).search(), accessable_classes[type].__name__]
+    return [Search(_map_, start, goal, depthLimit).search(), accessable_classes[type].__name__]

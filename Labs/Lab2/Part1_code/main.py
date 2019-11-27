@@ -32,6 +32,9 @@ def mapFunc(map, newMap):
     
     
 def main():  
+    # How much it expand before quitting, if -1 it will search until goal found
+    depthLimit = 400
+    
     _map_ = pp.generateMap2d_obstacle([100,100])
     #_map_ = pp.generateMap2d([60,60])
     
@@ -46,13 +49,16 @@ def main():
     print("Start value: ",start, " Goal value: ", goal)
     
     # Plot each algorithm
-    
     for x in range(0,8):
-        data = defineClass(_map_, start, goal, x)
+        data = defineClass(_map_, start, goal, x, depthLimit)
         newMap = data[0][0]
-        pp.plotMap(mapFunc(map[0], newMap),pathFunc(newMap, goal),str(data[1]) + ", g: " + str(data[0][1]))
+        if data[0][1] == depthLimit: 
+            print("Depth limit reached for", str(data[1]))
+            continue
 
-        print(str(data[1]) + " " + str(data[0][1]))
+        pp.plotMap(mapFunc(map[0], newMap), pathFunc(newMap, goal),str(data[1]) + ", g: " + str(data[0][1]) +  " Expanded: " + str(data[0][2]))
+
+        print(str(data[1]) + " g: " + str(data[0][1]), " Steps:", str(data[0][2]))
     plt.show()
     '''
     data = defineClass(_map_, start, goal, 0)
