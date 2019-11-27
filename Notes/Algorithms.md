@@ -116,6 +116,9 @@ Best case $O(b^{m/2})$
 
 * Optimal play in games of imperfect information, such as Kriegspiel and bridge, re-quires reasoning  about  the current  and future belief statesof each player.   A simple approximation can be obtained by averaging the value of an action over each possible configuration of missing information.
 * Programs have bested even champion human players at games such as chess, checkers,and Othello.  Humans retain the edge in several games of imperfect information, such as poker,  bridge,  and Kriegspiel,  and in games with very large branching factors and little good heuristic knowledge, such as Go.
+
+## Evaluationfunction
+EVA L(s)=w1f1(s)+w2f2(s) -- sum[w_if_i(s)] were w2 could be the worth of a chess and f how many there is
 ## Reinforcement learning
 
 ## Support vector machine
