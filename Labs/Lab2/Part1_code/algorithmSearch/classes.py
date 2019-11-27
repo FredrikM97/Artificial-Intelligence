@@ -90,7 +90,7 @@ class Special(Struct,Queue):
         # If robot x is less than middle row, and robot between y axes
         #print(pos[1], " and ", pos[0])
 
-        if pos[1] < xaxis and pos[0] < top and pos[0] > bottom:
+        if pos[1] < xaxis and pos[1] > 3 and pos[0] < top and pos[0] > bottom:
             #print("top:", abs(top - robot.start[0]), " bottom: ", abs(bottom - robot.start[0]))
             if abs(self.start[0]-top) <  abs(self.start[0]-bottom):
                 # GO top

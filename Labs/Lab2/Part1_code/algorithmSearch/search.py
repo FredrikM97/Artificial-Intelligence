@@ -66,6 +66,7 @@ def defineClass(_map_, start, goal,type):
             # Get all the items from the four directions
             paths = [(x-1,y), (x+1,y),(x,y+1), (x,y-1)]
 
+            # In case of with or without obstacles
             if len(self.map) == 2:
                 map = self.map[0]
             else: 

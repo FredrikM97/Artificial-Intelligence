@@ -32,7 +32,7 @@ def mapFunc(map, newMap):
     
     
 def main():  
-    _map_ = pp.generateMap2d_obstacle([60,60])
+    _map_ = pp.generateMap2d_obstacle([100,100])
     #_map_ = pp.generateMap2d([60,60])
     
     # Dummy so we can run both with and without obstacle without changing code
@@ -46,6 +46,7 @@ def main():
     print("Start value: ",start, " Goal value: ", goal)
     
     # Plot each algorithm
+    
     for x in range(0,8):
         data = defineClass(_map_, start, goal, x)
         newMap = data[0][0]
@@ -53,10 +54,14 @@ def main():
 
         print(str(data[1]) + " " + str(data[0][1]))
     plt.show()
-    
-
+    '''
+    data = defineClass(_map_, start, goal, 0)
+    newMap = data[0][0]
     # Dynamic plotting - Use with care
-    #mapObj = Plotting(_map_[0], start, goal)
-    #mapObj.dynamPlot(newMap)
+    mapObj = Plotting(map, start, goal)
+    mapObj.dynamPlot(newMap)
+    '''
+
+    
             
 main()

@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 class Plotting:
     def __init__(self, _map_, start, goal):
-        self.map = _map_ 
-        self.mapSize = [len(_map_), len(_map_[0])]
+        self.map = _map_[0] 
+        self.mapSize = [len(self.map[0]), len(self.map[0])]
         #self.terrain = self.createTerrain()
         self.start = start
         self.goal = goal
@@ -50,8 +50,8 @@ class Plotting:
         #plt.figure()
         plt.clf
         axes=plt.gca()  
-        axes.set_xlim([0,60])
-        axes.set_ylim([0,60])                          
+        axes.set_xlim([0,len(self.map)])
+        axes.set_ylim([0,len(self.map[0])])                          
         axes.set_ylim(axes.get_ylim()[::-1])  
         
         self.createTerrain()
