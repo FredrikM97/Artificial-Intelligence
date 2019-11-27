@@ -22,9 +22,9 @@ def defineClass(_map_, start, goal,type, depthLimit=-1):
             self.start = start # Start position
             self.goal = goal # TO search for
             self.map = map
-            self.steps = 0
+            self.steps = -1
             self.depthLimit = depthLimit
-            self.g = 0
+            self.g = -1
 
         def search(self):
             
@@ -33,12 +33,13 @@ def defineClass(_map_, start, goal,type, depthLimit=-1):
             # if there is still nodes to open
             while not self.frontier.isEmpty():
                 current = self.frontier.remove()
-                
+                self.steps += 1
+
                 # If Maximum depth is reached
                 if not self.depthLimit == -1 and self.depthLimit <= self.node[current]['g'] or np.array_equal(current,self.goal):
                     self.g = self.node[current]['g']
                     break
-                self.steps += 1
+                
 
                 # Start checking each node
                 for obj in self.get_neighbors(list(current)).items():   
