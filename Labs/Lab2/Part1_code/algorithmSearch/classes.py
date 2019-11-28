@@ -1,8 +1,9 @@
 import numpy as np
+from random import randint 
 import math
-from algorithmSearch.struct import Struct, RandomQueue, DFSQueue, Queue
+from algorithmSearch.struct import Struct, Queue
 
-class BFS(Struct,BFSQueue):
+class BFS(Struct,Queue):
     def __init__(self):
         super().__init__()
         self.frontier = Queue() 
@@ -13,67 +14,60 @@ class BFS(Struct,BFSQueue):
 class DFS(Struct,Queue):
     def __init__(self):
         super().__init__()
-        self.frontier = DFSQueue() 
+        self.frontier = Queue() 
 
     def cost_function(self, node, current):
-        return self.getNode(current)['cost'] +1 
+        return self.getNode(current)['cost'] -1
 
-class Random(Struct,RandomQueue):
+class Random(Struct,Queue):
     def __init__(self):
         super().__init__()
-        self.frontier = RandomQueue() 
+        self.frontier = Queue() 
 
     def cost_function(self, node, current):
-        return self.getNode(current)['cost'] +1 
+        return randint(1,100) 
 
 class Greedy_euc(Struct,Queue):
     def __init__(self):
         super().__init__()
         self.frontier = Queue() 
 
-    # greedy_euc_cost_function
     def cost_function(self,node, current):
         goal = self.goal
-        pos = node
-        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1]))
+        
+        return euclides(node,goal)
 
 class Greedy_man(Struct,Queue):
     def __init__(self):
         super().__init__()
         self.frontier = Queue() 
 
-    # greedy_man_cost_function
     def cost_function(self,node, current):
         goal = self.goal
-        pos = node
+        
 
-        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
-
-
+        return manhattan(node, goal)
 
 class Astar_euc(Struct,Queue):
     def __init__(self):
         super().__init__()
         self.frontier = Queue()
          
-    # AStar_euc_cost_function
     def cost_function(self,node, current):
         goal = self.goal
-        pos = node
-
-        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + self.getNode(current)['g']
+        
+        return euclides(node, goal) + self.getNode(current)['g']
 
 class Astar_man(Struct,Queue):
     def __init__(self):
         super().__init__()
         self.frontier = Queue() 
 
-    # AStar_man_cost_function
     def cost_function(self,node, current):
         goal = self.goal
-        pos = node
+        
 
-        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + self.getNode(current)['g']
+        return manhattan(node, goal) + self.getNode(current)['g']
 
 class Special(Struct,Queue):
     def __init__(self):
@@ -82,25 +76,32 @@ class Special(Struct,Queue):
         
     def cost_function(self, node, current):
         goal = self.goal
-        pos = node
+        
         top = self.map[1][0]
         bottom = self.map[1][1]
         xaxis = self.map[1][2]
 
         # If robot x is less than middle row, and robot between y axes
-        #print(pos[1], " and ", pos[0])
+        #print(node[1], " and ", node[0])
 
-        if pos[1] < xaxis and pos[1] > 3 and pos[0] < top and pos[0] > bottom:
+        if node[1] < xaxis and node[1] > 3 and node[0] < top and node[0] > bottom:
             #print("top:", abs(top - robot.start[0]), " bottom: ", abs(bottom - robot.start[0]))
             if abs(self.start[0]-top) <  abs(self.start[0]-bottom):
                 # GO top
-                con1 =  (xaxis - abs(pos[1] - xaxis))*10 + abs(self.start[0] - top) +abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
-                #print('Going top')
+                con1 =  (xaxis - abs(node[1] - xaxis))*10 + abs(self.start[0] - top) + manhattan(node, goal)
+
             else:
                 # go bottom
-                con1 =  (xaxis-abs(pos[1] - xaxis))*10 + abs(self.start[0] - bottom) + abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
-                #print('Going bot')
+                con1 =  (xaxis-abs(node[1] - xaxis))*10 + abs(self.start[0] - bottom) + manhattan(node, goal)
+             
 
         else:
-            con1 =  abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])
+            con1 =  manhattan(node, goal)
         return con1
+
+def manhattan(node, goal):
+    return abs(node[0]-goal[0]) + abs(node[1]-goal[1])
+
+
+def euclides(node, goal):
+    return math.sqrt((node[0]-goal[0])*(node[0]-goal[0]) + (node[1]-goal[1])*(node[1]-goal[1]))

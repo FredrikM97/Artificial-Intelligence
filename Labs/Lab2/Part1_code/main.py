@@ -25,15 +25,16 @@ def pathFunc(newMap, goal):
 # Add the searched area to the map
 def mapFunc(map, newMap):
     example_solved_map = copy.copy(map)
+    minValue = min([dick['cost'] for dick in newMap.values()])
     for keys in newMap.items():
-        if example_solved_map[keys[0][0],keys[0][1]] >=0:
-            example_solved_map[keys[0][0],keys[0][1]] = int(keys[1]['cost'])
+        if example_solved_map[keys[0][0],keys[0][1]] >=0: 
+            example_solved_map[keys[0][0],keys[0][1]] = int(keys[1]['cost'] - minValue)
     return example_solved_map
     
     
 def main():  
     # How much it expand before quitting, if -1 it will search until goal found
-    depthLimit = 400
+    depthLimit = 10000
     
     _map_ = pp.generateMap2d_obstacle([100,100])
     #_map_ = pp.generateMap2d([60,60])
@@ -51,6 +52,10 @@ def main():
     # Plot each algorithm
     for x in range(0,8):
         data = defineClass(_map_, start, goal, x, depthLimit)
+        if len(data[0]) == 0: 
+            print("Couldnt find path") 
+            continue
+        
         newMap = data[0][0]
         if data[0][1] == depthLimit: 
             print("Depth limit reached for", str(data[1]))

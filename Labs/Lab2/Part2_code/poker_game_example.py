@@ -130,29 +130,33 @@ Two agents will keep playing until one of them lose 100 coins or more.
 """
 from algorithmSearch.search import Search
 class simulation:
-    def __init__(self, MAX_HANDS=4, goal=100, rounds= 1, visualMode=False, algorithm=0, heuristic='big'):
+    def __init__(self, MAX_HANDS=4, goal=100, rounds= 1, visualMode=False, depthLimit = 20 , algorithm='BFS', strategy='MANY'):
         self.MAX_HANDS = MAX_HANDS
         self.INIT_AGENT_STACK = 400
         self.step_avg = 0
-        self.depth_avg = 0
+        self.pathLength_avg = 0
         self.rounds = rounds
         self.visualMode = visualMode
         self.algorithm = algorithm
-        self.heuristic = heuristic
+        self.strategy = strategy
         self.goal = goal
-        self.depthLimit = 40
+        self.depthLimit = depthLimit
+        self.winStreak = 0
 
     def run(self):
         for x in range(0, self.rounds):
             self.init()
             self.init_state.dealing_cards()
-            self.data = Search(self.init_state, self.algorithm, self.goal, self.heuristic, 
-            
-            self.depthLimit).search()
+            self.data = Search(self.init_state, \
+                                self.algorithm, \
+                                self.goal,      \
+                                self.strategy, \
+                                self.depthLimit \
+                                ).search()
+
             self.printGameInfo()
 
     def init(self):
-        self.nn_level = 0
         # initialize 2 agents and a game_state
         self.agent = PokerPlayer(current_hand_=None, stack_=self.INIT_AGENT_STACK, action_=None, action_value_=None)
         self.opponent = PokerPlayer(current_hand_=None, stack_=self.INIT_AGENT_STACK, action_=None, action_value_=None)
@@ -167,21 +171,19 @@ class simulation:
                             opponent_=self.opponent,
         )
 
-    def printGameInfo(self):
-        path = pathFunc(self.data.node, list(self.data.node)[-1])
-        
-        print('------------ print game info ---------------')
-        if not len(list(self.data.node)) == '0':
-            print("Agent won")
+    def printGameInfo(self):        
+        if not self.data == -1:
+            path = pathFunc(self.data.node, list(self.data.node)[-1])
             
             if self.visualMode: self.printGameStatistics(path)
             
             self.step_avg += self.data.steps
-            self.depth_avg +=self.data.g
-        else:
-            print("Agent lost")
-
+            self.pathLength_avg +=self.data.g
+            self.winStreak += 1
+        
     def printGameStatistics(self,path):
+        print('------------ print game info ---------------')
+        print("Agent won")
         for state in path:
             agent = state.agent
             opponent = state.opponent
@@ -190,16 +192,28 @@ class simulation:
             info = state.showdown_info
             hand = state.nn_current_hand
             phase = state.phase
+
             print("\n--- Agent ---")
             print("stack: ", agent.stack, "action: ", agent.action)
             print("\n---Opponent---")
             print("stack: ", opponent.stack, "action: ", opponent.action)
             print("pot: ",pot, "phase: ", phase)
-            self.nn_level += 1
 
 if __name__ == "__main__":
-    game = simulation(4,100, 10, False, 'A*', 'many')
-    game.run()
+    algs = ['BFS','DFS','RANDOM', 'GREEDY','A*']
+    heuristics = ['MANY', 'BIG']
 
-    print("---Statistics----")
-    print("Type: ", game.data.type, "\nDepth:", game.depth_avg/game.rounds,"\nAvg Expanded: ", game.step_avg/game.rounds)
+    print(f'Processing data...')
+
+    for heur in heuristics:
+        for type in algs:
+
+            game = simulation(4,100, 30, False, 20,type ,heur)
+            game.run()
+            
+            print("\n---Statistics----")
+            print(f'Type: {type} \
+            \nHeuristic: {heur} \
+            \nAvg path length: {game.pathLength_avg/game.rounds} \
+            \nAvg Expanded:  {game.step_avg/game.rounds} \
+            \nWins: {game.winStreak}/{game.rounds}')

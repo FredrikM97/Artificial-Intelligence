@@ -12,9 +12,9 @@ class heuristic:
         self.cost = 0
 
 class Search(Struct):
-    def __init__(self, init_states, type, goal,heuristic='big', depthLimit=-1):
+    def __init__(self, init_states, type, goal,strategy, depthLimit=80):
         super().__init__()
-        self.heuristic = heuristic
+        self.strategy = strategy
         self.initStates = init_states
         self.goal = goal # TO search for
         self.steps = 0
@@ -36,12 +36,15 @@ class Search(Struct):
             winnings = (current.agent.stack - current.opponent.stack)/2
             if winnings >= self.goal:
                 self.g = self.node[current]['g']
-                break
+                return self
             
             # If Maximum depth is reached skip state
-            if not self.depthLimit == -1 and self.depthLimit <= self.node[current]['g'] or current.nn_current_hand >= 4:
+            if self.node[current]['g'] > self.depthLimit or current.nn_current_hand >= 4:
                 continue
             
+
+            if self.type == "RANDOM" and self.steps > 10000:
+                break
 
             # Start checking each node
             for obj in self.get_neighbors(current):   
@@ -55,17 +58,18 @@ class Search(Struct):
                 # add next cell to open list
                 if not self.exists(obj):
                     self.frontier.add(obj, start.cost)
-
+                
                 # add to path
                 self.addNode(current,obj, start.cost, start.g) 
 
-        return self
+        return -1
         
-    # Added in order to decide if we want big pots or many bets
+    # Custom heuristics, default: many
     def get_heuristic(self,obj):
-        if self.heuristic == "big": ## Get the big pot
-            return -(obj.agent.stack + obj.pot)
-        return -obj.nn_current_bidding ## Get many biddings
+        if self.strategy == "MANY": ## Get many biddings
+            return -obj.nn_current_bidding  
+        return -(obj.agent.stack + obj.pot) ## Get the big pot
+        
 
     def get_neighbors(self, current):
         # Init state
@@ -77,10 +81,10 @@ class Search(Struct):
 
     def getAlgorithmType(self, cost):
         types = {
-            'BFS':cost.g,               #BFS
-            'DFS':-cost.g,              #DFS
-            'RANDOM':randint(0,100),    #Random
-            'GREEDY':cost.h,            #Greedy
-            'A*':cost.f                 #A*
+            'BFS':cost.g,               
+            'DFS':-cost.g,              
+            'RANDOM':randint(1,100),    
+            'GREEDY':cost.h,            
+            'A*':cost.f                
         }
         return types[self.type]

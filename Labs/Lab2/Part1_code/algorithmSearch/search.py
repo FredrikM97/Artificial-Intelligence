@@ -24,7 +24,6 @@ def defineClass(_map_, start, goal,type, depthLimit=-1):
             self.map = map
             self.steps = -1
             self.depthLimit = depthLimit
-            self.g = -1
 
         def search(self):
             
@@ -38,13 +37,11 @@ def defineClass(_map_, start, goal,type, depthLimit=-1):
 
                 # Goal reached
                 if np.array_equal(current,self.goal):
-                    self.g = self.node[current]['g']
-                    break
+                    return [self.node, self.node[current]['g'], self.steps]
                 
                 # If Maximum depth is reached skip state
                 if not self.depthLimit == -1 and self.depthLimit <= self.node[current]['g']:
                     continue
-                
 
                 # Start checking each node
                 for obj in self.get_neighbors(list(current)).items():   
@@ -58,7 +55,7 @@ def defineClass(_map_, start, goal,type, depthLimit=-1):
                     # add to path
                     self.addNode(current,obj[0], cost, self.node[current]['g'] + 1) 
                 
-            return [self.node, self.g, self.steps]
+            return []
 
         def get_neighbors(self,current):
             # Get the neighbors around
@@ -90,7 +87,5 @@ def defineClass(_map_, start, goal,type, depthLimit=-1):
                 map = self.map
             return map
 
-        def int2str(self,val1,val2):
-            return tuple([val1,val2])
 
     return [Search(_map_, start, goal, depthLimit).search(), accessable_classes[type].__name__]
