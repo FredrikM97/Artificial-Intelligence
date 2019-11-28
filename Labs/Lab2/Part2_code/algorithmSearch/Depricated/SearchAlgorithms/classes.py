@@ -1,16 +1,16 @@
 import numpy as np
 import math
-from algorithmSearch.struct import Struct, RandomQueue, DFSQueue, Queue
+from algorithmSearch.struct import Struct, BFSQueue, RandomQueue, DFSQueue, Queue
 
 class BFS(Struct,BFSQueue):
     def __init__(self):
         super().__init__()
-        self.frontier = Queue() 
+        self.frontier = BFSQueue() 
 
     def cost_function(self, node, current):
         return self.getNode(current)['cost'] +1 
 
-class DFS(Struct,Queue):
+class DFS(Struct,DFSQueue):
     def __init__(self):
         super().__init__()
         self.frontier = DFSQueue() 
@@ -35,7 +35,7 @@ class Greedy_euc(Struct,Queue):
     def cost_function(self,node, current):
         goal = self.goal
         pos = node
-        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1]))
+        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) +1
 
 class Greedy_man(Struct,Queue):
     def __init__(self):
@@ -61,7 +61,7 @@ class Astar_euc(Struct,Queue):
         goal = self.goal
         pos = node
 
-        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + self.getNode(current)['g']
+        return math.sqrt((pos[0]-goal[0])*(pos[0]-goal[0]) + (pos[1]-goal[1])*(pos[1]-goal[1])) + self.getNode(current)['cost']
 
 class Astar_man(Struct,Queue):
     def __init__(self):
@@ -73,7 +73,7 @@ class Astar_man(Struct,Queue):
         goal = self.goal
         pos = node
 
-        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + self.getNode(current)['g']
+        return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1]) + self.getNode(current)['cost']
 
 class Special(Struct,Queue):
     def __init__(self):
@@ -90,7 +90,7 @@ class Special(Struct,Queue):
         # If robot x is less than middle row, and robot between y axes
         #print(pos[1], " and ", pos[0])
 
-        if pos[1] < xaxis and pos[1] > 3 and pos[0] < top and pos[0] > bottom:
+        if pos[1] < xaxis and pos[0] < top and pos[0] > bottom:
             #print("top:", abs(top - robot.start[0]), " bottom: ", abs(bottom - robot.start[0]))
             if abs(self.start[0]-top) <  abs(self.start[0]-bottom):
                 # GO top

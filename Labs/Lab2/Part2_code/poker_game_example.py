@@ -1,37 +1,7 @@
 import poker_environment as pe_
 from poker_environment import AGENT_ACTIONS, BETTING_ACTIONS
+from player import PokerPlayer
 import copy
-
-"""
-Player class
-"""
-class PokerPlayer(object):
-    def __init__(self, current_hand_=None, stack_=300, action_=None, action_value_=None):
-        self.current_hand = current_hand_
-        self.current_hand_type = []
-        self.current_hand_strength = []
-        self.stack = stack_
-        self.action = action_
-        self.action_value = action_value_
-
-    """
-    identify agent hand and evaluate it's strength
-    """
-    def evaluate_hand(self):
-        self.current_hand_type = pe_.identify_hand(self.current_hand)
-        self.current_hand_strength = pe_.Types[self.current_hand_type[0]]*len(pe_.Ranks) + pe_.Ranks[self.current_hand_type[1]]
-
-    """
-    return possible actions, fold if there is not enough money...
-    """
-    def get_actions(self):
-        actions_ = []
-        for _action_ in AGENT_ACTIONS:
-            if _action_[:3] == 'BET' and int(_action_[3:])>=(self.stack):
-                actions_.append('FOLD')
-            else:
-                actions_.append(_action_)
-        return set(actions_)
 
 """
 Game State class
@@ -58,6 +28,11 @@ class GameState(object):
         self.agent = agent_
         self.opponent = opponent_
         self.showdown_info = None
+    # Needed to compare
+    def __lt__(self, other):
+        return 1
+    def __le__(self, other):
+        return 1
 
     """
     draw 10 cards randomly from a deck
@@ -138,224 +113,93 @@ class GameState(object):
         print('opponent.action_value',self.opponent.action_value)
         print('**************** end ******************')
 
-# copy given state in the argument
-def copy_state(game_state):
-    _state = copy.copy(game_state)
-    _state.agent = copy.copy(game_state.agent)
-    _state.opponent = copy.copy(game_state.opponent)
-    return _state
-
-"""
-successor function for generating next state(s)
-"""
-def get_next_states(last_state):
-
-    if last_state.phase == 'SHOWDOWN' or last_state.acting_agent == 'opponent' or last_state.phase == 'INIT_DEALING':
-
-        # NEW BETTING ROUND, AGENT ACT FIRST
-
-        states = []
-
-        for _action_ in last_state.agent.get_actions():
-
-            _state_ = copy_state(last_state)
-            _state_.acting_agent = 'agent'
-
-            if last_state.phase == 'SHOWDOWN' or last_state.phase == 'INIT_DEALING':
-                _state_.dealing_cards()
-
-            if _action_ == 'CALL':
-
-                _state_.phase = 'SHOWDOWN'
-                _state_.agent.action = _action_
-                _state_.agent.action_value = 5
-                _state_.agent.stack -= 5
-                _state_.pot += 5
-
-                _state_.showdown()
-
-                _state_.nn_current_hand += 1
-                _state_.nn_current_bidding = 0
-                _state_.pot = 0
-                _state_.parent_state = last_state
-                states.append(_state_)
-
-            elif _action_ == 'FOLD':
-
-                _state_.phase = 'SHOWDOWN'
-                _state_.agent.action = _action_
-                _state_.opponent.stack += _state_.pot
-
-                _state_.nn_current_hand += 1
-                _state_.nn_current_bidding = 0
-                _state_.pot = 0
-                _state_.parent_state = last_state
-                states.append(_state_)
-
-
-            elif _action_ in BETTING_ACTIONS:
-
-                _state_.phase = 'BIDDING'
-                _state_.agent.action = _action_
-                _state_.agent.action_value = int(_action_[3:])
-                _state_.agent.stack -= int(_action_[3:])
-                _state_.pot += int(_action_[3:])
-
-                _state_.nn_current_bidding += 1
-                _state_.parent_state = last_state
-                states.append(_state_)
-
-            else:
-
-                print('...unknown action...')
-                exit()
-
-        return states
-
-    elif last_state.phase == 'BIDDING' and last_state.acting_agent == 'agent':
-
-        states = []
-        _state_ = copy_state(last_state)
-        _state_.acting_agent = 'opponent'
-
-        opponent_action, opponent_action_value = pe_.poker_strategy_example(last_state.opponent.current_hand_type[0],
-                last_state.opponent.current_hand_type[1],
-                last_state.opponent.stack,
-                last_state.agent.action,
-                last_state.agent.action_value,
-                last_state.agent.stack,
-                last_state.pot,
-                last_state.nn_current_bidding)
-
-        if opponent_action =='CALL':
-
-            _state_.phase = 'SHOWDOWN'
-            _state_.opponent.action = opponent_action
-            _state_.opponent.action_value = 5
-            _state_.opponent.stack -= 5
-            _state_.pot += 5
-
-            _state_.showdown()
-
-            _state_.nn_current_hand += 1
-            _state_.nn_current_bidding = 0
-            _state_.pot = 0
-            _state_.parent_state = last_state
-            states.append(_state_)
-
-        elif opponent_action == 'FOLD':
-
-            _state_.phase = 'SHOWDOWN'
-
-            _state_.opponent.action = opponent_action
-            _state_.agent.stack += _state_.pot
-
-            _state_.nn_current_hand += 1
-            _state_.nn_current_bidding = 0
-            _state_.pot = 0
-            _state_.parent_state = last_state
-            states.append(_state_)
-
-        elif opponent_action + str(opponent_action_value) in BETTING_ACTIONS:
-
-            _state_.phase = 'BIDDING'
-
-            _state_.opponent.action = opponent_action
-            _state_.opponent.action_value = opponent_action_value
-            _state_.opponent.stack -= opponent_action_value
-            _state_.pot += opponent_action_value
-
-            _state_.nn_current_bidding += 1
-            _state_.parent_state = last_state
-            states.append(_state_)
-
-        else:
-            print('unknown_action')
-            exit()
-        return states
-
-'''
-    My cooooodeeee
-'''
-def search(__state, type, goal, depth, heuristic)
-
-
-def get_heuristic(state, heuristic):
-
-def get_prio(state, type):
-
-
-
+## Calculate the right path from goal to start
+def pathFunc(newMap, goal):
+    example_solved_path = []
+    node = newMap[goal]
+    cords = goal
+    while node['parent'] != None:
+        example_solved_path.insert(0, cords)
+        node = newMap[node['parent']]
+        cords = node['parent']
+    return example_solved_path
 
 """
 Game flow:
 Two agents will keep playing until one of them lose 100 coins or more.
 """
+from algorithmSearch.search import Search
+class simulation:
+    def __init__(self, MAX_HANDS=4, goal=100, rounds= 1, visualMode=False, algorithm=0, heuristic='big'):
+        self.MAX_HANDS = MAX_HANDS
+        self.INIT_AGENT_STACK = 400
+        self.step_avg = 0
+        self.depth_avg = 0
+        self.rounds = rounds
+        self.visualMode = visualMode
+        self.algorithm = algorithm
+        self.heuristic = heuristic
+        self.goal = goal
+        self.depthLimit = 40
 
-MAX_HANDS = 4
-INIT_AGENT_STACK = 400
+    def run(self):
+        for x in range(0, self.rounds):
+            self.init()
+            self.init_state.dealing_cards()
+            self.data = Search(self.init_state, self.algorithm, self.goal, self.heuristic, 
+            
+            self.depthLimit).search()
+            self.printGameInfo()
 
-# initialize 2 agents and a game_state
-agent = PokerPlayer(current_hand_=None, stack_=INIT_AGENT_STACK, action_=None, action_value_=None)
-opponent = PokerPlayer(current_hand_=None, stack_=INIT_AGENT_STACK, action_=None, action_value_=None)
-
-
-init_state = GameState(nn_current_hand_=0,
-                       nn_current_bidding_=0,
-                       phase_ = 'INIT_DEALING',
-                       pot_=0,
-                       acting_agent_=None,
-                       agent_=agent,
-                       opponent_=opponent,
-                       )
-
-
-init_state.dealing_cards()
-game_state_queue = []
-game_on = True
-round_init = True
-
-while game_on:
-
-    if round_init:
-        round_init = False
-        states_ = get_next_states(init_state)
-        game_state_queue.extend(states_[:])
-    else:
-
-        # just an example: only expanding the last return node
-        states_ = get_next_states(states_[-1])
-        game_state_queue.extend(states_[:])
-
-        for _state_ in states_:
-            if _state_.phase == 'SHOWDOWN' and (_state_.opponent.stack <= 300 or _state_.agent.stack <= 300 or _state_.MAX_HANDS >= 4):
-                    end_state_ = _state_
-                    game_on = False
+    def init(self):
+        self.nn_level = 0
+        # initialize 2 agents and a game_state
+        self.agent = PokerPlayer(current_hand_=None, stack_=self.INIT_AGENT_STACK, action_=None, action_value_=None)
+        self.opponent = PokerPlayer(current_hand_=None, stack_=self.INIT_AGENT_STACK, action_=None, action_value_=None)
 
 
-"""
-Printing game flow & info
-"""
+        self.init_state = GameState(nn_current_hand_=0,
+                            nn_current_bidding_=0,
+                            phase_ = 'INIT_DEALING',
+                            pot_=0,
+                            acting_agent_=None,
+                            agent_=self.agent,
+                            opponent_=self.opponent,
+        )
 
+    def printGameInfo(self):
+        path = pathFunc(self.data.node, list(self.data.node)[-1])
+        
+        print('------------ print game info ---------------')
+        if not len(list(self.data.node)) == '0':
+            print("Agent won")
+            
+            if self.visualMode: self.printGameStatistics(path)
+            
+            self.step_avg += self.data.steps
+            self.depth_avg +=self.data.g
+        else:
+            print("Agent lost")
 
-state__ = end_state_
-nn_level = 0
+    def printGameStatistics(self,path):
+        for state in path:
+            agent = state.agent
+            opponent = state.opponent
+            val = state.opponent.action_value
+            pot = state.pot
+            info = state.showdown_info
+            hand = state.nn_current_hand
+            phase = state.phase
+            print("\n--- Agent ---")
+            print("stack: ", agent.stack, "action: ", agent.action)
+            print("\n---Opponent---")
+            print("stack: ", opponent.stack, "action: ", opponent.action)
+            print("pot: ",pot, "phase: ", phase)
+            self.nn_level += 1
 
-print('------------ print game info ---------------')
-print('nn_states_total', len(game_state_queue))
+if __name__ == "__main__":
+    game = simulation(4,100, 10, False, 'A*', 'many')
+    game.run()
 
-while state__.parent_state != None:
-    nn_level += 1
-    print(nn_level)
-    state__.print_state_info()
-    state__ = state__.parent_state
-
-print(nn_level)
-
-
-"""
-Perform searches
-"""
-
-
-
+    print("---Statistics----")
+    print("Type: ", game.data.type, "\nDepth:", game.depth_avg/game.rounds,"\nAvg Expanded: ", game.step_avg/game.rounds)

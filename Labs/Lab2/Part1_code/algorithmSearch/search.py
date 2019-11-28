@@ -35,10 +35,15 @@ def defineClass(_map_, start, goal,type, depthLimit=-1):
                 current = self.frontier.remove()
                 self.steps += 1
 
-                # If Maximum depth is reached
-                if not self.depthLimit == -1 and self.depthLimit <= self.node[current]['g'] or np.array_equal(current,self.goal):
+
+                # Goal reached
+                if np.array_equal(current,self.goal):
                     self.g = self.node[current]['g']
                     break
+                
+                # If Maximum depth is reached skip state
+                if not self.depthLimit == -1 and self.depthLimit <= self.node[current]['g']:
+                    continue
                 
 
                 # Start checking each node
