@@ -1,5 +1,5 @@
-from poker_environment import AGENT_ACTIONS, BETTING_ACTIONS
-import poker_environment as pe_
+from game.poker_environment import AGENT_ACTIONS, BETTING_ACTIONS
+import game.poker_environment as pe_
 import copy
 # copy given state in the argument
 def copy_state(game_state):

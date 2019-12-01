@@ -14,19 +14,21 @@ output := report
 config := config
 # Directory for figures
 images := image
-
+# --extract-media=$(images)
+#--include-in-header $(config)/titlesec.tex 
+#--number-sections 
+#--top-level-division=section 
 doc:
 	sed 's/\///g' $(source).md | pandoc \
-		-V mainfont="DejaVu Sans" \
-		-V fontsize=11pt \
-		-V geometry:"top=1.5cm, bottom=2.5cm, left=1.5cm, right=1.5cm" \
-		-V geometry:a4paper \
+		--filter pandoc-citeproc --bibliography=refs.bib \
+		--csl $(config)/elsevier-vancouver.csl \
+		-V docomentclass=chapter \
+		--top-level-division=chapter \
+		-f markdown+smart  \
+		--standalone \
 		-V date=`date '+%F'` \
-		-V docomentclass=report \
-		--toc \
-		--number-sections \
-		--filter pandoc-citeproc --bibliography=refs.bib --csl $(config)/elsevier-vancouver.csl \
-		--include-in-header $(config)/titlesec.tex \
+		-V fontsize=11pt \
+		-V geometry:"top=0.5cm, bottom=2.5cm, left=1.5cm, right=1.5cm" \
 		--extract-media=$(images) \
 		-o $(output).pdf
 		
@@ -40,7 +42,6 @@ pres:
 	-V fonttheme=serif \
 	-V date=`date '+%F'` \
 	--filter pandoc-citeproc --bibliography=refs.bib --csl $(config)/elsevier-vancouver.csl \
-	--extract-media=$(images) \
 	-o $(output).pdf
 
 pres_debug:
@@ -53,7 +54,6 @@ pres_debug:
 	-V fonttheme=serif \
 	-V date=`date '+%F'` \
 	--filter pandoc-citeproc --bibliography=refs.bib --csl $(config)/elsevier-vancouver.csl \
-	--extract-media=$(images) \
 	-o $(output).pdf
 
 # Remove all pdf files

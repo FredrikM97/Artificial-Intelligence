@@ -26,7 +26,6 @@ class Search(Struct):
         
 
     def search(self):
-        start = heuristic()
         # if there is still nodes to open
         while not self.frontier.isEmpty():
             current = self.frontier.remove()
@@ -47,44 +46,49 @@ class Search(Struct):
                 break
 
             # Start checking each node
-            for obj in self.get_neighbors(current):   
-                #cost = self.cost_function(obj, current)
-                
-                start.g = self.node[current]['g'] + 1
-                start.h = self.get_heuristic(obj)
-                start.f = start.g + start.h
-                start.cost = self.getAlgorithmType(start)
+            for obj in self.get_neighbors(current): 
+
+                self.g = self.node[current]['g'] + 1
+                cost = self.getAlgorithmType(obj)
 
                 # add next cell to open list
                 if not self.exists(obj):
-                    self.frontier.add(obj, start.cost)
+                    self.frontier.add(obj, cost)
                 
                 # add to path
-                self.addNode(current,obj, start.cost, start.g) 
+                self.addNode(current,obj, cost, self.g) 
 
         return -1
         
-    # Custom heuristics, default: many
-    def get_heuristic(self,obj):
-        if self.strategy == "MANY": ## Get many biddings
-            return -obj.nn_current_bidding  
-        return -(obj.agent.stack + obj.pot) ## Get the big pot
+    # Custom heuristics (bonus part), default: many
+    # Manhattan and euclides is NOT implemented for the poker game - Added for future use
+    def get_heuristic(self,child):
+        strategy = {
+            'MANY':-child.nn_current_bidding,
+            'BIG':-(child.agent.stack + child.pot) ## Get the big pot
+            #'MANHATTAN':(abs(child[0]-self.goal[0]) + abs(child[1]-self.goal[1])), 
+            #'EUCLIDES':(((child[0]-self.goal[0])**2 + (child[1]-self.goal[1])**2)**(1/2))
+        }
+        if not self.strategy in strategy: return strategy['MANY']
+        return strategy[self.strategy]
         
 
-    def get_neighbors(self, current):
+    def get_neighbors(self, parent):
         # Init state
         if self.steps == 0:
             info = get_next_states(self.initStates)
         else:
-            info = get_next_states(current)
+            info = get_next_states(parent)
         return info
 
-    def getAlgorithmType(self, cost):
+    # Differen algorithms
+    def getAlgorithmType(self, child):
         types = {
-            'BFS':cost.g,               
-            'DFS':-cost.g,              
+            'BFS':self.g,               
+            'DFS':-self.g,              
             'RANDOM':randint(1,100),    
-            'GREEDY':cost.h,            
-            'A*':cost.f                
+            'GREEDY':self.get_heuristic(child),            
+            'A*':self.g + self.get_heuristic(child)              
         }
+
         return types[self.type]
