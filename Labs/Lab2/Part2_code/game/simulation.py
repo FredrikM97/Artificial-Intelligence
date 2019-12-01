@@ -55,20 +55,19 @@ class Simulation:
             self.winStreak += 1
         
     def printGameStatistics(self,path):
-        print('------------ print game info ---------------')
-        print("Agent won")
+        print(f'\n------------ print game info --------------- \
+        \nAgent won!')
+
         for state in path:
             agent = state.agent
             opponent = state.opponent
-            pot = state.pot
-            phase = state.phase
-
-            print("\n--- Agent ---")
-            print("stack: ", agent.stack, "action: ", agent.action)
-            print("\n---Opponent---")
-            print("stack: ", opponent.stack, "action: ", opponent.action)
-            print("pot: ",pot, "phase: ", phase)
-
+            print(f'\
+            \n--- Agent --- \
+            \nstack: {agent.stack}, action: {agent.action} \
+            \n--- Opponent --- \
+            \nstack; {opponent.stack}, action: {opponent.action} \
+            \nPot: {state.pot}, Phase: {state.phase}')
+        
     ## Calculate the right path from goal to start
     def pathFunc(self, newMap, goal):
         example_solved_path = []
