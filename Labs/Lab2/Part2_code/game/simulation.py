@@ -3,18 +3,19 @@ from algorithmSearch.search import Search
 from game.gameState import GameState
 
 class Simulation:
-    def __init__(self, MAX_HANDS=4, goal=100, rounds= 1, visualMode=False, depthLimit = 20 , algorithm='BFS', strategy='MANY'):
+    def __init__(self, MAX_HANDS=4, goal=100, rounds= 1, visualMode=False, depthLimit = 20 , algorithm='BFS'):
         self.MAX_HANDS = MAX_HANDS
         self.INIT_AGENT_STACK = 400
-        self.step_avg = 0
-        self.pathLength_avg = 0
-        self.rounds = rounds
+
         self.visualMode = visualMode
         self.algorithm = algorithm
-        self.strategy = strategy
-        self.goal = goal
         self.depthLimit = depthLimit
+        self.rounds = rounds
+        self.goal = goal
+
         self.winStreak = 0
+        self.step_avg = 0
+        self.pathLength_avg = 0
 
     def run(self):
         for x in range(0, self.rounds):
@@ -23,7 +24,6 @@ class Simulation:
             self.data = Search(self.init_state, \
                                 self.algorithm, \
                                 self.goal,      \
-                                self.strategy, \
                                 self.depthLimit \
                                 ).search()
 

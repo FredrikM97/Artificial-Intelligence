@@ -4,17 +4,9 @@ from .successor import get_next_states
 from random import randint
 from .struct import Queue, Struct
 
-class heuristic:
-    def __init__(self):
-        self.g = 0
-        self.h = 0
-        self.f = 0
-        self.cost = 0
-
 class Search(Struct):
-    def __init__(self, init_states, type, goal,strategy, depthLimit=80):
+    def __init__(self, init_states, type, goal, depthLimit=80):
         super().__init__()
-        self.strategy = strategy
         self.initStates = init_states
         self.goal = goal # TO search for
         self.steps = 0
@@ -59,19 +51,6 @@ class Search(Struct):
                 self.addNode(current,obj, cost, self.g) 
 
         return -1
-        
-    # Custom heuristics (bonus part), default: many
-    # Manhattan and euclides is NOT implemented for the poker game - Added for future use
-    def get_heuristic(self,child):
-        strategy = {
-            'MANY':-child.nn_current_bidding,
-            'BIG':-(child.agent.stack + child.pot) ## Get the big pot
-            #'MANHATTAN':(abs(child[0]-self.goal[0]) + abs(child[1]-self.goal[1])), 
-            #'EUCLIDES':(((child[0]-self.goal[0])**2 + (child[1]-self.goal[1])**2)**(1/2))
-        }
-        if not self.strategy in strategy: return strategy['MANY']
-        return strategy[self.strategy]
-        
 
     def get_neighbors(self, parent):
         # Init state
@@ -87,8 +66,10 @@ class Search(Struct):
             'BFS':self.g,               
             'DFS':-self.g,              
             'RANDOM':randint(1,100),    
-            'GREEDY':self.get_heuristic(child),            
-            'A*':self.g + self.get_heuristic(child)              
+            'GREEDY_MANY':-child.nn_current_bidding,    
+            'GREEDY_POT':-(child.agent.stack + child.pot),         
+            'A*_MANY':self.g - child.nn_current_bidding,
+            'A*_POT':self.g - (child.agent.stack + child.pot)      
         }
 
         return types[self.type]
