@@ -21,31 +21,24 @@ If $posX < x$ and $y1 > posY > y2$ then move to the left and multiply with a hug
 | Special          	| 144  	| 152   	|
 
 # Part 2 - Poker
-There is a few differences from the first part and part 2. The inheritances were reduced since an easier way to calculate each cost were found. However this cost a little more performance but not very noticable. In the table below we can see how the different algorithms perform. Interesting enough A* was the worst one with an extreme expanding followed by BFS while focusing on doing as many bets as possible. They all won even though a theory that Random would fail at least once. This could have been prevented since none of the algorithms are allowed to visit a node more than once. So if it is visited they cant visit it again. Limitations on depth, hand draw limitations and random step exists and once we find the goal we break and return the path. 
+There is a few differences from the first part and part 2. The inheritances were reduced since an easier way to calculate each cost were found. However this cost a little more performance but not very noticable. In the table below we can see how the different algorithms performs. Interesting enough A* was the worst one with an extreme expanding followed by DFS. They all won even though a theory that Random would fail at least once. This could have been prevented since none of the algorithms are allowed to visit a node more than once. So if it is visited they cant visit it again. Limitations on depth, hand draw limitations and random step exists and once we find the goal we break and return the path. 
 
-Two different heuristics were implemented as complement (bonus part): One works towards how many bets that have been done and the second how much money the agent have and the sum in the pot. The interesting about these tables is little the A* and greedy expands when searching for the biggest pot. However A* have a worse g value but greedy performs overall better. This test was done during 30 runs and the values are average of each parameter. By using the biggest pot we reduced the total expanded nodes from $173256.7$ to $33676.1$ 
+Two different heuristics were implemented as complement (bonus part): One works towards how many bets that have been done, as it was described in the lab and the second how much money the agent have and the sum in the pot. The interesting about these tables is little the A* and greedy expands when searching for the biggest pot. However A* have a worse g value but greedy performs overall better. This test was done during 30 runs and the values are average of each parameter.
 
-Using MANY as a heuristic the g value is lowered and performs overall better but the search space is higher. On the other hand BIG lowerest the search space but increases the g value
+Using MANY as a heuristic the g value is lowered and performs overall better but the search space is higher. On the other hand BIG lowerest the search space but with increased g value. 
 
 Using MANY as heurisic (default):
 
-| Type             	| g    	| Expanded nodes    | Win rate/rounds   |
-|------------------	|------	|--------------     |---------------    |
-| BFS              	| 10.3  | 28124.3  	        | $30/30$           |
-| DFS              	| 15.2 	| 1590.6  	        | $30/30$           |
-| Random           	| 14.9  | 680.6  	        | $30/30$           |
-| Greedy  	        | 17.3  | 421.2   	        | $30/30$           |
-| A*       	        | 10.8  | 142440 	        | $30/30$           |
+| Type             	| heuristic | g    	| Expanded nodes    | Win rate/rounds  |
+|------------------	|-----------|------	|--------------     |---------------   |
+| BFS              	| None      | 10.34 | 26294.42	        | 100\/100         |
+| DFS              	| None      | 19.69 | 109090.15         | 100\/100         |
+| Random           	| None      | 15.99 | 811.82  	        | 100\/100         |
+| Greedy  	        | MANY bids | 17.88 | 855.65   	        | 100\/100         |
+| Greedy  	        | BIG pot   | 16.89 | 49.31   	        | 100\/100         |
+| A*       	        | MANY bids | 10.52 | 130277.51 	    | 100\/100         |
+| A*       	        | BIG pot   | 16.41 | 47.83 	        | 100\/100         |
 
-Using BIG pot as heurisitc:
-
-| Type             	| g    	| Expanded nodes    | Win rate/rounds     |
-|-------------------|-------|---------------    |----------------     |
-| BFS              	| 10.4  | 30669.4  	        | $30/30$             |
-| DFS              	| 15.0 	| 1866.9 	        | $30/30$             |
-| Random           	| 16.4  | 860.7  	        | $30/30$             |
-| Greedy  	        | 15.2  | 89.8   	        | $30/30$             |
-| A*       	        | 15.9  | 79.3 	            | $30/30$             |
 
 # Appendix
 ![A\* with euclides heuristics](A*_euc.png){ width=50% }
