@@ -337,3 +337,44 @@ Full joint distribution
 # Lecture 8 (25/11-2019)
 Naive Bayes
 Bayesian networks
+
+# Lecture 9 (2/12-2019)
+Types of learning:
+* Deductive (learning from existing data)
+* Inductive (learning from experience)
+  
+Data mining:
+* Historical data to improve decisions
+
+    * Software engineering
+    * Self-customising program
+
+Inductive learning:
+* Supervised (Correct itself towards the answer)
+* Reinforced (Given feedback concerning the decision it makes)
+* Unsupervised (No feedback, need to search order and structure in environment)
+
+## Supervised learning
+
+Classification:
+* Learning categories
+* mark new items as interesting/uninteresting
+* Diagnose desease
+* "Place in buckets" - Not contingeous
+  
+Regression: 
+* Learning function values (generative model)
+* Numerical output
+* Future stoock market value
+
+Generalized function:
+* Works for multiple sets of data (ex: temperature in sweden and africa)
+Ockhams razor: Take the simplest hypothesis
+
+## Training algorithms
+Find-S algorithm: Find a generalised model
+List-Then-Eliminate Algorithm
+
+Version space
+
+
