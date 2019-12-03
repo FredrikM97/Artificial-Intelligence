@@ -360,12 +360,13 @@ Classification:
 * Learning categories
 * mark new items as interesting/uninteresting
 * Diagnose desease
-* "Place in buckets" - Not contingeous
+* "Place in buckets" -Discrete values
   
 Regression: 
 * Learning function values (generative model)
 * Numerical output
 * Future stoock market value
+* Continuous values
 
 Generalized function:
 * Works for multiple sets of data (ex: temperature in sweden and africa)
@@ -376,5 +377,18 @@ Find-S algorithm: Find a generalised model
 List-Then-Eliminate Algorithm
 
 Version space
+UNBIASED Learning: 
+* Use disjunctions, conjunctions, negations over attribute constraints
 
+Inductive Bias
+
+Decision tree:
+* Simplest
+* Advanced
+* True tree vs inductive tree
+
+PAC: Probability approximately correct:
+- Lower sample size $\rightarrow$ Higher chance for error
+Generalization error:
+* Unseen scenarios in training set
 
