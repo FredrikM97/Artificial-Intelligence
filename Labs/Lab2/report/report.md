@@ -9,7 +9,7 @@ toc: true
 The project is structured to inherit an cost function depending on class parameter into the search algorithm. According to the table below it is possible to see that BFS roughly as good in cost against A*. However the expanded nodes is greatly higher in DFS followed by Random. Conclusion is that DFS and Random is bad, BFS is good but compared to A* it is not good enough. However, Greedy search have the lowest expanded nodes next to Special but the path cost increases. Finally we can see that Special performs best in the matter of expanded nodes but due to its static path of avoidance it is not recommended for changing environments. Comparing the heuristics (Observe the images) we can see that manhattan performs better for both A* and Greedy with small margins in A*. However the gap between the expanded nodes is relative high. The special heuristics main target is to go where posX,posY that is the position current position and x, y1,y2 is the given positions of the obstacle. So the following is implemented:
 If $posX < x$ and $y1 > posY > y2$ then move to the left and multiply with a huge number so it wont go back into the obstacle. Then apply manhattan distance to start searching for the node.
 
-| Type             	| cost 	| Expanded nodes 	|
+| Type             	| Cost	| Expanded nodes 	|
 |------------------	|------	|-------	        |
 | BFS              	| 134  	| 4764  	        |
 | DFS              	| 1532 	| 7235  	        |
@@ -28,7 +28,7 @@ Two different heuristics were implemented including the bonus part: One works to
 Using MANY as a heuristic the cost is lowered and performs overall better to find optimal path but the search space is higher. On the other hand BIG lowerest the search space but with increased cost. 
 
 
-| Type             	| heuristic | Cost 	| Expanded nodes    | Win rate/rounds  |
+| Type             	| Heuristic | Cost 	| Expanded nodes    | Win rate/rounds  |
 |------------------	|-----------|------	|--------------     |---------------   |
 | BFS              	| None      | 10.35 | 27145.29	        | 100\/100         |
 | DFS              	| None      | 19.7  | 130546.25         | 100\/100         |
