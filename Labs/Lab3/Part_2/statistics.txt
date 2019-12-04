@@ -1,0 +1,35 @@
+Part 2:
+	Attempt1:
+	Created	Converged	Iteration Count	Log Likelihood		BIC
+	2019-12-04 16:34:01	True		2	-14747,1692447784	58537,5479098341
+
+
+	Attempt2:
+	Created	Converged	Iteration Count	Log Likelihood		BIC
+	2019-12-04 16:35:23	True		2	-14487,7577991444	368035,34175538
+
+
+	Attempt3:
+	Created	Converged	Iteration Count	Log Likelihood		BIC
+	2019-12-04 16:20:39	True		2	-14571,843681523	86392,4638696312
+
+
+	Attempt4 (Structural):
+	Created	Converged	Iteration Count	Log Likelihood		BIC
+	2019-12-04 16:22:08	True		2	-14090,5074716421	69959,3529455002
+
+	
+	Questions 2b:
+	1. p(Cause=Animal | Season=Autumn)=? 											| 22.57%
+	2. p(Season=Autumn | Cause=Animal)=?											| 0.54%
+	3. p(Season=Summer | Cause=Thunder)=?											| 1.06%
+	4. p(Outage duration=Otg ≤ 1 | Facility part = Ground cable pillar)=?			| 
+	5. p(Facility part=Ground cable pillar | Switchgear=H7, Cause=Fuse break)=?		|
+	6. p(Facility part=Ground feeder cable in ground|Cause=(Digging, Fabrication	|
+	fault), Switchgear=H7, Season=Summer)=?											|
+	7. p(Facility part=Ground feeder cable in ground | Cause=¬(Digging, Fabrication	|
+	fault), Switchgear=H7, Season=Summer)=?											|
+	8. p(Cause=Digging | Facility part = OH line, Switchgear=H7)=?					|
+	9. p(Facility part = Ground cable pillar | Outrage duration=Otg > 2=?			|	
+	10. p(Cause=Unknown | Y ear=bef ore2011)										|	
+	p(Cause=Unknown | Y ear=af ter2011) =?											|	
