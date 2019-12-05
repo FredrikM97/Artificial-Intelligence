@@ -20,16 +20,31 @@ Part 2:
 
 	
 	Questions 2b:
-	1. p(Cause=Animal | Season=Autumn)=? 											| 22.57%
-	2. p(Season=Autumn | Cause=Animal)=?											| 0.54%
-	3. p(Season=Summer | Cause=Thunder)=?											| 1.06%
-	4. p(Outage duration=Otg ≤ 1 | Facility part = Ground cable pillar)=?			| 
-	5. p(Facility part=Ground cable pillar | Switchgear=H7, Cause=Fuse break)=?		|
-	6. p(Facility part=Ground feeder cable in ground|Cause=(Digging, Fabrication	|
-	fault), Switchgear=H7, Season=Summer)=?											|
-	7. p(Facility part=Ground feeder cable in ground | Cause=¬(Digging, Fabrication	|
-	fault), Switchgear=H7, Season=Summer)=?											|
-	8. p(Cause=Digging | Facility part = OH line, Switchgear=H7)=?					|
-	9. p(Facility part = Ground cable pillar | Outrage duration=Otg > 2=?			|	
-	10. p(Cause=Unknown | Y ear=bef ore2011)										|	
-	p(Cause=Unknown | Y ear=af ter2011) =?											|	
+	1. p(Cause=Animal | Season=Autumn)=? 							| 0.81%
+	2. p(Season=Autumn | Cause=Animal)=?							| 33.64%
+	3. p(Season=Summer | Cause=Thunder)=?							| 75.33%
+	4. p(Outage duration=Otg ≤ 1 | Facility part = Ground cable pillar)=?			| 29.85%
+	5. p(Facility part=Ground cable pillar | Switchgear=H7, Cause=Fuse break)=?		| 81.79%
+	6. p(Facility part=Ground feeder cable in ground|Cause=(Digging, Fabrication		| 49.61%
+fault), Switchgear=H7, Season=Summer)=?								
+	7. p(Facility part=Ground feeder cable in ground | Cause=¬(Digging, Fabrication		| 27.08%
+	fault), Switchgear=H7, Season=Summer)=?							
+	8. p(Cause=Digging | Facility part = OH line, Switchgear=H7)=?				| 0.0%
+	9. p(Facility part = Ground cable pillar | Outrage duration=Otg > 2=?			|45.21%	
+	10. p(Cause=Unknown | Y ear=bef ore2011)						| 5.81%	
+	p(Cause=Unknown | Y ear=af ter2011) =?							| 2.36%	
+	
+	In your report, write 10 more of such examples with the corresponding probabilities
+	
+	1. p(Switchgear=H10 | Cause=Fuse break)							| 25.55%
+	2. p(Cause=Wind | Season=Winter)							| 1.83%
+	3. p(Facility=OH Line | Season=Winter, Cause=Traffic)					| 8.33%
+	4. p(Facility=OH Line | Cause=Rain, Season=Autumn)					| 8.33%
+	5. p(Facility=Primary substation | Cause=Rain, Season=Autumn)				| 8.33%
+	6. p(Outage Duration=Otg>2 | Cause=Overload)						| 18.69%
+	7. p(Outage Duration=Otg>2 | Cause=Animal)						| 44.22%
+	8. p(Outage Duration=Otg>2 | Cause=Animal, Season=Winter)				| 55.74%
+	8. p(Outage Duration=Otg>2 | Cause=Animal, Season=Spring)				| 0.22%
+	9  p(season=Winter | Outage Duration=Otg<=1, Cause=Digging)				| 0.02%
+	10. p(Cause=Thunder | switchgear=H8, Season=Summer )					| 2.86%
+	
