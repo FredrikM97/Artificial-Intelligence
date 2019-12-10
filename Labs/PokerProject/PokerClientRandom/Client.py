@@ -6,7 +6,7 @@ import ClientBase
 
 class RandomAgent():
     def __init__(self, name="Random", hand=[]):
-        self.PlayerName = name
+        self.name = name
         self.Chips = 0
         self.CurrentHand = hand
         self.Ante = 0
@@ -16,13 +16,6 @@ class RandomAgent():
         self.IP = '127.0.0.1'
         self.PORT = 5000
         self.BUFFER_SIZE = 1024
-
-    '''
-    * Gets the name of the player.
-    * @return  The name of the player as a single word without space. <code>null</code> is not a valid answer.
-    '''
-    def queryPlayerName(self):
-        return self.PlayerName
 
     '''
     * Called during the betting phases of the game when the player needs to decide what open
@@ -42,7 +35,7 @@ class RandomAgent():
         return {
             0: ClientBase.BettingAnswer.ACTION_CHECK,
             1: ClientBase.BettingAnswer.ACTION_ALLIN,
-        }.get(random.randint(0, 2), self.openAction())
+        }.get(random.randint(0, 2), openAction())
 
    
     '''
@@ -59,12 +52,12 @@ class RandomAgent():
                 return ClientBase.BettingAnswer.ACTION_RAISE,  (random.randint(0, 10) + _minimumAmountToRaiseTo) if _playersCurrentBet+ _playersRemainingChips + 10 > _minimumAmountToRaiseTo else _minimumAmountToRaiseTo
             else:
                 return ClientBase.BettingAnswer.ACTION_FOLD
-                
+    
         return {
             0: ClientBase.BettingAnswer.ACTION_FOLD,
             1: ClientBase.BettingAnswer.ACTION_ALLIN,
             2: ClientBase.BettingAnswer.ACTION_CALL if _playersCurrentBet + _playersRemainingChips > _maximumBet else ClientBase.BettingAnswer.ACTION_FOLD
-        }.get(random.randint(0, 3), self.agent.callRaise())
+        }.get(random.randint(0, 3), callRaise())
 
     '''
     * Strategy to throw cards
