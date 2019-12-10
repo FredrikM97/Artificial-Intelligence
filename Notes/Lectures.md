@@ -392,3 +392,20 @@ PAC: Probability approximately correct:
 Generalization error:
 * Unseen scenarios in training set
 
+# Lecture 10 (9/12-2019)
+McCulloch-Pitts model
+
+Perception learning:
+* Guaranteed to find solution in finite time, if solution exists
+* Cannt be generalized to more complex networks
+* Better to use gradient descent - Based on the formulation an error and differentiable functions
+
+When to stop learning using gradient descent:
+* When change becomes smaller than certain number
+* Validation data - "early stop"
+
+SVM (support vector machine)
+
+
+
+
