@@ -103,42 +103,43 @@ infoTablets = {
     'Round_result':infoRoundResult,
     'Player_Hand':infoPlayerHand
 }
-
-while True:
-    try:
-        # Get data
-        data = s.recv(agent.BUFFER_SIZE)
-        
-        # split string into fraction
-        MsgFractions = data.split()
-
-        # Check if message is empty
-        if len(MsgFractions) == 0:
-            continue
-
-        # No. of Msg
-        iMsg = iMsg + 1
-        # print('MsgFractions', data)
-
-        # Get Request type
-        MsgFractions = [msg.decode('utf-8') for msg in MsgFractions]
-        RequestType, *MsgFractions = MsgFractions
-        #print('CMD', RequestType)
-
-        kwarg = {
-            'agent':agent, 
-            'MsgFractions':MsgFractions,
-            }
-        print(RequestType,MsgFractions)
-        infoTablets[RequestType](MsgFractions, **kwarg)
+def runForest():
+    while True:
+        try:
+            # Get data
+            data = s.recv(agent.BUFFER_SIZE)
             
-    except socket.timeout:
-        break
+            # split string into fraction
+            MsgFractions = data.split()
 
-s.close()
+            # Check if message is empty
+            if len(MsgFractions) == 0:
+                continue
+
+            # No. of Msg
+            iMsg = iMsg + 1
+            # print('MsgFractions', data)
+
+            # Get Request type
+            MsgFractions = [msg.decode('utf-8') for msg in MsgFractions]
+            RequestType, *MsgFractions = MsgFractions
+            #print('CMD', RequestType)
+
+            kwarg = {
+                'agent':agent, 
+                'MsgFractions':MsgFractions,
+                }
+            print(RequestType,MsgFractions)
+            infoTablets[RequestType](MsgFractions, **kwarg)
+                
+        except socket.timeout:
+            break
+
+    s.close()
 
 
-
+if __name__ == "__main__":
+    runForest()
 
 
 
