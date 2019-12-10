@@ -12,7 +12,7 @@ iMsg = 0
 SIGNAL_ALIVE = '==================ALIVE======================'
 
 # Import the agent info
-agent = RandomAgent('')
+agent = RandomAgent('Why no namies')
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((agent.IP, agent.PORT))
@@ -40,30 +40,32 @@ def handle_Forced_Bet(agent=None, MsgFractions=None, *_, **kwargs):
         infoForcedBet(MsgFractions[1], MsgFractions[2])#TODO
         
 def handle_Open(agent=None, MsgFractions=None, *_, **kwargs):
-    minimumPotAfterOpen = int(MsgFractions[1]),
-    playersCurrentBet = int(MsgFractions[2]),
-    playerRemainingChips = int(MsgFractions[3]),
+    minimumPotAfterOpen = int(MsgFractions[1])
+    playersCurrentBet = int(MsgFractions[2])
+    playerRemainingChips = int(MsgFractions[3])
+
     tmp = agent.queryOpenAction(minimumPotAfterOpen, playersCurrentBet, playerRemainingChips)
     
     if isinstance( tmp, str ): # For check and All-in
-        s.send(tmp + "\n")
+        send_but_working(tmp)
     elif len(tmp) == 2: # For open
-        s.send(tmp[0] + ' ' + str(tmp[1]) + " \n")
+        send_but_working(tmp[0] + ' ' + str(tmp[1]))
 
     print(SIGNAL_ALIVE)
     print(agent.name + 'Action>', tmp)
 
 def handle_Call_or_Raise(agent=None, MsgFractions=None, *_, **kwargs):
-    maximumBet = int(MsgFractions[1]),
-    minimumAmountToRaiseTo = int(MsgFractions[2]),
-    playersCurrentBet = int(MsgFractions[3]),
-    playersRemainingChips = int(MsgFractions[4]),
+    maximumBet = int(MsgFractions[1])
+    minimumAmountToRaiseTo = int(MsgFractions[2])
+    playersCurrentBet = int(MsgFractions[3])
+    playersRemainingChips = int(MsgFractions[4])
+    
     tmp = agent.queryCallRaiseAction(maximumBet, minimumAmountToRaiseTo, playersCurrentBet, playersRemainingChips)
     
     if isinstance( tmp, str ): # For fold, all-in, call
-        s.send(tmp + "\n")
+        send_but_working(tmp)
     elif len(tmp) == 2: # For raise
-        s.send(tmp[0] + ' ' + str(tmp[1]) + " \n")
+        send_but_working(tmp[0] + ' ' + str(tmp[1]))
 
     print(SIGNAL_ALIVE)
     print(agent.name + 'Action>',  tmp)
@@ -78,7 +80,7 @@ def handle_Cards(agent=None, MsgFractions=None, *_, **kwargs):
       
 def handle_Draw(agent=None, *_, **kwargs):
     discardCards = agent.queryCardsToThrow(agent.CurrentHand)
-    s.send('Throws ' + discardCards + "\n")
+    send_but_working('Throws ' + discardCards)
     print(agent.name + ' Action>' + 'Throws ' + discardCards)
 
 infoTablets = {
@@ -103,46 +105,39 @@ infoTablets = {
     'Round_result':infoRoundResult,
     'Player_Hand':infoPlayerHand
 }
-def runForest():
-    while True:
-        try:
-            # Get data
-            data = s.recv(agent.BUFFER_SIZE)
+print("Starting game.. Waiting for server")
+while True:
+    try:
+        # Get data
+        data = s.recv(agent.BUFFER_SIZE)
+        
+        # split string into fraction
+        MsgFractions = data.split()
+
+        # Check if message is empty
+        if len(MsgFractions) == 0:
+            continue
+
+        # No. of Msg
+        iMsg = iMsg + 1
+        # print('MsgFractions', data)
+
+        # Get Request type
+        MsgFractions = [msg.decode('utf-8') for msg in MsgFractions]
+        RequestType, *MsgFractions = MsgFractions
+        #print('CMD', RequestType)
+
+        kwarg = {
+            'agent':agent, 
+            'MsgFractions':MsgFractions,
+            }
+        print(RequestType,MsgFractions)
+        infoTablets[RequestType](MsgFractions, **kwarg)
             
-            # split string into fraction
-            MsgFractions = data.split()
+    except socket.timeout:
+        break
 
-            # Check if message is empty
-            if len(MsgFractions) == 0:
-                continue
-
-            # No. of Msg
-            iMsg = iMsg + 1
-            # print('MsgFractions', data)
-
-            # Get Request type
-            MsgFractions = [msg.decode('utf-8') for msg in MsgFractions]
-            RequestType, *MsgFractions = MsgFractions
-            #print('CMD', RequestType)
-
-            kwarg = {
-                'agent':agent, 
-                'MsgFractions':MsgFractions,
-                }
-            print(RequestType,MsgFractions)
-            infoTablets[RequestType](MsgFractions, **kwarg)
-                
-        except socket.timeout:
-            break
-
-    s.close()
-
-
-if __name__ == "__main__":
-    runForest()
-
-
-
+s.close()
 
 
 
