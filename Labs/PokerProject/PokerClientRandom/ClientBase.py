@@ -1,6 +1,5 @@
 __author__ = 'fyt'
 
-
 class BettingAnswer:
     '''
     ACTION_OPEN = 0

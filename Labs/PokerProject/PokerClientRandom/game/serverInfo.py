@@ -2,15 +2,24 @@
 * Called when a new round begins.
 * @param round the round number (increased for each new round).
 '''
-def infoNewRound(msg):
+def infoResult(msg, **kwargs):
     #_nrTimeRaised = 0
-    _round, _ = msg
+    _playerName, _round, _chips, *_ = msg
+    print(f'{_playerName} lasted {_round} rounds. Final chips: {_chips}')
+
+'''
+* Called when a new round begins.
+* @param round the round number (increased for each new round).
+'''
+def infoNewRound(msg, **kwargs):
+    #_nrTimeRaised = 0
+    _round, *_ = msg
     print('Starting Round: ' + _round )
 
 '''
 * Called when the poker server informs that the game is completed.
 '''
-def infoGameOver(*_):
+def infoGameOver(*_, **kwargs):
     print('The game is over.')
 
 '''
@@ -18,32 +27,32 @@ def infoGameOver(*_):
 * @param playerName        the name of the player that opens.
 * @param openBet           the amount of chips the player has put into the pot.
 '''
-def infoPlayerOpen(msg):
-    _playerName, _openBet = msg
+def infoPlayerOpen(msg, **kwargs):
+    _playerName, _openBet, *_ = msg
     print("Player "+ _playerName + " opened, has put "+ _openBet +" chips into the pot.")
 
 '''
 * Called when a player checks.
 * @param playerName        the name of the player that checks.
 '''
-def infoPlayerCheck(msg):
-    _playerName, _ = msg
+def infoPlayerCheck(msg, **kwargs):
+    _playerName, *_ = msg
     print("Player "+ _playerName +" checked.")
 
 '''
 * Called when a player calls.
 * @param playerName        the name of the player that calls.
 '''
-def infoPlayerCall(msg):
-    _playerName, _ = msg
+def infoPlayerCall(msg, **kwargs):
+    _playerName, *_ = msg
     print("Player "+_playerName +" called.")
 
 '''
 * Called when a player folds.
 * @param playerName        the name of the player that folds.
 '''
-def infoPlayerFold(msg):
-    _playerName, _ = msg
+def infoPlayerFold(msg, **kwargs):
+    _playerName, *_ = msg
     print("Player "+ _playerName +" folded.")
 
 '''
@@ -51,8 +60,8 @@ def infoPlayerFold(msg):
 * @param playerName    the name of a player.
 * @param chips         the amount of chips the player has.
 '''
-def infoPlayerChips(msg):
-    _playerName, _chips = msg
+def infoPlayerChips(msg, **kwargs):
+    _playerName, _chips, *_ = msg
     print('The player ' + _playerName + ' has ' + _chips + 'chips')
 
 '''
@@ -60,8 +69,8 @@ def infoPlayerChips(msg):
 * @param playerName    the name of the player whose undisputed win is anounced.
 * @param winAmount     the amount of chips the player won.
 '''
-def infoRoundUndisputedWin(msg):
-    _playerName, _winAmount = msg
+def infoRoundUndisputedWin(msg, **kwargs):
+    _playerName, _winAmount, *_ = msg
     print("Player "+ _playerName +" won "+ _winAmount +" chips undisputed.")
 
 '''
@@ -69,8 +78,8 @@ def infoRoundUndisputedWin(msg):
 * @param playerName        the name of the player that goes all-in.
 * @param allInChipCount    the amount of chips the player has in the pot and goes all-in with.
 '''
-def infoPlayerAllIn(msg):
-    _playerName, _allInChipCount = msg
+def infoPlayerAllIn(msg, **kwargs):
+    _playerName, _allInChipCount, *_ = msg
     print("Player "+_playerName +" goes all-in with a pot of "+_allInChipCount+" chips.")
 
 '''
@@ -79,8 +88,8 @@ def infoPlayerAllIn(msg):
 * @param playerName    the name of the player whose win is anounced.
 * @param winAmount     the amount of chips the player won.
 '''
-def infoRoundResult(msg):
-    _playerName, _winAmount = msg
+def infoRoundResult(msg, **kwargs):
+    _playerName, _winAmount, *_ = msg
     print("Player "+ _playerName +" won " + _winAmount + " chips.")
 
 '''
@@ -88,8 +97,8 @@ def infoRoundResult(msg):
 * @param playerName        the name of the player whose hand is shown.
 * @param hand              the players hand.
 '''
-def infoPlayerHand(msg):
-    _playerName, _hand = msg
+def infoPlayerHand(msg, **kwargs):
+    _playerName, _hand, *_ = msg
     print("Player "+ _playerName +" hand " + str(_hand))
 
 '''
@@ -97,8 +106,8 @@ def infoPlayerHand(msg):
 * @param playerName        the name of the player that has exchanged cards.
 * @param cardCount         the number of cards exchanged.
 '''
-def infoPlayerDraw(msg):
-    _playerName, _cardCount = msg
+def infoPlayerDraw(msg, **kwargs):
+    _playerName, _cardCount, *_ = msg
     print("Player "+ _playerName + " exchanged "+ _cardCount +" cards.")
 
 '''
@@ -106,16 +115,16 @@ def infoPlayerDraw(msg):
 * @param playerName        the name of the player that raises.
 * @param amountRaisedTo    the amount of chips the player raised to.
 '''
-def infoPlayerRise(msg):
-    _playerName, _amountRaisedTo = msg
+def infoPlayerRise(msg, **kwargs):
+    _playerName, _amountRaisedTo, *_ = msg
     print("Player "+_playerName +" raised to "+ _amountRaisedTo+ " chips.")
 
 '''
 * Called when the ante has changed.
 * @param ante  the new value of the ante.
 '''
-def infoAnteChanged(msg):
-    _ante = msg
+def infoAnteChanged(msg, **kwargs):
+    _ante, *_ = msg
     print('The ante is: ' + _ante)
 
 '''
@@ -123,6 +132,6 @@ def infoAnteChanged(msg):
 * @param playerName    the name of the player forced to do the bet.
 * @param forcedBet     the number of chips forced to bet.
 '''
-def infoForcedBet(msg):
-    _playerName, _forcedBet = msg
+def infoForcedBet(msg, **kwargs):
+    _playerName, _forcedBet, *_ = msg
     print("Player "+ _playerName +" made a forced bet of "+ _forcedBet + " chips.")
