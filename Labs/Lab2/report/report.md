@@ -40,9 +40,9 @@ Using MANY as a heuristic the cost is lowered and performs overall better to fin
 
 
 # Appendix
-![A\* with euclides heuristics](A*_euc.png){ width=50% }
+![A\* with euclides heuristics](AStar_euc.png){ width=50% }
 
-![A\* with manhattan heuristics](A*_man.png){ width=50% }
+![A\* with manhattan heuristics](AStar_man.png){ width=50% }
 
 ![BFS\label{BFS}](BFS.png){ width=80% }
 
