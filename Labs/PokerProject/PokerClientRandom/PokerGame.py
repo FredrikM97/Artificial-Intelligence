@@ -20,25 +20,30 @@ s.connect((agent.IP, agent.PORT))
 def send_but_working(string): # use this when doing python 3+
     s.send(str.encode(string + '\n'))
 
+# Return agent name to Server
 def handle_name(*_, agent=None, **kwargs):
     send_but_working('Name ' + agent.name)
  
+# Get how much chips agent has, or print opponents chips
 def handle_Chips(agent=None, MsgFractions=None, *_, **kwargs):
     if MsgFractions[1] == agent.name:
         agent.Chips = int(MsgFractions[2])
     else:
         infoPlayerChips(MsgFractions[1], MsgFractions[2]) #TODO
 
+# Get Ante to agent, and print it
 def handle_Ante_Changed(agent=None, *_, **kwargs):
     agent.Ante = int(MsgFractions[1])
     infoAnteChanged(MsgFractions[1])#TODO
 
+# Force a bet if agents turn
 def handle_Forced_Bet(agent=None, MsgFractions=None, *_, **kwargs):
     if MsgFractions[1] == agent.name:
         agent.playersCurrentBet = agent.playersCurrentBet + int(MsgFractions[2])
     else:
         infoForcedBet(MsgFractions[1], MsgFractions[2])#TODO
-        
+
+# Open bet at beginning depending on Agent
 def handle_Open(agent=None, MsgFractions=None, *_, **kwargs):
     minimumPotAfterOpen = int(MsgFractions[1])
     playersCurrentBet = int(MsgFractions[2])
@@ -54,6 +59,7 @@ def handle_Open(agent=None, MsgFractions=None, *_, **kwargs):
     print(SIGNAL_ALIVE)
     print(agent.name + 'Action>', tmp)
 
+# Do a call or raise depending on Agent
 def handle_Call_or_Raise(agent=None, MsgFractions=None, *_, **kwargs):
     maximumBet = int(MsgFractions[1])
     minimumAmountToRaiseTo = int(MsgFractions[2])
@@ -69,7 +75,8 @@ def handle_Call_or_Raise(agent=None, MsgFractions=None, *_, **kwargs):
 
     print(SIGNAL_ALIVE)
     print(agent.name + 'Action>',  tmp)
-            
+
+# Give hand to agent
 def handle_Cards(agent=None, MsgFractions=None, *_, **kwargs):
     #infoCardsInHand(MsgFractions) # show info for hands
     agent.CurrentHand = []
@@ -77,7 +84,8 @@ def handle_Cards(agent=None, MsgFractions=None, *_, **kwargs):
         agent.CurrentHand.append(MsgFractions[ielem])
     infoPlayerHand(agent.name, agent.CurrentHand)
     #print('CurrentHand>', agent.CurrentHand)
-      
+
+# Throw agent hand   
 def handle_Draw(agent=None, *_, **kwargs):
     discardCards = agent.queryCardsToThrow(agent.CurrentHand)
     send_but_working('Throws ' + discardCards)
@@ -138,6 +146,9 @@ while True:
         break
 
 s.close()
-
-
-
+'''
+TODO:
+* Add value check of hand
+* What to bet, Fold, call
+* If to throw cards
+'''
