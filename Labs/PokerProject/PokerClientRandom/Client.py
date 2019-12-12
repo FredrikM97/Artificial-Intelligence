@@ -8,6 +8,7 @@ class Agent:
     def __init__(self, name, hand):
         self.name = name
         self.Chips = 0
+        self.currentBet = 0
         self.CurrentHand = hand
         self.Ante = 0
         self.playersCurrentBet = 0
