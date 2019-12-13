@@ -88,7 +88,6 @@ class client:
     ***** ACTIONS to server *****
     '''    
     def send_but_working(self,string): # use this when doing python 3+
-        print('Current phase:', self.phase, 'Message:',string)
         self.nextPhase()
         self.s.send(str.encode(string + '\n'))
         
@@ -189,8 +188,7 @@ class client:
             phase2set = self.guessPhase.__dict__['phase2set']
 
         # While not in current -> next
-        print('Type:',RequestType, "Phasor:",self.phase)
-        while RequestType not in phase2set[self.phase]:
+        while RequestType not in phase2set[self.phase] and RequestType not in phase2set[self.previousPhase()]:
             self.nextPhase()
             if self.hawkeye:
                 print("Request:", RequestType, 'Agent phase:', self.phase)
@@ -200,6 +198,12 @@ class client:
         self.phaseIndex += 1
         self.phaseIndex %= len(self.gameFlow)
         self.phase = self.gameFlow[self.phaseIndex]
+
+    def previousPhase(self):
+        prevPhaseIndex = self.phaseIndex + len(self.gameFlow)-1
+        prevPhaseIndex %= len(self.gameFlow)
+        return self.gameFlow[prevPhaseIndex]
+
 
     # Do action based on phase
     def guessAction(self, msg, agent=None, MsgFractions=[], **kwarg):

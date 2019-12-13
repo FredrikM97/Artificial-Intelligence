@@ -33,7 +33,9 @@ class Agent:
         raise NotImplementedError
     
     def bet(self,number):
-        assert number <= self.Chips
+        if issubclass(number.__class__, dict): 
+            print("Yaarr, you caught my arrow:",number)
+        #assert number <= self.Chips
         self.Chips -= number
         self.CurrentBet += number
    
@@ -128,8 +130,8 @@ class RandomAgent(Agent):
         args={'_maximumBet':_maximumBet,'_playersCurrentBet':_playersCurrentBet}
         if issubclass(action.__class__,str):
             switch[action](**args)  
-        else: 
-            switch[action[0]]({'bet':action[1],**args})
+        else:
+            switch[action[0]](bet=action[1], **args)
 
         return action
 
