@@ -298,3 +298,13 @@ TODO:
 * If to throw cards. also random
 * Threading working properly, std out is disabled by other threads while thread 1 runs
 '''
+'''
+TODO:
+* Wait before sending message (track of time)
+* Clean code - Bad structure 
+* Test demon-thread
+* Polling server for crash
+* Try to send correct message on proper request
+* Functions in agents for unknown actions (dont update agent values)
+* Check if we get better requests if opponents disconnect
+'''
