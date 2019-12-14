@@ -1,6 +1,6 @@
 #Empty
-__pycache__
-.vscode
-.idea
-.ipynb_checkpoints
-__MACOSX
+__pycache__/
+.vscode/
+.idea/
+.ipynb_checkpoints/
+__MACOSX/
