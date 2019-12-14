@@ -6,30 +6,23 @@ import random
 import ClientBase
 import time
 import sys, os
-from threading import Thread
+from threading import Thread, Timer
 
 from Client import RandomAgent
 from game.serverInfo import * 
 
+RESPONSE_DELAY = 1.5 # In seconds
 
 def main():
+    
+    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False),('Subject_4',False),('Subject_5',False)]
     print("Starting game.. Waiting for server")
-    # Make client1
-    myClient1 = client(RandomAgent('Subject1.0', ip='127.0.0.1',port=5000), True)
-    t1 = Thread(target=myClient1.run)
 
-    # Make client2
-    myClient2 = client(RandomAgent('Subject2.0', ip='127.0.0.2',port=5000), False)
-    t2 = Thread(target=myClient2.run)
-    
-    # Make client3
-    myClient3 = client(RandomAgent('Subject3.0', ip='127.0.0.3',port=5000), False)
-    t3 = Thread(target=myClient3.run)
-    
-    t1.start()
-    t2.start()
-    t3.start()
-
+    for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
+        c = client(RandomAgent(name, ip='127.0.0'+str(ip)), observe)
+        t = Thread(target=c.run)
+        t.start()
+        
 class client:
     def __init__(self, agent, hawkeye):
         # Connect agent
@@ -46,12 +39,13 @@ class client:
         self.iMsg = 0
         self.gameFlow = ['info','open','betting','draw','betting']
         self.phaseIndex = 0
+        self.response_thread = Timer(RESPONSE_DELAY, lambda:None)
 
     '''
     ***** Get data from server *****
     '''    
     # Get how much chips agent has, or print opponents chips
-    def handle_Chips(self, *_, agent=None, MsgFractions=[], **kwargs):
+    def handle_Chips_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
         if MsgFractions[0] == agent.name:
             agent.Chips = int(MsgFractions[1])
         else:
@@ -63,31 +57,31 @@ class client:
         infoAnteChanged(MsgFractions, **kwargs)
 
     # Get Raised to agent, and print it
-    def handle_Info_Raise(self, *_, agent=None, MsgFractions=[], **kwargs):
+    def handle_Raise_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
         oldmax = agent.maxBet
         agent.maxBet = int(MsgFractions[1])
         agent.minRaise = agent.maxBet - oldmax
         infoPlayerRise(MsgFractions, **kwargs)
 
     # Get open bet to agent, and print it
-    def handle_Info_Player_Open(self, *_, agent=None, MsgFractions=[], **kwargs):
+    def handle_Player_Open_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
         agent.maxBet = int(MsgFractions[1])
         agent.minRaise = 1
         infoPlayerOpen(MsgFractions, **kwargs)
 
     # Give hand to agent
-    def handle_Cards(self, *_, agent=None, MsgFractions=[], **kwargs):
+    def handle_Cards_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
         #infoCardsInHand(MsgFractions) # show info for hands
         agent.CurrentHand = []
         for ielem in MsgFractions: # never go full retard
             agent.CurrentHand.append(ielem)
         infoPlayerHand((agent.name, *MsgFractions), **kwargs)
-        #print('CurrentHand>', agent.CurrentHand)
 
     '''
     ***** ACTIONS to server *****
     '''    
     def send_but_working(self,string): # use this when doing python 3+
+        self.response_thread.cancel()
         self.nextPhase()
         self.s.send(str.encode(string + '\n'))
         
@@ -207,6 +201,11 @@ class client:
 
     # Do action based on phase
     def guessAction(self, msg, agent=None, MsgFractions=[], **kwarg):
+        # Is this an action phase?
+        if self.phase == 'info': # wrong phase
+            self.nextPhase()
+            print('Wong face!!')
+
         agent = self.agent if agent is None else agent # use local agent if none
         
         phase2action={
@@ -228,27 +227,39 @@ class client:
             'betting':[maximumBet, minimumAmountToRaiseTo, CurrentBet, playersRemainingChips],
             'draw':[]
         }
-
         phase2action[self.phase](agent=agent, MsgFractions=phase2msg[self.phase], **kwarg)
+    
+    def hourglass(self, *args, **kwargs):
+        global RESPONSE_DELAY
+        # if bomb defuse then make bomb
         
+        if self.response_thread.is_alive():
+            self.response_thread.cancel()
+            self.response_thread.join()
+
+        t = Timer(RESPONSE_DELAY, self.guessAction, args=args, kwargs=kwargs)
+        t.setDaemon(True)
+        t.start()
+        self.response_thread = t
+
     '''
     ***** Run *****
     ''' 
     def run(self):
         infoTablets = {
             'Name?':self.handle_name,
-            'Chips':self.handle_Chips,
+            'Chips':self.handle_Chips_Changed,
             'Ante_Changed':self.handle_Ante_Changed,
             'Forced_Bet':self.handle_Forced_Bet,
             'Open?':self.handle_Open,
             'Call/Raise?':self.handle_Call_or_Raise,
-            'Cards':self.handle_Cards,
+            'Cards':self.handle_Cards_Changed,
             'Draw?':self.handle_Draw,
             'Round':infoNewRound,
             'Game_Over':infoGameOver,
-            'Player_Open':self.handle_Info_Player_Open,
+            'Player_Open':self.handle_Player_Open_Changed,
             'Player_Check':infoPlayerCheck,
-            'Player_Raise':self.handle_Info_Raise,
+            'Player_Raise':self.handle_Raise_Changed,
             'Player_Call':infoPlayerCall,
             'Player_Fold':infoPlayerFold,
             'Player_All-in':infoPlayerAllIn,
@@ -257,7 +268,7 @@ class client:
             'Round_result':infoRoundResult,
             'Player_Hand':infoPlayerHand,
             'Result':infoResult,
-            'unknown_action':self.guessAction
+            'unknown_action':self.hourglass#self.guessAction#lambda *arg,**kwarg:None#
         }
 
         while True:
@@ -281,9 +292,9 @@ class client:
 
                 infoTablets[RequestType](MsgFractions, **kwarg)
                     
-            except socket.timeout:
+            except socket.timeout as evil:
                 #sys.stdout = sys.__stdout__ # Turn on prints
-                print(f'{self.agent.name} has commited soduko')
+                print(f'{self.agent.name} has commited soduko because {evil}')
                 break
 
         self.s.close()
@@ -302,9 +313,18 @@ TODO:
 TODO:
 * Wait before sending message (track of time)
 * Clean code - Bad structure 
-* Test demon-thread
+* Test daemon-thread
 * Polling server for crash
 * Try to send correct message on proper request
 * Functions in agents for unknown actions (dont update agent values)
 * Check if we get better requests if opponents disconnect
+'''
+
+'''
+Machine learning variables:
+    * Time: 
+    * Hand strength: Bad, ok, good
+    * Message count
+    * 
+
 '''
