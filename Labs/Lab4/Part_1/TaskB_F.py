@@ -9,6 +9,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import LinearRegression
+
+
 '''
 Task 1 “B”: Investigate different classification algorithms
 • Try 3 different classification algorithms from scikit-learn library. For this task, you are
@@ -31,6 +33,9 @@ def main():
    
     data = np.loadtxt(open('Part_1/Lab4Data.csv', "rb"), delimiter=";", skiprows=1)
     Train_set, Test_set = train_test_split(data, test_size=0.2)
+    data_params = np.reshape(['Acceleration''Gender','Age'	'LateralAcceleration','VehicleSpeed','GearChanges','EngineSpeed','FuelConsu,','Weight','DriverPerformance'], (-1,1))
+
+   
 
     Input_train = Train_set[:, :8]
     Target_train = Train_set[:, 9]
