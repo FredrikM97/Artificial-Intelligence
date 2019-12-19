@@ -31,13 +31,6 @@ def main():
     #Prediction/Correct Answer: {list(zip(classifier,target))}
     print(f"\nAccuracy: {accuracy(list(zip(classifier,target)))}%")
 
-    '''
-    TODO:
-    * Calculate accuracy
-    * Try to plot (Maybe not)
-    * 
-    '''
-
 def knn(train, test_row, k):
     distance = [(euclidean(test_row, train_row),train_row) for train_row in train]
     distance.sort()
