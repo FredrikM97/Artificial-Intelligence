@@ -9,6 +9,7 @@ Task 1 “C”: Parameter tuning
 neighbors and change the distance measurement method.
 '''
 def main():
+    np.set_printoptions(threshold=np.inf,suppress=True)
     k_list = list(range(1,15))
     metrics = [
         ('euclidean'),
@@ -16,11 +17,14 @@ def main():
         ('chebyshev'),
     ]
     
-    data = np.loadtxt(open('Lab4Data.csv', "rb"), delimiter=";", skiprows=1)
-
+    data = np.loadtxt(open('Part_1/Lab4Data.csv', "rb"), delimiter=";", skiprows=1)
+    
     np.random.seed(420)
     Train_set, Test_set = train_test_split(data, test_size=0.2)
-    
+  
+    ''' 
+    * Modify these two lines below if you want classification or regression
+    '''
     #inputLabels, targetLabels,classifiers = classification()
     inputLabels, targetLabels,classifiers = regression()
 
@@ -42,15 +46,16 @@ def main():
                 PredictedOutcome = model.predict(Input_test)
                 Number_of_Correct_Predictions = len([i for i, j in zip(PredictedOutcome, Target_test) if i == j])
                 accuracy = (Number_of_Correct_Predictions/float(len(PredictedOutcome)))*100
-                scores = cross_val_score(model, Input_train, Target_train, cv=5) # Cross validation
-                
-                statistics.append((k,metric, round(float(accuracy),2),scores))
+                validation = cross_val_score(model, Input_test, Target_test, cv=5) # Cross validation
+                validation_avg = sum(validation)/float(len(validation))*100 # Calculate average validation
+
+                statistics.append((k,metric,round(validation_avg,2)))
                 
 
 
         print("\nClassifier:",str(classifier.__name__))
-        for (neighboor, name, accuracy, scores) in sorted(statistics, key = lambda x: x[2], reverse=True):
-            print(name, ":", neighboor, ":",accuracy,"%", "Crossval:",scores)
+        for (neighboor, name, validation_avg) in sorted(statistics, key = lambda x: x[2], reverse=True):
+            print(name, ":", neighboor, ": Validation:",round(validation_avg,2),"%")
 
 def classification():
      # The target for classification is driver performance
@@ -62,8 +67,6 @@ def classification():
 
     return inputLabels, targetLabels,classifiers
     
-
-
 def regression():
     # The target for regression is FuelConsumption
     inputLabels = [0,1,2,3,4,5,6,8,9]

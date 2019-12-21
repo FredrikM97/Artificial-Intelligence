@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split,cross_val_score
 from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -21,13 +21,13 @@ allowed to use the available functions in scikit-learn library.
 Classification and regression is included
 '''
 def main():
-    
+    np.set_printoptions(threshold=np.inf,suppress=True)
    
-    data = np.loadtxt(open('Lab4Data.csv', "rb"), delimiter=";", skiprows=1)
+    data = np.loadtxt(open('Part_1/Lab4Data.csv', "rb"), delimiter=";", skiprows=1)
     Train_set, Test_set = train_test_split(data, test_size=0.2,)
    
-    #inputLabels, targetLabels,classifiers = classification()
-    inputLabels, targetLabels,classifiers = regression()
+    inputLabels, targetLabels,classifiers = classification()
+    #inputLabels, targetLabels,classifiers = regression()
    
     Input_train = normalizeData(Train_set[:, inputLabels])
     Target_train = Train_set[:, targetLabels]
@@ -40,7 +40,12 @@ def main():
         model = classy.fit(Input_train, Target_train)
         PredictedOutcome = model.predict(Input_test)
         Number_of_Correct_Predictions = len([i for i, j in zip(PredictedOutcome, Target_test) if i == j])
-        print('Type:',name,'Accuracy:', (Number_of_Correct_Predictions/float(len(PredictedOutcome)))*100,"%")
+
+        accuracy = (Number_of_Correct_Predictions/float(len(PredictedOutcome)))*100
+        validation = cross_val_score(model, Input_test, Target_test, cv=5) # Cross validation
+        validation_avg = sum(validation)/float(len(validation))*100 # Calculate average validation
+
+        print('Type:',name,"Validation:", round(validation_avg,2), "%")
 
 def classification():
      # The target for classification is driver performance

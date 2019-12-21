@@ -49,20 +49,7 @@ def main():
     print(f'Training: {len(train_set)} Testing: {len(test_set)}\n')
 
     singleRun(agents,classifiers, metrics,**kwarg)
-    #crossValidation(agents,metrics,k_list=10,**kwarg)
-
-    
-def singleRun(agents,classifiers, metrics,**kwarg):
-    '''
-    Task 2-B
-    * Start each process
-    '''
-    for agent in agents: # Create model for each agent
-        models = generateModel(agent,classifiers,**kwarg)
-        predictions = prediction(models, **kwarg)
-    
-        for classType, agent, validation_avg,_ in predictions:
-            print(f'{classType}, {agent}, Validation_avg: {round(validation_avg,2)}%')
+    crossValidation(agents,metrics,k_list=10,**kwarg)
 
 def preprocessing():
     '''
@@ -71,7 +58,7 @@ def preprocessing():
     * Return name_space 
     '''
 
-    data = np.loadtxt(open("pokerStatistic.csv", "rb"), delimiter=";", skiprows=1) 
+    data = np.loadtxt(open("Part_2/pokerStatistic.csv", "rb"), delimiter=";", skiprows=1) 
     inputLabels = list(range(0,29)) # Training label of p1 is included since we only try to predict p2
     p1_targetLabel=29
     p2_targetLabel=30
@@ -83,9 +70,9 @@ def preprocessing():
     Target_train_p1 = Train_set[:, p1_targetLabel] 
     Target_train_p2 = Train_set[:, p2_targetLabel]
 
-    Input_test = Train_set[:, inputLabels] # Should be Test_set
-    Target_test_p1 = Train_set[:, p1_targetLabel]
-    Target_test_p2 = Train_set[:, p2_targetLabel]
+    Input_test = Test_set[:, inputLabels] # Should be Test_set
+    Target_test_p1 = Test_set[:, p1_targetLabel]
+    Target_test_p2 = Test_set[:, p2_targetLabel]
 
     kwarg = {
         'Input_train':Input_train,
@@ -139,12 +126,26 @@ def prediction(
         predict = dataModel.predict(Input_test)
 
         correct_predict = len([i for i, j in zip(predict, Target_List[agent]) if i == j])
-        validation = cross_val_score(dataModel, Input_train, Target_List[agent], cv=10)
+        validation = cross_val_score(dataModel, Input_test, Target_List[agent], cv=10)
         accuracy = (correct_predict/float(len(predict)))*100
         validation_avg = sum(validation)/float(len(validation))*100 # Calculate average validation
 
         model_accuracy.append((Classtype, agent, validation_avg,accuracy))
     return model_accuracy
+
+def singleRun(agents,classifiers, metrics,**kwarg):
+    '''
+    Task 2-B
+    * Start each process
+    '''
+    statistics = []
+    for agent in agents: # Create model for each agent
+        models = generateModel(agent,classifiers,**kwarg)
+        predictions = prediction(models, **kwarg)
+        statistics.append(predictions)
+
+    for classType, agent, validation_avg,accuracy in sorted(statistics[0], key = lambda x: x[2], reverse=True):
+        print(f'{classType}, {agent}, Validation_avg: {round(validation_avg,2)}%')
 
 def crossValidation(
             agents,
@@ -183,8 +184,8 @@ def crossValidation(
 
     # Print data
     print(f'\n{classifiers[0][0]}')
-    for metric, k,classifiers, agent, val_avg, accuracy in statistics:
-        print(f'{agent}, {metric}, {k} Val: {round(val_avg,2)}%, Acc: {round(accuracy,2)}%')
+    for metric, k,classifiers, agent, val_avg, accuracy in sorted(statistics, key = lambda x: x[4], reverse=True):
+        print(f'{agent}, {metric}, {k}, Val: {round(val_avg,2)}%')
   
     print("\nBest score:", round(best_score['validation'],2),"%, k:",best_score['k'], "Metric:",best_score['metric'])
 
