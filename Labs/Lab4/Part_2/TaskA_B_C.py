@@ -29,12 +29,6 @@ INFO:
         Raise: 2, 
         Allin: 3
         NoData: -1 
-
-
-Columns: 
-
-Sample, p1HandCategory, p1HandRank, p1Coin, p1AvgRaise, p1RaiseRatio, p2HandCategory, p2HandRank, p2Coin, p2AvgRaise, p2RaiseRatio
-p1Action1, p1RaiseCoin1...
 '''
 def main():
     warnings.filterwarnings("ignore")
@@ -55,7 +49,7 @@ def main():
     print(f'Training: {len(train_set)} Testing: {len(test_set)}\n')
 
     singleRun(agents,classifiers, metrics,**kwarg)
-    crossValidation(agents,metrics,k_list=10,**kwarg)
+    #crossValidation(agents,metrics,k_list=10,**kwarg)
 
     
 def singleRun(agents,classifiers, metrics,**kwarg):
@@ -64,7 +58,7 @@ def singleRun(agents,classifiers, metrics,**kwarg):
     * Start each process
     '''
     for agent in agents: # Create model for each agent
-        models = generateModel(agents,classifiers,**kwarg)
+        models = generateModel(agent,classifiers,**kwarg)
         predictions = prediction(models, **kwarg)
     
         for classType, agent, validation_avg,_ in predictions:
@@ -142,7 +136,6 @@ def prediction(
     model_accuracy = []
     
     for Classtype, agent, dataModel in models:
-        
         predict = dataModel.predict(Input_test)
 
         correct_predict = len([i for i, j in zip(predict, Target_List[agent]) if i == j])
