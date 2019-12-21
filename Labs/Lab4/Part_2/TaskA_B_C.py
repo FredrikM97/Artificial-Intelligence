@@ -54,7 +54,7 @@ def main():
 
     print(f'Training: {len(train_set)} Testing: {len(test_set)}\n')
 
-    #singleRun(agents,classifiers, metrics,**kwarg)
+    singleRun(agents,classifiers, metrics,**kwarg)
     crossValidation(agents,metrics,k_list=10,**kwarg)
 
     
@@ -190,7 +190,6 @@ def crossValidation(
 
     # Print data
     print(f'\n{classifiers[0][0]}')
-    
     for metric, k,classifiers, agent, val_avg, accuracy in statistics:
         print(f'{agent}, {metric}, {k} Val: {round(val_avg,2)}%, Acc: {round(accuracy,2)}%')
   
