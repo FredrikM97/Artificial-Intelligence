@@ -20,16 +20,25 @@ regression model in your report.
 
 def main():
     # Load data
-    data = np.loadtxt(open('Part_1/Lab4Data.csv', "rb"), delimiter=";", skiprows=1)    
+    data = np.loadtxt(open('Lab4Data.csv', "rb"), delimiter=";", skiprows=1)    
     
     # Create training and test set
     Train_set, Test_set = train_test_split(data, test_size=0.2)
     
     # Training set, testset with amount of rows, K, change between 9 and 7
-    classifier = prediction(Train_set, Test_set,k=3, excel_pos=7,model_type=1)
-    target = [i for *_,i in Test_set]
-    #Prediction/Correct Answer: {list(zip(classifier,target))}
-    print(f"\nAccuracy: {accuracy(list(zip(classifier,target)))}%")
+    #classification(Train_set, Test_set,9)
+    regression(Train_set, Test_set,7)
+    
+
+def classification(Train_set, Test_set, targetCol):
+    classifier =  prediction(Train_set, Test_set,k=3, excel_pos=targetCol,model_type=0)
+    target = [i[targetCol] for i in Test_set]
+    print(f"\nAccuracy: {accuracy(list(zip(classifier,target)))*100}%")
+
+def regression(Train_set, Test_set,targetCol):
+    classifier = prediction(Train_set, Test_set,k=3, excel_pos=targetCol,model_type=1)
+    target = [i[targetCol] for i in Test_set]
+    print(f"\nAccuracy: {accuracy(list(zip(classifier,target)))*100}%")
 
 def knn(train, test_row, k):
     distance = [(euclidean(test_row, train_row),train_row) for train_row in train]
@@ -41,12 +50,14 @@ def prediction(train, test_set, k,excel_pos, model_type):
     for test_row in test_set:
         neighbors = knn(train, test_row, k)
         derp = [i[excel_pos] for i in neighbors] # Change to extract different columns
+
         classes.append(model(derp,model_type))
     return classes
 
 def accuracy(data):
     accuracy = 0 
     for guess,correct in data:
+        print('guess', guess, 'correct', correct)
         if guess == correct:
             accuracy += 1
     return accuracy/len(data)
