@@ -15,7 +15,7 @@ RESPONSE_DELAY = 1.5 # In seconds
 
 def main():
     
-    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False),('Subject_4',False),('Subject_5',False)]
+    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
     print("Starting game.. Waiting for server")
 
     for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
@@ -129,6 +129,7 @@ class client:
         discardCards = agent.queryCardsToThrow(agent.CurrentHand)
         self.send_but_working('Throws ' + discardCards)
         print(agent.name, 'Action:','Throws', discardCards)
+        
     '''
     *****  Guess current phase of server *****
     ''' 
@@ -277,7 +278,9 @@ class client:
                 if not data: break
                 MsgFractions = data.split() # split string into fraction
 
-                if len(MsgFractions) == 0: MsgFractions = [b'unknown_action']
+                if len(MsgFractions) == 0: 
+                    print("Data from server:",MsgFractions)
+                    MsgFractions = [b'unknown_action']
 
                 MsgFractions = [msg.decode('utf-8') for msg in MsgFractions] # Get Request type
                 RequestType, *MsgFractions = MsgFractions
