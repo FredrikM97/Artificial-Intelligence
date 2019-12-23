@@ -123,7 +123,7 @@ def prediction(
     model_accuracy = []
     
     for Classtype, agent, dataModel in models:
-        predict = dataModel.predict(Input_test)
+        predict = askPrediction(dataModel,Input_test)
 
         correct_predict = len([i for i, j in zip(predict, Target_List[agent]) if i == j])
         validation = cross_val_score(dataModel, Input_test, Target_List[agent], cv=10)
@@ -132,6 +132,9 @@ def prediction(
 
         model_accuracy.append((Classtype, agent, validation_avg,accuracy))
     return model_accuracy
+
+def askPrediction(dataModel,inputData):
+    return dataModel.predict(inputData)
 
 def singleRun(agents,classifiers, metrics,**kwarg):
     '''
@@ -172,14 +175,13 @@ def crossValidation(
                 models = generateModel(agent,classifiers,**kwarg)
                 predict = prediction(models,**kwarg)
 
+                ## Calculate the best one
                 if best_score['validation'] < predict[0][2]:
                     best_score['validation'] = predict[0][2] # Validation_Avg
                     best_score['k'] = k
                     best_score['metric'] = metric
                 
                 statistics.append((metric,k,*predict[0]))
-
-    ## Calculate the best one
     
 
     # Print data
