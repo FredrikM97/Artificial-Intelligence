@@ -146,7 +146,7 @@ class RandomAgent(Agent):
         print(_hand)
         return _hand[random.randint(0,4)] #+ ' '
 
-    def addGameStatus(self, player=None, action=None, data=None, **kwargs):
+    def addGameStatus(self, player=None, action=None, data=None, **kwarg):
         '''
         Add status of the game to gameStatus
         '''
@@ -157,17 +157,20 @@ class RandomAgent(Agent):
             'raise',
             'fold',
             'allin',
-            'hand'
         ]
         agentStates = { # Data not concerning opponents actions (this data may already exists )
             'round':self.newRound,
             'hand':self.setHand,
             'Chips':self.setChips
         }
-
+        opponentStates = [
+            'hand',
+            'chips'
+        ]
         '''
         * States
         '''    
+        print("Incomming action",action)
         if player == self.name and action in agentStates: # If data comes from agent
             agentStates[action](data)
 
@@ -176,7 +179,11 @@ class RandomAgent(Agent):
                 self.createOpponent(player)
                 
             if action in actions: # Add action to player if it exists
-                self.gameData[(self.round,player)][action].append((action, data))
+                self.gameData[(self.round,player)]['OpponentAction'].append((action, data))
+            elif action == 'hand':
+                self.gameData[(self.round,player)]['OpponentHand'] = data
+            elif action == 'chips':
+                self.gameData[(self.round,player)]['OpponentChips'] = data
 
 
     def newRound(self, round):
@@ -198,11 +205,11 @@ class RandomAgent(Agent):
         * Create a new player with the id of the round and player name
         '''
         self.gameData[(self.round,player)] = {  # Empty data
-                'Round':self.round, # Which round
-                'AgentHand':[], # Hour hand
-                'AgentChips':-1, # Our money
-                'OpponentCoin':-1, # How much money they have
-                'OpponentAction':[], 
-                'opponentHand':-1 # Opponents Hand
-            }
+            'round':self.round, # Which round
+            'Agenthand':[], # Hour hand
+            'AgentChips':-1, # Our money
+            'OpponentChips':-1, # How much money they have
+            'OpponentAction':[], 
+            'OpponentHand':[] # Opponents Hand
+        }
     

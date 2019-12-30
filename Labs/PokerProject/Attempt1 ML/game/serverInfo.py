@@ -100,7 +100,7 @@ def infoPlayerAllIn(msg, verbose=False, agent=None, **kwargs):
 * @param playerName    the name of a player.
 * @param chips         the amount of chips the player has.
 '''
-def infoPlayerChips(msg, verbose=False, agent=None, **kwargs):
+def infoPlayerChips(msg, verbose=False, agent=None,**kwargs):
     _playerName, _chips, *_ = msg
 
     agent.addGameStatus(player=_playerName, action='chips', data=_chips, **kwargs)
