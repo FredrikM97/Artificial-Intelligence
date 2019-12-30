@@ -11,6 +11,7 @@ class Agent:
         self.CurrentHand = []
         self.maxBet = 1
         self.minRaise = 1
+        self.gameData = [] # All info of opponents actions
 
     '''
     * Called during the betting phases of the game when the player needs to decide what open
