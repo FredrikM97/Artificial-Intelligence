@@ -252,9 +252,6 @@ class client:
             'Call/Raise?':self.handle_Call_or_Raise,
             'Cards':self.handle_Cards_Changed,
             'Draw?':self.handle_Draw,
-            '''
-            * Info below should go to agent for Machine learning
-            '''
             'Round':infoNewRound, # Parameter
             'Player_Open':self.handle_Player_Open_Changed, # Parameter
             'Player_Check':infoPlayerCheck, # Parameter
