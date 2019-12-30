@@ -187,19 +187,14 @@ class client:
             self.nextPhase()
             if self.hawkeye:
                 print("Request:", RequestType, 'Agent phase:', self.phase)
-
-    
     def nextPhase(self):
         self.phaseIndex += 1
         self.phaseIndex %= len(self.gameFlow)
         self.phase = self.gameFlow[self.phaseIndex]
-
     def previousPhase(self):
         prevPhaseIndex = self.phaseIndex + len(self.gameFlow)-1
         prevPhaseIndex %= len(self.gameFlow)
         return self.gameFlow[prevPhaseIndex]
-
-
     # Do action based on phase
     def guessAction(self, msg, agent=None, MsgFractions=[], **kwarg):
         # Is this an action phase?
@@ -229,7 +224,6 @@ class client:
             'draw':[]
         }
         phase2action[self.phase](agent=agent, MsgFractions=phase2msg[self.phase], **kwarg)
-    
     def hourglass(self, *args, **kwargs):
         global RESPONSE_DELAY
         # if bomb defuse then make bomb
@@ -242,8 +236,7 @@ class client:
         t.setDaemon(True)
         t.start()
         self.response_thread = t
-
-
+    
     '''
     ***** Run *****
     ''' 
@@ -257,19 +250,22 @@ class client:
             'Call/Raise?':self.handle_Call_or_Raise,
             'Cards':self.handle_Cards_Changed,
             'Draw?':self.handle_Draw,
-            'Round':infoNewRound,
-            'Game_Over':infoGameOver,
-            'Player_Open':self.handle_Player_Open_Changed,
-            'Player_Check':infoPlayerCheck,
-            'Player_Raise':self.handle_Raise_Changed,
-            'Player_Call':infoPlayerCall,
-            'Player_Fold':infoPlayerFold,
-            'Player_All-in':infoPlayerAllIn,
-            'Player_Draw':infoPlayerDraw,
-            'Round_Win_Undisputed':infoRoundUndisputedWin,
-            'Round_result':infoRoundResult,
-            'Player_Hand':infoPlayerHand,
+            '''
+            * Info below should go to agent for Machine learning
+            '''
+            'Round':infoNewRound, # Parameter
+            'Player_Open':self.handle_Player_Open_Changed, # Parameter
+            'Player_Check':infoPlayerCheck, # Parameter
+            'Player_Raise':self.handle_Raise_Changed, # Parameter
+            'Player_Call':infoPlayerCall, # Parameter
+            'Player_Fold':infoPlayerFold, # Parameter
+            'Player_All-in':infoPlayerAllIn, # Parameter
+            'Player_Hand':infoPlayerHand, 
+            'Player_Draw':infoPlayerDraw, 
+            'Round_Win_Undisputed':infoRoundUndisputedWin, # Target: Who won?
+            'Round_result':infoRoundResult, # Target: Who won?
             'Result':infoResult,
+            'Game_Over':infoGameOver, 
             'unknown_action':self.hourglass#self.guessAction#lambda *arg,**kwarg:None#
         }
 
