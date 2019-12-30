@@ -280,6 +280,7 @@ class client:
                 if len(MsgFractions) == 0: 
                     print("Data from server:",MsgFractions)
                     MsgFractions = [b'unknown_action']
+                    continue
 
                 MsgFractions = [msg.decode('utf-8') for msg in MsgFractions] # Get Request type
                 RequestType, *MsgFractions = MsgFractions
