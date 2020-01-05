@@ -1,6 +1,6 @@
 from deuces import Card, Evaluator# https://github.com/FredrikM97/deuces python3
 
-PATH = 'evolution/d2.txt'
+PATH = 'evolution/data/d4.txt'
 
 def main():
     print(miner(PATH))
