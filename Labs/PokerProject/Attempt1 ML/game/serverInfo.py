@@ -136,7 +136,6 @@ def infoRoundResult(msg, verbose=False, **kwargs):
 '''
 def infoPlayerHand(msg, verbose=False, agent=None, **kwargs):
     _playerName, *_hand = msg
-
     agent.addGameStatus(player=_playerName, action='hand', data=_hand, **kwargs)
     
     if verbose:
