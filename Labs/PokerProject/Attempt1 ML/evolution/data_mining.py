@@ -1,6 +1,6 @@
 from deuces import Card, Evaluator# https://github.com/FredrikM97/deuces python3
 
-PATH = 'evolution/d1.txt'
+PATH = 'evolution/d2.txt'
 
 def main():
     print(miner(PATH))
@@ -68,6 +68,8 @@ class miner:
     def evaluateHand(self,data:list):
         return Evaluator().evaluate([], [Card.new(x) for x in data[0:5]]) # Lower the better
     
+    def getPerspectronum(self):
+        pass
     def splitChips(self,data:str):
         _,name,info = data.split(' ')
         return name, info
@@ -115,7 +117,7 @@ class miner:
                 name = message[2]
                 id2player[player_id] = name
         return id2player
-        
+    
     def __str__(self):
         return '\n'.join([f'{key}:{value}' for key,value in self.players.items()])
 

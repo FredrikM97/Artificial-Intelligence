@@ -1,0 +1,1007 @@
+Starting poker server...
+...done
+Poker server: Starting...
+Poker server: Awaiting players...
+Poker server started.
+Local address: 0.0.0.0
+Public address: null
+Port: 5000
+Player #0 connected. Requesting player name.
+Sent message 'Name?' to player #0.
+Received message 'Name ReflexB' from player #0
+Connected player 'ReflexB' (client ID #0).
+Player #1 connected. Requesting player name.
+Sent message 'Name?' to player #1.
+Received message 'Name RandomA' from player #1
+Connected player 'RandomA' (client ID #1).
+Poker server: All players connected.
+Poker server: Round 1 started.
+Poker server: Sending current standing.
+Sent message 'Round 1' to all players.
+Sent message 'Chips ReflexB 200' to all players.
+Standing: ReflexB: 200 chips.
+Sent message 'Chips RandomA 200' to all players.
+Standing: RandomA: 200 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  Ac 8s Ad 3s 2d on hand.
+Sent message 'Cards Ac 8s Ad 3s 2d' to player #0.
+Sent message 'Cards Jh Ah 5c Jc 5d' to player #1.
+Hand: RandomA has  Jh Ah 5c Jc 5d on hand.
+Poker server: Forcing ante bets.
+Sent message 'Ante_Changed 10' to all players.
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Open? 11 10 190' to player #0.
+Received message 'Open 14 ' from player #0
+Received expected message from client #0. Message is 'Open 14 '.
+Maximum bet is 14, minimum raise is 4 (to 18).
+Sent message 'Player_Open ReflexB 14' to all players.
+Sent message 'Call/Raise? 14 18 10 190' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 14, minimum raise is 4 (to 18).
+Poker server: Betting round ended.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws 2d ' from player #0
+Received expected message from client #0. Message is 'Throws 2d '.
+Sent message 'Cards Ac 8s Ad 3s 2s' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws 5c ' from player #1
+Received expected message from client #1. Message is 'Throws 5c '.
+Poker server: Draw ended.
+Hand: ReflexB has  Ac 8s Ad 3s 2s on hand.
+Sent message 'Cards Jh Ah 9s Jc 5d' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Hand: RandomA has  Jh Ah 9s Jc 5d on hand.
+Poker server: Betting round started.
+Maximum bet is 14, minimum raise is 1 (to 15).
+Sent message 'Open? 15 14 186' to player #0.
+Received message 'Open 17 ' from player #0
+Received expected message from client #0. Message is 'Open 17 '.
+Maximum bet is 17, minimum raise is 3 (to 20).
+Sent message 'Player_Open ReflexB 17' to all players.
+Sent message 'Call/Raise? 17 20 14 186' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 17, minimum raise is 3 (to 20).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 17.
+Player RandomA: Status is 1, chips in pot is 14.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Player ReflexB won 31 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 31' to all players.
+Poker server: Round 2 started.
+Poker server: Sending current standing.
+Sent message 'Round 2' to all players.
+Sent message 'Chips ReflexB 214' to all players.
+Standing: ReflexB: 214 chips.
+Sent message 'Chips RandomA 186' to all players.
+Standing: RandomA: 186 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  3s 2h Jd Tc 7d on hand.
+Sent message 'Cards 3s 2h Jd Tc 7d' to player #0.
+Sent message 'Cards 4s 7h 8s Jc Ac' to player #1.
+Hand: RandomA has  4s 7h 8s Jc Ac on hand.
+Poker server: Forcing ante bets.
+Sent message 'Forced_Bet RandomA 10' to all players.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Open? 11 10 176' to player #1.
+Received message 'Open 12 ' from player #1
+Received expected message from client #1. Message is 'Open 12 '.
+Maximum bet is 12, minimum raise is 2 (to 14).
+Sent message 'Player_Open RandomA 12' to all players.
+Sent message 'Call/Raise? 12 14 10 204' to player #0.
+Received message 'Raise 14 ' from player #0
+Received expected message from client #0. Message is 'Raise 14 '.
+Maximum bet is 14, minimum raise is 2 (to 16).
+Sent message 'Player_Raise ReflexB 14' to all players.
+Sent message 'Call/Raise? 14 16 12 174' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 14, minimum raise is 2 (to 16).
+Poker server: Betting round ended.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #1.
+Received message 'Throws Jc ' from player #1
+Received expected message from client #1. Message is 'Throws Jc '.
+Sent message 'Cards 4s 7h 8s 9c Ac' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws Tc ' from player #0
+Received expected message from client #0. Message is 'Throws Tc '.
+Poker server: Draw ended.
+Hand: ReflexB has  3s 2h Jd 2d 7d on hand.
+Sent message 'Cards 3s 2h Jd 2d 7d' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Hand: RandomA has  4s 7h 8s 9c Ac on hand.
+Poker server: Betting round started.
+Maximum bet is 14, minimum raise is 1 (to 15).
+Sent message 'Open? 15 14 172' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 14, minimum raise is 1 (to 15).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 15 14 200' to player #0.
+Received message 'Open 20 ' from player #0
+Received expected message from client #0. Message is 'Open 20 '.
+Maximum bet is 20, minimum raise is 6 (to 26).
+Sent message 'Player_Open ReflexB 20' to all players.
+Sent message 'Call/Raise? 20 26 14 172' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 20, minimum raise is 6 (to 26).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 20.
+Player RandomA: Status is 1, chips in pot is 14.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Player ReflexB won 34 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 34' to all players.
+Poker server: Round 3 started.
+Poker server: Sending current standing.
+Sent message 'Round 3' to all players.
+Standing: ReflexB: 228 chips.
+Sent message 'Chips ReflexB 228' to all players.
+Sent message 'Chips RandomA 172' to all players.
+Standing: RandomA: 172 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  7d Kc As 4h Qd on hand.
+Sent message 'Cards 7d Kc As 4h Qd' to player #0.
+Sent message 'Cards 4c Qh 4d 7c Ah' to player #1.
+Hand: RandomA has  4c Qh 4d 7c Ah on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Open? 11 10 218' to player #0.
+Received message 'Open 13 ' from player #0
+Received expected message from client #0. Message is 'Open 13 '.
+Maximum bet is 13, minimum raise is 3 (to 16).
+Sent message 'Player_Open ReflexB 13' to all players.
+Sent message 'Call/Raise? 13 16 10 162' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 13, minimum raise is 3 (to 16).
+Poker server: Betting round ended.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Draw started...
+Poker server: Draw ended.
+Hand: ReflexB has  7d Kc As 4h Qd on hand.
+Hand: RandomA has  4c Qh 4d 7c Ah on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 13.
+Player RandomA: Status is 1, chips in pot is 10.
+Poker server: Player ReflexB won 23 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 23' to all players.
+Poker server: Round 4 started.
+Poker server: Sending current standing.
+Sent message 'Round 4' to all players.
+Standing: ReflexB: 238 chips.
+Sent message 'Chips ReflexB 238' to all players.
+Sent message 'Chips RandomA 162' to all players.
+Standing: RandomA: 162 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  3d Ad Kc 7s 3s on hand.
+Sent message 'Cards 3d Ad Kc 7s 3s' to player #0.
+Sent message 'Cards 3h 5c 3c 6c Qc' to player #1.
+Hand: RandomA has  3h 5c 3c 6c Qc on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Open? 11 10 152' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 11 10 228' to player #0.
+Received message 'Open 12 ' from player #0
+Received expected message from client #0. Message is 'Open 12 '.
+Maximum bet is 12, minimum raise is 2 (to 14).
+Sent message 'Player_Open ReflexB 12' to all players.
+Sent message 'Call/Raise? 12 14 10 152' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 12, minimum raise is 2 (to 14).
+Poker server: Betting round ended.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #1.
+Received message 'Throws 5c ' from player #1
+Received expected message from client #1. Message is 'Throws 5c '.
+Sent message 'Cards 3h Ks 3c 6c Qc' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws 3d ' from player #0
+Received expected message from client #0. Message is 'Throws 3d '.
+Poker server: Draw ended.
+Hand: ReflexB has  9d Ad Kc 7s 3s on hand.
+Sent message 'Cards 9d Ad Kc 7s 3s' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Hand: RandomA has  3h Ks 3c 6c Qc on hand.
+Poker server: Betting round started.
+Maximum bet is 12, minimum raise is 1 (to 13).
+Sent message 'Open? 13 12 150' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 12, minimum raise is 1 (to 13).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 13 12 226' to player #0.
+Received message 'Open 19 ' from player #0
+Received expected message from client #0. Message is 'Open 19 '.
+Maximum bet is 19, minimum raise is 7 (to 26).
+Sent message 'Player_Open ReflexB 19' to all players.
+Sent message 'Call/Raise? 19 26 12 150' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 19, minimum raise is 7 (to 26).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 19.
+Player RandomA: Status is 1, chips in pot is 12.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Player ReflexB won 31 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 31' to all players.
+Poker server: Round 5 started.
+Poker server: Sending current standing.
+Sent message 'Round 5' to all players.
+Sent message 'Chips ReflexB 250' to all players.
+Standing: ReflexB: 250 chips.
+Sent message 'Chips RandomA 150' to all players.
+Standing: RandomA: 150 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  Ac 6c 7s 5h Qd on hand.
+Sent message 'Cards Ac 6c 7s 5h Qd' to player #0.
+Sent message 'Cards Jc Th Td As 5s' to player #1.
+Hand: RandomA has  Jc Th Td As 5s on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Open? 11 10 240' to player #0.
+Received message 'Open 14 ' from player #0
+Received expected message from client #0. Message is 'Open 14 '.
+Maximum bet is 14, minimum raise is 4 (to 18).
+Sent message 'Player_Open ReflexB 14' to all players.
+Sent message 'Call/Raise? 14 18 10 140' to player #1.
+Received message 'Raise 27 ' from player #1
+Received expected message from client #1. Message is 'Raise 27 '.
+Maximum bet is 27, minimum raise is 13 (to 40).
+Sent message 'Player_Raise RandomA 27' to all players.
+Sent message 'Call/Raise? 27 40 14 236' to player #0.
+Received message 'Raise 40 ' from player #0
+Received expected message from client #0. Message is 'Raise 40 '.
+Maximum bet is 40, minimum raise is 13 (to 53).
+Sent message 'Player_Raise ReflexB 40' to all players.
+Sent message 'Call/Raise? 40 53 27 123' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 40, minimum raise is 13 (to 53).
+Poker server: Betting round ended.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws 7s ' from player #0
+Received expected message from client #0. Message is 'Throws 7s '.
+Sent message 'Cards Ac 6c Ts 5h Qd' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws 5s ' from player #1
+Received expected message from client #1. Message is 'Throws 5s '.
+Poker server: Draw ended.
+Hand: ReflexB has  Ac 6c Ts 5h Qd on hand.
+Sent message 'Cards Jc Th Td As 2c' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Hand: RandomA has  Jc Th Td As 2c on hand.
+Poker server: Betting round started.
+Maximum bet is 40, minimum raise is 1 (to 41).
+Sent message 'Open? 41 40 210' to player #0.
+Received message 'Open 41 ' from player #0
+Received expected message from client #0. Message is 'Open 41 '.
+Maximum bet is 41, minimum raise is 1 (to 42).
+Sent message 'Player_Open ReflexB 41' to all players.
+Sent message 'Call/Raise? 41 42 40 110' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 41, minimum raise is 1 (to 42).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 41.
+Player RandomA: Status is 1, chips in pot is 40.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Player ReflexB won 81 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 81' to all players.
+Poker server: Round 6 started.
+Poker server: Sending current standing.
+Sent message 'Round 6' to all players.
+Sent message 'Chips ReflexB 290' to all players.
+Standing: ReflexB: 290 chips.
+Sent message 'Chips RandomA 110' to all players.
+Standing: RandomA: 110 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  Th Ad 7h Kc 8c on hand.
+Sent message 'Cards Th Ad 7h Kc 8c' to player #0.
+Sent message 'Cards 6c 4s Jd 4c As' to player #1.
+Hand: RandomA has  6c 4s Jd 4c As on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Open? 11 10 100' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 11 10 280' to player #0.
+Received message 'Open 13 ' from player #0
+Received expected message from client #0. Message is 'Open 13 '.
+Maximum bet is 13, minimum raise is 3 (to 16).
+Sent message 'Player_Open ReflexB 13' to all players.
+Sent message 'Call/Raise? 13 16 10 100' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 13, minimum raise is 3 (to 16).
+Poker server: Betting round ended.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #1.
+Received message 'Throws 4c ' from player #1
+Received expected message from client #1. Message is 'Throws 4c '.
+Sent message 'Cards 6c 4s Jd 7s As' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws Th ' from player #0
+Received expected message from client #0. Message is 'Throws Th '.
+Poker server: Draw ended.
+Hand: ReflexB has  5s Ad 7h Kc 8c on hand.
+Sent message 'Cards 5s Ad 7h Kc 8c' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Hand: RandomA has  6c 4s Jd 7s As on hand.
+Poker server: Betting round started.
+Maximum bet is 13, minimum raise is 1 (to 14).
+Sent message 'Open? 14 13 97' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 13, minimum raise is 1 (to 14).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 14 13 277' to player #0.
+Received message 'Open 21 ' from player #0
+Received expected message from client #0. Message is 'Open 21 '.
+Maximum bet is 21, minimum raise is 8 (to 29).
+Sent message 'Player_Open ReflexB 21' to all players.
+Sent message 'Call/Raise? 21 29 13 97' to player #1.
+Received message 'Raise 34 ' from player #1
+Received expected message from client #1. Message is 'Raise 34 '.
+Maximum bet is 34, minimum raise is 13 (to 47).
+Sent message 'Player_Raise RandomA 34' to all players.
+Sent message 'Call/Raise? 34 47 21 269' to player #0.
+Received message 'Raise 53 ' from player #0
+Received expected message from client #0. Message is 'Raise 53 '.
+Maximum bet is 53, minimum raise is 19 (to 72).
+Sent message 'Player_Raise ReflexB 53' to all players.
+Sent message 'Call/Raise? 53 72 34 76' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 53, minimum raise is 19 (to 72).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 53.
+Player RandomA: Status is 0, chips in pot is 53.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Pot data: 2 player(s), 53 chips/player, 2 winner(s).
+Sent message 'Player_Hand ReflexB 5s Ad 7h Kc 8c' to all players.
+Sent message 'Player_Hand RandomA 6c 4s Jd 7s As' to all players.
+Poker server: Player ReflexB won 53 chips.
+Sent message 'Round_result ReflexB 53' to all players.
+Poker server: Player RandomA won 53 chips.
+Poker server: Showdown ended.
+Sent message 'Round_result RandomA 53' to all players.
+Poker server: Round 7 started.
+Poker server: Sending current standing.
+Sent message 'Round 7' to all players.
+Sent message 'Chips ReflexB 290' to all players.
+Standing: ReflexB: 290 chips.
+Sent message 'Chips RandomA 110' to all players.
+Standing: RandomA: 110 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  Ac 7h 5h Qd Kc on hand.
+Sent message 'Cards Ac 7h 5h Qd Kc' to player #0.
+Sent message 'Cards 6c Jd 4c Th 2h' to player #1.
+Hand: RandomA has  6c Jd 4c Th 2h on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Open? 11 10 280' to player #0.
+Received message 'Open 11 ' from player #0
+Received expected message from client #0. Message is 'Open 11 '.
+Maximum bet is 11, minimum raise is 1 (to 12).
+Sent message 'Player_Open ReflexB 11' to all players.
+Sent message 'Call/Raise? 11 12 10 100' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 11, minimum raise is 1 (to 12).
+Poker server: Betting round ended.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws 5h ' from player #0
+Received expected message from client #0. Message is 'Throws 5h '.
+Sent message 'Cards Ac 7h 4d Qd Kc' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws Jd ' from player #1
+Received expected message from client #1. Message is 'Throws Jd '.
+Poker server: Draw ended.
+Hand: ReflexB has  Ac 7h 4d Qd Kc on hand.
+Sent message 'Cards 6c 9c 4c Th 2h' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Hand: RandomA has  6c 9c 4c Th 2h on hand.
+Poker server: Betting round started.
+Maximum bet is 11, minimum raise is 1 (to 12).
+Sent message 'Open? 12 11 279' to player #0.
+Received message 'Open 14 ' from player #0
+Received expected message from client #0. Message is 'Open 14 '.
+Maximum bet is 14, minimum raise is 3 (to 17).
+Sent message 'Player_Open ReflexB 14' to all players.
+Sent message 'Call/Raise? 14 17 11 99' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 14, minimum raise is 3 (to 17).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 14.
+Player RandomA: Status is 1, chips in pot is 11.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Player ReflexB won 25 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 25' to all players.
+Poker server: Round 8 started.
+Poker server: Sending current standing.
+Sent message 'Round 8' to all players.
+Standing: ReflexB: 301 chips.
+Sent message 'Chips ReflexB 301' to all players.
+Sent message 'Chips RandomA 99' to all players.
+Standing: RandomA: 99 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  Kc Tc Ah 2c 3h on hand.
+Sent message 'Cards Kc Tc Ah 2c 3h' to player #0.
+Sent message 'Cards 9c 2h Ts Jc 6h' to player #1.
+Hand: RandomA has  9c 2h Ts Jc 6h on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Open? 11 10 89' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 11 10 291' to player #0.
+Received message 'Open 19 ' from player #0
+Received expected message from client #0. Message is 'Open 19 '.
+Maximum bet is 19, minimum raise is 9 (to 28).
+Sent message 'Player_Open ReflexB 19' to all players.
+Sent message 'Call/Raise? 19 28 10 89' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 19, minimum raise is 9 (to 28).
+Poker server: Betting round ended.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Draw started...
+Poker server: Draw ended.
+Hand: ReflexB has  Kc Tc Ah 2c 3h on hand.
+Hand: RandomA has  9c 2h Ts Jc 6h on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 19.
+Player RandomA: Status is 1, chips in pot is 10.
+Poker server: Player ReflexB won 29 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 29' to all players.
+Poker server: Round 9 started.
+Poker server: Sending current standing.
+Sent message 'Round 9' to all players.
+Sent message 'Chips ReflexB 311' to all players.
+Standing: ReflexB: 311 chips.
+Sent message 'Chips RandomA 89' to all players.
+Standing: RandomA: 89 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  3c 8s Ac 9d Ah on hand.
+Sent message 'Cards 3c 8s Ac 9d Ah' to player #0.
+Sent message 'Cards Td 4h 3s 7c 7h' to player #1.
+Hand: RandomA has  Td 4h 3s 7c 7h on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Open? 11 10 301' to player #0.
+Received message 'Open 18 ' from player #0
+Received expected message from client #0. Message is 'Open 18 '.
+Maximum bet is 18, minimum raise is 8 (to 26).
+Sent message 'Player_Open ReflexB 18' to all players.
+Sent message 'Call/Raise? 18 26 10 79' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 18, minimum raise is 8 (to 26).
+Poker server: Betting round ended.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Draw started...
+Poker server: Draw ended.
+Hand: ReflexB has  3c 8s Ac 9d Ah on hand.
+Hand: RandomA has  Td 4h 3s 7c 7h on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 18.
+Player RandomA: Status is 1, chips in pot is 10.
+Poker server: Player ReflexB won 28 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 28' to all players.
+Poker server: Round 10 started.
+Sent message 'Round 10' to all players.
+Poker server: Sending current standing.
+Standing: ReflexB: 321 chips.
+Sent message 'Chips ReflexB 321' to all players.
+Sent message 'Chips RandomA 79' to all players.
+Standing: RandomA: 79 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  9h Kh 9d Ac 4h on hand.
+Sent message 'Cards 9h Kh 9d Ac 4h' to player #0.
+Sent message 'Cards 2s As 5h 3d Qd' to player #1.
+Hand: RandomA has  2s As 5h 3d Qd on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet RandomA 10' to all players.
+Sent message 'Forced_Bet ReflexB 10' to all players.
+Sent message 'Open? 11 10 69' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 11 10 311' to player #0.
+Received message 'Open 12 ' from player #0
+Received expected message from client #0. Message is 'Open 12 '.
+Sent message 'Player_Open ReflexB 12' to all players.
+Maximum bet is 12, minimum raise is 2 (to 14).
+Sent message 'Call/Raise? 12 14 10 69' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 12, minimum raise is 2 (to 14).
+Poker server: Betting round ended.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Draw started...
+Poker server: Draw ended.
+Hand: ReflexB has  9h Kh 9d Ac 4h on hand.
+Hand: RandomA has  2s As 5h 3d Qd on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 12.
+Player RandomA: Status is 1, chips in pot is 10.
+Poker server: Player ReflexB won 22 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 22' to all players.
+Poker server: Round 11 started.
+Poker server: Sending current standing.
+Sent message 'Round 11' to all players.
+Standing: ReflexB: 331 chips.
+Sent message 'Chips ReflexB 331' to all players.
+Sent message 'Chips RandomA 69' to all players.
+Standing: RandomA: 69 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  Jc 7s Qs 7d Ts on hand.
+Sent message 'Cards Jc 7s Qs 7d Ts' to player #0.
+Sent message 'Cards 8c 5c 9c 2s 5s' to player #1.
+Hand: RandomA has  8c 5c 9c 2s 5s on hand.
+Poker server: Forcing ante bets.
+Sent message 'Ante_Changed 20' to all players.
+Sent message 'Forced_Bet ReflexB 20' to all players.
+Poker server: Betting round started.
+Maximum bet is 20, minimum raise is 1 (to 21).
+Sent message 'Forced_Bet RandomA 20' to all players.
+Sent message 'Open? 21 20 311' to player #0.
+Received message 'Open 22 ' from player #0
+Received expected message from client #0. Message is 'Open 22 '.
+Maximum bet is 22, minimum raise is 2 (to 24).
+Sent message 'Player_Open ReflexB 22' to all players.
+Sent message 'Call/Raise? 22 24 20 49' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 22, minimum raise is 2 (to 24).
+Poker server: Betting round ended.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Draw started...
+Poker server: Draw ended.
+Hand: ReflexB has  Jc 7s Qs 7d Ts on hand.
+Hand: RandomA has  8c 5c 9c 2s 5s on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 22.
+Player RandomA: Status is 1, chips in pot is 20.
+Poker server: Player ReflexB won 42 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 42' to all players.
+Poker server: Round 12 started.
+Poker server: Sending current standing.
+Sent message 'Round 12' to all players.
+Sent message 'Chips ReflexB 351' to all players.
+Standing: ReflexB: 351 chips.
+Sent message 'Chips RandomA 49' to all players.
+Standing: RandomA: 49 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Sent message 'Cards 7c 8h 4s 3s 4c' to player #0.
+Hand: ReflexB has  7c 8h 4s 3s 4c on hand.
+Sent message 'Cards 9s As 9d Ad 4d' to player #1.
+Hand: RandomA has  9s As 9d Ad 4d on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 20, minimum raise is 1 (to 21).
+Sent message 'Forced_Bet RandomA 20' to all players.
+Sent message 'Forced_Bet ReflexB 20' to all players.
+Sent message 'Open? 21 20 29' to player #1.
+Received message 'Open 24 ' from player #1
+Received expected message from client #1. Message is 'Open 24 '.
+Maximum bet is 24, minimum raise is 4 (to 28).
+Sent message 'Player_Open RandomA 24' to all players.
+Sent message 'Call/Raise? 24 28 20 331' to player #0.
+Received message 'Raise 28 ' from player #0
+Received expected message from client #0. Message is 'Raise 28 '.
+Maximum bet is 28, minimum raise is 4 (to 32).
+Sent message 'Player_Raise ReflexB 28' to all players.
+Sent message 'Call/Raise? 28 32 24 25' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 28, minimum raise is 4 (to 32).
+Poker server: Betting round ended.
+Sent message 'Player_Call RandomA ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #1.
+Received message 'Throws Ad ' from player #1
+Received expected message from client #1. Message is 'Throws Ad '.
+Sent message 'Cards 9s As 9d 6s 4d' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws 7c ' from player #0
+Received expected message from client #0. Message is 'Throws 7c '.
+Sent message 'Cards 8c 8h 4s 3s 4c' to player #0.
+Poker server: Draw ended.
+Hand: ReflexB has  8c 8h 4s 3s 4c on hand.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Hand: RandomA has  9s As 9d 6s 4d on hand.
+Poker server: Betting round started.
+Maximum bet is 28, minimum raise is 1 (to 29).
+Sent message 'Open? 29 28 21' to player #1.
+Received message 'Open 37 ' from player #1
+Received expected message from client #1. Message is 'Open 37 '.
+Maximum bet is 37, minimum raise is 9 (to 46).
+Sent message 'Player_Open RandomA 37' to all players.
+Sent message 'Call/Raise? 37 46 28 323' to player #0.
+Received message 'Raise 55 ' from player #0
+Received expected message from client #0. Message is 'Raise 55 '.
+Maximum bet is 55, minimum raise is 18 (to 73).
+Sent message 'Player_Raise ReflexB 55' to all players.
+Sent message 'Call/Raise? 55 73 37 12' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 55, minimum raise is 18 (to 73).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 55.
+Player RandomA: Status is 1, chips in pot is 37.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Player ReflexB won 92 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 92' to all players.
+Poker server: Round 13 started.
+Poker server: Sending current standing.
+Sent message 'Round 13' to all players.
+Sent message 'Chips ReflexB 388' to all players.
+Standing: ReflexB: 388 chips.
+Sent message 'Chips RandomA 12' to all players.
+Standing: RandomA: 12 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  9s Qc 7h 2c 4s on hand.
+Sent message 'Cards 9s Qc 7h 2c 4s' to player #0.
+Sent message 'Cards Kd 3c Qh 9h 2s' to player #1.
+Hand: RandomA has  Kd 3c Qh 9h 2s on hand.
+Poker server: Forcing ante bets.
+Player RandomA: State changed to 2
+Sent message 'Forced_Bet ReflexB 20' to all players.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Sent message 'Player_All-in RandomA 12' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws Qc ' from player #0
+Received expected message from client #0. Message is 'Throws Qc '.
+Sent message 'Cards 9s Ts 7h 2c 4s' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws Qh ' from player #1
+Received expected message from client #1. Message is 'Throws Qh '.
+Poker server: Draw ended.
+Hand: ReflexB has  9s Ts 7h 2c 4s on hand.
+Sent message 'Cards Kd 3c Ah 9h 2s' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Hand: RandomA has  Kd 3c Ah 9h 2s on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 20.
+Player RandomA: Status is 2, chips in pot is 12.
+Poker server: Pot data: 2 player(s), 12 chips/player, 1 winner(s).
+Poker server: Pot data: 1 player(s), 8 chips/player, 1 winner(s).
+Sent message 'Player_Hand ReflexB 9s Ts 7h 2c 4s' to all players.
+Sent message 'Player_Hand RandomA Kd 3c Ah 9h 2s' to all players.
+Poker server: Player ReflexB won 8 chips.
+Sent message 'Round_result ReflexB 8' to all players.
+Poker server: Player RandomA won 24 chips.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_result RandomA 24' to all players.
+Poker server: Round 14 started.
+Poker server: Sending current standing.
+Sent message 'Round 14' to all players.
+Standing: ReflexB: 376 chips.
+Sent message 'Chips ReflexB 376' to all players.
+Sent message 'Chips RandomA 24' to all players.
+Standing: RandomA: 24 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  3d Qc 2c Tc Th on hand.
+Sent message 'Cards 3d Qc 2c Tc Th' to player #0.
+Sent message 'Cards Jd 7d 2s Qh 9d' to player #1.
+Hand: RandomA has  Jd 7d 2s Qh 9d on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 20, minimum raise is 1 (to 21).
+Sent message 'Forced_Bet RandomA 20' to all players.
+Sent message 'Forced_Bet ReflexB 20' to all players.
+Sent message 'Open? 21 20 4' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 20, minimum raise is 1 (to 21).
+Sent message 'Player_Check RandomA ' to all players.
+Sent message 'Open? 21 20 356' to player #0.
+Received message 'Open 26 ' from player #0
+Received expected message from client #0. Message is 'Open 26 '.
+Maximum bet is 26, minimum raise is 6 (to 32).
+Sent message 'Player_Open ReflexB 26' to all players.
+Sent message 'Call/Raise? 26 32 20 4' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player RandomA: State changed to 1
+Maximum bet is 26, minimum raise is 6 (to 32).
+Poker server: Betting round ended.
+Sent message 'Player_Fold RandomA ' to all players.
+Poker server: Draw started...
+Poker server: Draw ended.
+Hand: ReflexB has  3d Qc 2c Tc Th on hand.
+Hand: RandomA has  Jd 7d 2s Qh 9d on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 26.
+Player RandomA: Status is 1, chips in pot is 20.
+Poker server: Player ReflexB won 46 chips undisputed.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_Win_Undisputed ReflexB 46' to all players.
+Poker server: Round 15 started.
+Poker server: Sending current standing.
+Sent message 'Round 15' to all players.
+Sent message 'Chips ReflexB 396' to all players.
+Standing: ReflexB: 396 chips.
+Sent message 'Chips RandomA 4' to all players.
+Standing: RandomA: 4 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Sent message 'Cards 2d 4h 8s Td Kh' to player #0.
+Hand: ReflexB has  2d 4h 8s Td Kh on hand.
+Sent message 'Cards Th 2h 5h Ts 8c' to player #1.
+Hand: RandomA has  Th 2h 5h Ts 8c on hand.
+Poker server: Forcing ante bets.
+Player RandomA: State changed to 2
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Sent message 'Forced_Bet ReflexB 20' to all players.
+Sent message 'Player_All-in RandomA 4' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws 4h ' from player #0
+Received expected message from client #0. Message is 'Throws 4h '.
+Sent message 'Cards 2d 3c 8s Td Kh' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws 8c ' from player #1
+Received expected message from client #1. Message is 'Throws 8c '.
+Poker server: Draw ended.
+Hand: ReflexB has  2d 3c 8s Td Kh on hand.
+Sent message 'Cards Th 2h 5h Ts Jc' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Hand: RandomA has  Th 2h 5h Ts Jc on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 20.
+Player RandomA: Status is 2, chips in pot is 4.
+Poker server: Pot data: 2 player(s), 4 chips/player, 1 winner(s).
+Poker server: Pot data: 1 player(s), 16 chips/player, 1 winner(s).
+Poker server: Player ReflexB won 16 chips.
+Sent message 'Player_Hand ReflexB 2d 3c 8s Td Kh' to all players.
+Sent message 'Player_Hand RandomA Th 2h 5h Ts Jc' to all players.
+Sent message 'Round_result ReflexB 16' to all players.
+Poker server: Player RandomA won 8 chips.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Round_result RandomA 8' to all players.
+Poker server: Round 16 started.
+Poker server: Sending current standing.
+Sent message 'Round 16' to all players.
+Sent message 'Chips ReflexB 392' to all players.
+Standing: ReflexB: 392 chips.
+Sent message 'Chips RandomA 8' to all players.
+Standing: RandomA: 8 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  6h 4h Ks 5c 4s on hand.
+Sent message 'Cards 6h 4h Ks 5c 4s' to player #0.
+Sent message 'Cards 3s As 2h Js Ah' to player #1.
+Hand: RandomA has  3s As 2h Js Ah on hand.
+Poker server: Forcing ante bets.
+Player RandomA: State changed to 2
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Sent message 'Player_All-in RandomA 8' to all players.
+Sent message 'Forced_Bet ReflexB 20' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #1.
+Received message 'Throws Js ' from player #1
+Received expected message from client #1. Message is 'Throws Js '.
+Sent message 'Cards 3s As 2h Ad Ah' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws 4h ' from player #0
+Received expected message from client #0. Message is 'Throws 4h '.
+Poker server: Draw ended.
+Hand: ReflexB has  6h 8s Ks 5c 4s on hand.
+Sent message 'Cards 6h 8s Ks 5c 4s' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Hand: RandomA has  3s As 2h Ad Ah on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 20.
+Player RandomA: Status is 2, chips in pot is 8.
+Poker server: Pot data: 2 player(s), 8 chips/player, 1 winner(s).
+Poker server: Pot data: 1 player(s), 12 chips/player, 1 winner(s).
+Poker server: Player ReflexB won 12 chips.
+Poker server: Player RandomA won 16 chips.
+Poker server: Showdown ended.
+Player RandomA: State changed to 0
+Sent message 'Player_Hand ReflexB 6h 8s Ks 5c 4s' to all players.
+Sent message 'Player_Hand RandomA 3s As 2h Ad Ah' to all players.
+Sent message 'Round_result ReflexB 12' to all players.
+Sent message 'Round_result RandomA 16' to all players.
+Poker server: Round 17 started.
+Poker server: Sending current standing.
+Sent message 'Round 17' to all players.
+Standing: ReflexB: 384 chips.
+Sent message 'Chips ReflexB 384' to all players.
+Sent message 'Chips RandomA 16' to all players.
+Standing: RandomA: 16 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: ReflexB has  4d 5s 3s Jc Td on hand.
+Sent message 'Cards 4d 5s 3s Jc Td' to player #0.
+Sent message 'Cards 5h 3c 4c 7d Kc' to player #1.
+Hand: RandomA has  5h 3c 4c 7d Kc on hand.
+Poker server: Forcing ante bets.
+Player RandomA: State changed to 2
+Sent message 'Forced_Bet ReflexB 20' to all players.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Sent message 'Player_All-in RandomA 16' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws 5s ' from player #0
+Received expected message from client #0. Message is 'Throws 5s '.
+Sent message 'Cards 4d 4h 3s Jc Td' to player #0.
+Sent message 'Player_Draw ReflexB 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws 7d ' from player #1
+Received expected message from client #1. Message is 'Throws 7d '.
+Poker server: Draw ended.
+Hand: ReflexB has  4d 4h 3s Jc Td on hand.
+Sent message 'Cards 5h 3c 4c Qh Kc' to player #1.
+Sent message 'Player_Draw RandomA 1' to all players.
+Hand: RandomA has  5h 3c 4c Qh Kc on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player ReflexB: Status is 0, chips in pot is 20.
+Player RandomA: Status is 2, chips in pot is 16.
+Poker server: Pot data: 2 player(s), 16 chips/player, 1 winner(s).
+Poker server: Pot data: 1 player(s), 4 chips/player, 1 winner(s).
+Sent message 'Player_Hand ReflexB 4d 4h 3s Jc Td' to all players.
+Sent message 'Player_Hand RandomA 5h 3c 4c Qh Kc' to all players.
+Poker server: Player ReflexB won 36 chips.
+Poker server: Showdown ended.
+Sent message 'Round_result ReflexB 36' to all players.
+Player RandomA: State changed to 0
+Player RandomA: State changed to 3
+Sent message 'Result ReflexB 18 400' to all players.
+Sent message 'Result RandomA 17 0' to all players.
+Sent message 'Game_Over' to all players.
+Disconnected player #1.
+Disconnected player #0.
+Poker Server: Thread finished.
+
+
+
+Final results:
+1: ReflexB, 18 rounds, 400 chips.
+2: RandomA, 17 rounds, 0 chips.
+Poker Server: The socket server has closed.

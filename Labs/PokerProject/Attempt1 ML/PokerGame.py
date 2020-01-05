@@ -11,11 +11,11 @@ from threading import Thread, Timer
 from Client import RandomAgent
 from game.serverInfo import * 
 
-RESPONSE_DELAY = 1.5 # In seconds
+RESPONSE_DELAY = 0.5 # In seconds
 
 def main():
     
-    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
+    agents = [('Subject_1',True),('Subject_2',False)]#,('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
     print("Starting game.. Waiting for server")
 
     for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
@@ -168,6 +168,7 @@ class client:
                 'Player_All-in',
                 'unknown_action'
             }
+
 
             drawSet = {
                 'Draw?'
