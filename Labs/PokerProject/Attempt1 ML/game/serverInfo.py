@@ -115,7 +115,7 @@ def infoPlayerChips(msg, verbose=False, agent=None,**kwargs):
 def infoRoundUndisputedWin(msg, verbose=False, agent=None, **kwargs):
     _playerName, _winAmount, *_ = msg
 
-    agent.addGameStatus(player=_playerName, action='roundWin',data=2, **kwargs)
+    agent.addGameStatus(player=_playerName, action='roundWin',data=1, **kwargs)
     if verbose:
         print("Player "+ _playerName +" won "+ _winAmount +" chips undisputed.")
 
@@ -128,7 +128,7 @@ def infoRoundUndisputedWin(msg, verbose=False, agent=None, **kwargs):
 '''
 def infoRoundResult(msg, verbose=False, agent=None, **kwargs):
     _playerName, _winAmount, *_ = msg
-    agent.addGameStatus(player=_playerName, action='roundWin',data=1, **kwargs)
+    agent.addGameStatus(player=_playerName, action='roundWin',data=2, **kwargs)
     if verbose:
         print("Player "+ _playerName +" won " + _winAmount + " chips.")
 

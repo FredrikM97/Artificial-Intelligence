@@ -152,9 +152,8 @@ class RandomAgent(Agent):
         '''
         Add status of the game to gameStatus
         '''
-        print(f"**ML** Player: {player} Action: {action} data: {data}")
-        
-        
+                
+        #print(f"**ML** Player: {player} Action: {action} data: {data}")
         
         '''
         * States
@@ -166,6 +165,7 @@ class RandomAgent(Agent):
             data = evaluator.evaluate([], hand) # Lower the better
             
         if (player == self.name or action == 'round'): # If data comes from agent
+            
             self.modifyAgent(player=player,action=action,data=data)
 
         else: # Data from opponent 
@@ -190,9 +190,9 @@ class RandomAgent(Agent):
                     'round':-1, # Which round
                     'hand':-1, # Hour hand
                     'chips':-1, # Our money
-                    'roundWin':-1 # If 0:Loss,1:Win,2:Undisputed
+                    'roundWin':0 # If 0:Loss,1:Undisputed2:Win
                 }
-            
+
             self.agentStates[self.round][action] = data
                 
     def modifyOpponent(self, player=None, action=None, data=None, **kwargs): # New player for that round
@@ -209,7 +209,7 @@ class RandomAgent(Agent):
             'allin'
         ]
         states = [
-            'hand',
+            #'hand', # We dont get this info sadly
             'chips', 
             'roundWin'
         ]
@@ -217,12 +217,12 @@ class RandomAgent(Agent):
             self.opponentStates[(self.round, player)] = {  # Empty data
                 'chips':-1, # How much money they have
                 'Action':[], 
-                'hand':-1, # Opponents Hand
-                'roundWin':-1 # If 0:Loss,1:Win,2:Undisputed
+                #'hand':-1, # Opponents Hand
+                'roundWin':0 # If 0:Loss,1:Undisputed2:Win
             }
         
-        if action in actions: # Add action to player if it exists
-            self.opponentStates[(self.round, player)]['Action'].append((action, data))
+        #if action in actions: # Add action to player if it exists
+        #    self.opponentStates[(self.round, player)]['Action'].append((action, data))
 
         elif action in states:
             self.opponentStates[(self.round, player)][action] = data

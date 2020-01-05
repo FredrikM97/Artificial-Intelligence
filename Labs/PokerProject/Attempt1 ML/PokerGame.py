@@ -61,7 +61,7 @@ class client:
         oldmax = agent.maxBet
         agent.maxBet = int(MsgFractions[1])
         agent.minRaise = agent.maxBet - oldmax
-        infoPlayerRise(MsgFractions, **kwargs)
+        infoPlayerRise(MsgFractions, agent=agent,**kwargs)
 
     # Get open bet to agent, and print it
     def handle_Player_Open_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
