@@ -15,7 +15,7 @@ RESPONSE_DELAY = 1.5 # In seconds
 
 def main():
     
-    agents = [('Subject_1',True)]#,('Subject_2',False),('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
+    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
     print("Starting game.. Waiting for server")
 
     for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
@@ -31,7 +31,7 @@ class client:
         self.phase = 'info'
 
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s.settimeout(5.0)
+        self.s.settimeout(8.0)
         self.s.connect((self.agent.IP, self.agent.PORT))
 
         # Declare constants

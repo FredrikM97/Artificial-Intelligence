@@ -146,10 +146,12 @@ class RandomAgent(Agent):
         print(_hand)
         return _hand[random.randint(0,4)] #+ ' '
 
+    
     def addGameStatus(self, player=None, action=None, data=None, **kwargs):
         '''
         Add status of the game to gameStatus
         '''
+        print("Action",action,"data:",data)
         actions = [ # Opponents actions
             'open',
             'call',
@@ -159,7 +161,7 @@ class RandomAgent(Agent):
             'allin',
             'hand'
         ]
-        agentStates = { # Data not concerning opponents actions (this data may already exists )
+        agentStates = { 
             'round':self.newRound,
             'hand':self.setHand,
             'Chips':self.setChips
@@ -169,14 +171,15 @@ class RandomAgent(Agent):
         * States
         '''    
         if player == self.name and action in agentStates: # If data comes from agent
-            agentStates[action](data)
+            for agents in self.gameData:
+                agentStates[action](data)
 
         else: # Data from opponent 
             if (self.round, player) not in self.gameData: # If player doesnt exist, create player
                 self.createOpponent(player)
                 
             if action in actions: # Add action to player if it exists
-                self.gameData[(self.round,player)][action].append((action, data))
+                self.gameData[(self.round, player)][action].append((action, data))
 
 
     def newRound(self, round):
@@ -196,6 +199,7 @@ class RandomAgent(Agent):
     def createOpponent(self, player): # New player for that round
         '''
         * Create a new player with the id of the round and player name
+        * Used for input and target in ML
         '''
         self.gameData[(self.round,player)] = {  # Empty data
                 'Round':self.round, # Which round

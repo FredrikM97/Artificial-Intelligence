@@ -134,9 +134,9 @@ def infoRoundResult(msg, verbose=False, **kwargs):
 * @param playerName        the name of the player whose hand is shown.
 * @param hand              the players hand.
 '''
-def infoPlayerHand(msg, verbose=False, agent=None, **kwargs):
+def infoPlayerHand(msg, verbose=False, agent=None, **kwarg):
     _playerName, *_hand = msg
-
+    print("Kwargs data",kwarg)
     agent.addGameStatus(player=_playerName, action='hand', data=_hand, **kwargs)
     
     if verbose:
