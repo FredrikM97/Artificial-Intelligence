@@ -18,8 +18,8 @@ def main():
     agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False),('Subject_4',False),('Subject_5',False)]
     print("Starting game.. Waiting for server")
 
-    for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
-        c = client(RandomAgent(name, ip='127.0.0'+str(ip)), observe)
+    for name, observe in agents:
+        c = client(RandomAgent(name, ip='localhost'), observe)
         t = Thread(target=c.run)
         t.start()
         
@@ -232,7 +232,6 @@ class client:
     def hourglass(self, *args, **kwargs):
         global RESPONSE_DELAY
         # if bomb defuse then make bomb
-        
         if self.response_thread.is_alive():
             self.response_thread.cancel()
             self.response_thread.join()
@@ -241,6 +240,7 @@ class client:
         t.setDaemon(True)
         t.start()
         self.response_thread = t
+        print('### missed message ###')
 
     '''
     ***** Run *****
