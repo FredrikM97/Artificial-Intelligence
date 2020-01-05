@@ -19,7 +19,7 @@ def main():
     print("Starting game.. Waiting for server")
 
     for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
-        c = client(RandomAgent(name, ip='127.0.0'+str(ip)), observe)
+        c = client(RandomAgent(name, ip='127.0.0.'+str(ip)), observe)
         t = Thread(target=c.run)
         t.start()
         
@@ -49,7 +49,7 @@ class client:
         if MsgFractions[0] == agent.name:
             agent.Chips = int(MsgFractions[1])
         else:
-            infoPlayerChips(MsgFractions, **kwargs) 
+            infoPlayerChips(MsgFractions,agent=agent, **kwargs) 
 
     # Get Ante to agent, and print it
     def handle_Ante_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
@@ -75,7 +75,7 @@ class client:
         agent.CurrentHand = []
         for ielem in MsgFractions: # never go full retard
             agent.CurrentHand.append(ielem)
-        infoPlayerHand((agent.name, *MsgFractions), **kwargs)
+        infoPlayerHand((agent.name, *MsgFractions), agent=agent, **kwargs)
 
     '''
     ***** ACTIONS to server *****
@@ -296,7 +296,8 @@ class client:
                 #sys.stdout = sys.__stdout__ # Turn on prints
                 print(f'{self.agent.name} has commited soduko because {evil}')
                 break
-
+        if self.hawkeye:
+            print(*self.agent.gameData.items(),sep='\n')
         self.s.close()
         
 if __name__ == "__main__":
