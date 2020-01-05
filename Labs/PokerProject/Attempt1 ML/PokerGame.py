@@ -19,7 +19,7 @@ def main():
     print("Starting game.. Waiting for server")
 
     for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
-        c = client(RandomAgent(name, ip='127.0.0.'+str(ip)), observe)
+        c = client(RandomAgent(name, ip='localhost'), observe)
         t = Thread(target=c.run)
         t.start()
         

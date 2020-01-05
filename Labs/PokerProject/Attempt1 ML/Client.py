@@ -178,12 +178,11 @@ class RandomAgent(Agent):
             hand = [Card.new(x) for x in ['8s', '3c', '8c', 'Jh', 'Ad']]
             data = evaluator.get_rank_class(evaluator.evaluate([], hand)) # Lower the better
             
-        if player == self.name: # If data comes from agent
-            if action in agentStates:
-                agentStates[action] = data # Overwrite local data
+        if player == self.name and action in agentStates: # If data comes from agent
+            agentStates[action] = data # Overwrite local data
 
-                for agents in self.gameData:
-                    self.gameData[agents]['Agent'+str(action)] = data 
+            for agents in self.gameData:
+                self.gameData[agents]['Agent'+str(action)] = data 
 
         else: # Data from opponent 
             if (self.round, player) not in self.gameData: # If player doesnt exist, create player
