@@ -297,7 +297,8 @@ class client:
                 print(f'{self.agent.name} has commited soduko because {evil}')
                 break
         if self.hawkeye:
-            print(*self.agent.gameData.items(),sep='\n')
+            print(*self.agent.opponentStates.items(),sep='\n')
+            print(*self.agent.agentStates.items(),sep='\n')
         self.s.close()
         
 if __name__ == "__main__":

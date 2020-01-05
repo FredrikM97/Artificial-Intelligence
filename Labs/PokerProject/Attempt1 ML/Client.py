@@ -13,7 +13,8 @@ class Agent:
         self.CurrentHand = []
         self.maxBet = 1
         self.minRaise = 1
-        self.gameData = {}
+        self.opponentStates = {}
+        self.agentStates = {}
         
     '''
     * Called during the betting phases of the game when the player needs to decide what open
@@ -152,7 +153,49 @@ class RandomAgent(Agent):
         Add status of the game to gameStatus
         '''
         print(f"**ML** Player: {player} Action: {action} data: {data}")
-        opponentActions = [ # Opponents actions
+        
+        
+        
+        '''
+        * States
+        '''    
+        if action == 'hand':  # Evaluate if hand is action
+            evaluator = Evaluator()
+            hand = [Card.new(x) for x in ['8s', '3c', '8c', 'Jh', 'Ad']]
+            data = evaluator.get_rank_class(evaluator.evaluate([], hand)) # Lower the better
+            
+        if (player == self.name or action == 'round'): # If data comes from agent
+            self.modifyAgent(player=player,action=action,data=data)
+
+        else: # Data from opponent 
+            self.modifyOpponent(player=player,action=action,data=data)
+    
+    def modifyAgent(self, player=None, action=None, data=None, **kwargs):
+        states = [
+            'round'
+            'hand'
+            'Chips'
+        ]
+
+        if action in states:
+            if not isinstance(data,int): print("ABBORT! Int is not INT :(")
+            self.__dict__[action] = data # Overwrite local data
+
+            if self.round not in self.agentStates: # If player doesnt exist, create player
+                self.agentStates[self.round] = {  # Empty data
+                    'round':-1, # Which round
+                    'hand':-1, # Hour hand
+                    'chips':-1, # Our money
+                }
+            
+            self.agentStates[self.round][action] = data
+                
+    def modifyOpponent(self, player=None, action=None, data=None, **kwargs): # New player for that round
+        '''
+        * Create a new player with the id of the round and player name
+        * Used for input and target in ML
+        '''
+        actions = [ # Opponents actions
             'open',
             'call',
             'check',
@@ -160,51 +203,21 @@ class RandomAgent(Agent):
             'fold',
             'allin',
         ]
-        agentStates = { 
-            'round':self.round,
-            'hand':self.CurrentHand,
-            'Chips':self.Chips
-        }
-        opponentStates = [
+        states = [
             'hand',
             'chips'
         ]
-        '''
-        * States
-        '''    
-        # Evaluate if hand is action
-        if action == 'hand':
-            evaluator = Evaluator()
-            hand = [Card.new(x) for x in ['8s', '3c', '8c', 'Jh', 'Ad']]
-            data = evaluator.get_rank_class(evaluator.evaluate([], hand)) # Lower the better
-            
-        if player == self.name and action in agentStates: # If data comes from agent
-            agentStates[action] = data # Overwrite local data
+        if (self.round, player) not in self.opponentStates: # If player doesnt exist, create player
+            self.opponentStates[(self.round, player)] = {  # Empty data
+                'chips':-1, # How much money they have
+                'Action':[], 
+                'hand':-1 # Opponents Hand
+            }
+        
+        if action in actions: # Add action to player if it exists
+            self.opponentStates[(self.round, player)]['Action'].append((action, data))
 
-            for agents in self.gameData:
-                self.gameData[agents]['Agent'+str(action)] = data 
-
-        else: # Data from opponent 
-            if (self.round, player) not in self.gameData: # If player doesnt exist, create player
-                self.createOpponent(player)
-                
-            if action in opponentActions: # Add action to player if it exists
-                self.gameData[(self.round,player)]['OpponentAction'].append((action, data))
-
-            elif action in opponentStates:
-                self.gameData[(self.round,player)]['Opponent'+str(action)] = data
-
-    def createOpponent(self, player): # New player for that round
-        '''
-        * Create a new player with the id of the round and player name
-        * Used for input and target in ML
-        '''
-        self.gameData[(self.round,player)] = {  # Empty data
-            'Agentround':self.round, # Which round
-            'Agenthand':[], # Hour hand
-            'Agentchips':-1, # Our money
-            'Opponentchips':-1, # How much money they have
-            'OpponentAction':[], 
-            'Opponenthand':[] # Opponents Hand
-        }
+        elif action in states:
+            self.opponentStates[(self.round, player)][action] = data
+        
     

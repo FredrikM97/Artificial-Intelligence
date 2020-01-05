@@ -11,7 +11,7 @@ def infoResult(msg, verbose=False, **kwargs):
 def infoNewRound(msg, verbose=False, agent=None, **kwargs):
     #_nrTimeRaised = 0
     _round, *_ = msg
-    agent.addGameStatus(player='agent', action='round',data=_round, **kwargs)
+    agent.addGameStatus(player=None, action='round',data=_round, **kwargs)
 
     if verbose:
         print('\nStarting Round: ' + _round )
