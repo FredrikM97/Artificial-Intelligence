@@ -160,9 +160,10 @@ class RandomAgent(Agent):
         * States
         '''    
         if action == 'hand':  # Evaluate if hand is action
+            data = data[0:5] # In case server gets confused and send wrong message
             evaluator = Evaluator()
-            hand = [Card.new(x) for x in ['8s', '3c', '8c', 'Jh', 'Ad']]
-            data = evaluator.get_rank_class(evaluator.evaluate([], hand)) # Lower the better
+            hand = [Card.new(x) for x in data]
+            data = evaluator.evaluate([], hand) # Lower the better
             
         if (player == self.name or action == 'round'): # If data comes from agent
             self.modifyAgent(player=player,action=action,data=data)
@@ -172,20 +173,24 @@ class RandomAgent(Agent):
     
     def modifyAgent(self, player=None, action=None, data=None, **kwargs):
         states = [
-            'round'
-            'hand'
-            'Chips'
+            'round',
+            'hand',
+            'chips',
+            'roundWin'
         ]
 
         if action in states:
-            if not isinstance(data,int): print("ABBORT! Int is not INT :(")
-            self.__dict__[action] = data # Overwrite local data
+            try:
+                self.__dict__[action] = int(data) # Overwrite local data
+            except:
+                print("True face:",data,type(data))
 
             if self.round not in self.agentStates: # If player doesnt exist, create player
                 self.agentStates[self.round] = {  # Empty data
                     'round':-1, # Which round
                     'hand':-1, # Hour hand
                     'chips':-1, # Our money
+                    'roundWin':-1 # If 0:Loss,1:Win,2:Undisputed
                 }
             
             self.agentStates[self.round][action] = data
@@ -201,17 +206,19 @@ class RandomAgent(Agent):
             'check',
             'raise',
             'fold',
-            'allin',
+            'allin'
         ]
         states = [
             'hand',
-            'chips'
+            'chips', 
+            'roundWin'
         ]
         if (self.round, player) not in self.opponentStates: # If player doesnt exist, create player
             self.opponentStates[(self.round, player)] = {  # Empty data
                 'chips':-1, # How much money they have
                 'Action':[], 
-                'hand':-1 # Opponents Hand
+                'hand':-1, # Opponents Hand
+                'roundWin':-1 # If 0:Loss,1:Win,2:Undisputed
             }
         
         if action in actions: # Add action to player if it exists

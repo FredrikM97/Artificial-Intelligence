@@ -112,8 +112,10 @@ def infoPlayerChips(msg, verbose=False, agent=None,**kwargs):
 * @param playerName    the name of the player whose undisputed win is anounced.
 * @param winAmount     the amount of chips the player won.
 '''
-def infoRoundUndisputedWin(msg, verbose=False, **kwargs):
+def infoRoundUndisputedWin(msg, verbose=False, agent=None, **kwargs):
     _playerName, _winAmount, *_ = msg
+
+    agent.addGameStatus(player=_playerName, action='roundWin',data=2, **kwargs)
     if verbose:
         print("Player "+ _playerName +" won "+ _winAmount +" chips undisputed.")
 
@@ -124,8 +126,9 @@ def infoRoundUndisputedWin(msg, verbose=False, **kwargs):
 * @param playerName    the name of the player whose win is anounced.
 * @param winAmount     the amount of chips the player won.
 '''
-def infoRoundResult(msg, verbose=False, **kwargs):
+def infoRoundResult(msg, verbose=False, agent=None, **kwargs):
     _playerName, _winAmount, *_ = msg
+    agent.addGameStatus(player=_playerName, action='roundWin',data=1, **kwargs)
     if verbose:
         print("Player "+ _playerName +" won " + _winAmount + " chips.")
 
