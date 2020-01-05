@@ -221,8 +221,8 @@ class RandomAgent(Agent):
                 'roundWin':0 # If 0:Loss,1:Undisputed2:Win
             }
         
-        #if action in actions: # Add action to player if it exists
-        #    self.opponentStates[(self.round, player)]['Action'].append((action, data))
+        if action in actions: # Add action to player if it exists
+            self.opponentStates[(self.round, player)]['Action'].append((action, data))
 
         elif action in states:
             self.opponentStates[(self.round, player)][action] = data
