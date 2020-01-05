@@ -15,7 +15,7 @@ RESPONSE_DELAY = 1.5 # In seconds
 
 def main():
     
-    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False),('Subject_4',False),('Subject_5',False)]
+    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
     print("Starting game.. Waiting for server")
 
     for name, observe in agents:
@@ -129,6 +129,7 @@ class client:
         discardCards = agent.queryCardsToThrow(agent.CurrentHand)
         self.send_but_working('Throws ' + discardCards)
         print(agent.name, 'Action:','Throws', discardCards)
+        
     '''
     *****  Guess current phase of server *****
     ''' 
@@ -186,19 +187,14 @@ class client:
             self.nextPhase()
             if self.hawkeye:
                 print("Request:", RequestType, 'Agent phase:', self.phase)
-
-    
     def nextPhase(self):
         self.phaseIndex += 1
         self.phaseIndex %= len(self.gameFlow)
         self.phase = self.gameFlow[self.phaseIndex]
-
     def previousPhase(self):
         prevPhaseIndex = self.phaseIndex + len(self.gameFlow)-1
         prevPhaseIndex %= len(self.gameFlow)
         return self.gameFlow[prevPhaseIndex]
-
-
     # Do action based on phase
     def guessAction(self, msg, agent=None, MsgFractions=[], **kwarg):
         # Is this an action phase?
@@ -228,7 +224,6 @@ class client:
             'draw':[]
         }
         phase2action[self.phase](agent=agent, MsgFractions=phase2msg[self.phase], **kwarg)
-    
     def hourglass(self, *args, **kwargs):
         global RESPONSE_DELAY
         # if bomb defuse then make bomb
@@ -240,8 +235,12 @@ class client:
         t.setDaemon(True)
         t.start()
         self.response_thread = t
+<<<<<<< HEAD
         print('### missed message ###')
 
+=======
+    
+>>>>>>> 7cb1cf1652cf7f4c3a186640bf1a98265426d63d
     '''
     ***** Run *****
     ''' 
@@ -255,19 +254,22 @@ class client:
             'Call/Raise?':self.handle_Call_or_Raise,
             'Cards':self.handle_Cards_Changed,
             'Draw?':self.handle_Draw,
-            'Round':infoNewRound,
-            'Game_Over':infoGameOver,
-            'Player_Open':self.handle_Player_Open_Changed,
-            'Player_Check':infoPlayerCheck,
-            'Player_Raise':self.handle_Raise_Changed,
-            'Player_Call':infoPlayerCall,
-            'Player_Fold':infoPlayerFold,
-            'Player_All-in':infoPlayerAllIn,
-            'Player_Draw':infoPlayerDraw,
-            'Round_Win_Undisputed':infoRoundUndisputedWin,
-            'Round_result':infoRoundResult,
-            'Player_Hand':infoPlayerHand,
+            '''
+            * Info below should go to agent for Machine learning
+            '''
+            'Round':infoNewRound, # Parameter
+            'Player_Open':self.handle_Player_Open_Changed, # Parameter
+            'Player_Check':infoPlayerCheck, # Parameter
+            'Player_Raise':self.handle_Raise_Changed, # Parameter
+            'Player_Call':infoPlayerCall, # Parameter
+            'Player_Fold':infoPlayerFold, # Parameter
+            'Player_All-in':infoPlayerAllIn, # Parameter
+            'Player_Hand':infoPlayerHand, 
+            'Player_Draw':infoPlayerDraw, 
+            'Round_Win_Undisputed':infoRoundUndisputedWin, # Target: Who won?
+            'Round_result':infoRoundResult, # Target: Who won?
             'Result':infoResult,
+            'Game_Over':infoGameOver, 
             'unknown_action':self.hourglass#self.guessAction#lambda *arg,**kwarg:None#
         }
 
@@ -277,7 +279,9 @@ class client:
                 if not data: break
                 MsgFractions = data.split() # split string into fraction
 
-                if len(MsgFractions) == 0: MsgFractions = [b'unknown_action']
+                if len(MsgFractions) == 0: 
+                    print("Data from server:",MsgFractions)
+                    MsgFractions = [b'unknown_action']
 
                 MsgFractions = [msg.decode('utf-8') for msg in MsgFractions] # Get Request type
                 RequestType, *MsgFractions = MsgFractions
