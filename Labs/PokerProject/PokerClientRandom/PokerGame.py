@@ -235,12 +235,7 @@ class client:
         t.setDaemon(True)
         t.start()
         self.response_thread = t
-<<<<<<< HEAD
-        print('### missed message ###')
-
-=======
     
->>>>>>> 7cb1cf1652cf7f4c3a186640bf1a98265426d63d
     '''
     ***** Run *****
     ''' 
