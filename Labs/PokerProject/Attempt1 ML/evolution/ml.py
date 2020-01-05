@@ -121,22 +121,6 @@ def preprocessing():
     
     return Train_set, Test_set, kwarg
 
-def structureInputSet():
-    '''
-    * Import data
-    * Create dataset for each player
-    * Categorise data to what each player sees
-    '''
-    '''
-    (playerName,{
-        round, 
-        Action,
-        Chips,
-        
-    } )
-    '''
-
-
 def train(agent,
             classifiers, 
             Input_train=None, 
