@@ -1,6 +1,7 @@
 import socket
 import random
 import ClientBase
+from deuces import Card, Evaluator# https://github.com/FredrikM97/deuces python3
 
 class Agent:
     def __init__(self, name):
@@ -146,17 +147,12 @@ class RandomAgent(Agent):
         print(_hand)
         return _hand[random.randint(0,4)] #+ ' '
 
-<<<<<<< HEAD
-    
-    def addGameStatus(self, player=None, action=None, data=None, **kwargs):
-=======
     def addGameStatus(self, player=None, action=None, data=None, **kwarg):
->>>>>>> 7cb1cf1652cf7f4c3a186640bf1a98265426d63d
         '''
         Add status of the game to gameStatus
         '''
-        print("Action",action,"data:",data)
-        actions = [ # Opponents actions
+        print(f"**ML** Player: {player} Action: {action} data: {data}")
+        opponentActions = [ # Opponents actions
             'open',
             'call',
             'check',
@@ -165,9 +161,9 @@ class RandomAgent(Agent):
             'allin',
         ]
         agentStates = { 
-            'round':self.newRound,
-            'hand':self.setHand,
-            'Chips':self.setChips
+            'round':self.round,
+            'hand':self.CurrentHand,
+            'Chips':self.Chips
         }
         opponentStates = [
             'hand',
@@ -176,40 +172,28 @@ class RandomAgent(Agent):
         '''
         * States
         '''    
-        print("Incomming action",action)
-        if player == self.name and action in agentStates: # If data comes from agent
-            for agents in self.gameData:
-                agentStates[action](data)
+        # Evaluate if hand is action
+        if action == 'hand':
+            evaluator = Evaluator()
+            hand = [Card.new(x) for x in ['8s', '3c', '8c', 'Jh', 'Ad']]
+            data = evaluator.get_rank_class(evaluator.evaluate([], hand)) # Lower the better
+            
+        if player == self.name: # If data comes from agent
+            if action in agentStates:
+                agentStates[action] = data # Overwrite local data
+
+                for agents in self.gameData:
+                    self.gameData[agents]['Agent'+str(action)] = data 
 
         else: # Data from opponent 
             if (self.round, player) not in self.gameData: # If player doesnt exist, create player
                 self.createOpponent(player)
                 
-            if action in actions: # Add action to player if it exists
-<<<<<<< HEAD
-                self.gameData[(self.round, player)][action].append((action, data))
-=======
+            if action in opponentActions: # Add action to player if it exists
                 self.gameData[(self.round,player)]['OpponentAction'].append((action, data))
-            elif action == 'hand':
-                self.gameData[(self.round,player)]['OpponentHand'] = data
-            elif action == 'chips':
-                self.gameData[(self.round,player)]['OpponentChips'] = data
->>>>>>> 7cb1cf1652cf7f4c3a186640bf1a98265426d63d
 
-
-    def newRound(self, round):
-        '''
-        * Clear each players setting at each round and assign the new round to agent
-        '''
-        self.round = round
-        for agents in self.gameData:
-            self.createOpponent(agents)
-
-    def setHand(self,hand):
-        self.CurrentHand = hand
-
-    def setChips(self, chips):
-        self.Chips = chips
+            elif action in opponentStates:
+                self.gameData[(self.round,player)]['Opponent'+str(action)] = data
 
     def createOpponent(self, player): # New player for that round
         '''
@@ -217,11 +201,11 @@ class RandomAgent(Agent):
         * Used for input and target in ML
         '''
         self.gameData[(self.round,player)] = {  # Empty data
-            'round':self.round, # Which round
+            'Agentround':self.round, # Which round
             'Agenthand':[], # Hour hand
-            'AgentChips':-1, # Our money
-            'OpponentChips':-1, # How much money they have
+            'Agentchips':-1, # Our money
+            'Opponentchips':-1, # How much money they have
             'OpponentAction':[], 
-            'OpponentHand':[] # Opponents Hand
+            'Opponenthand':[] # Opponents Hand
         }
     

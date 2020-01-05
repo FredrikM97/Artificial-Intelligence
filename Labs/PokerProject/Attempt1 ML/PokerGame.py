@@ -67,7 +67,7 @@ class client:
     def handle_Player_Open_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
         agent.maxBet = int(MsgFractions[1])
         agent.minRaise = 1
-        infoPlayerOpen(MsgFractions, **kwargs)
+        infoPlayerOpen(MsgFractions, agent=agent, **kwargs)
 
     # Give hand to agent
     def handle_Cards_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
