@@ -1,0 +1,90 @@
+Starting poker server...
+...done
+Poker server: Starting...
+Poker server: Awaiting players...
+Poker server started.
+Local address: 0.0.0.0
+Public address: null
+Port: 5000
+Player #0 connected. Requesting player name.
+Sent message 'Name?' to player #0.
+Received message 'Name Random' from player #0
+Connected player 'Random' (client ID #0).
+Player #1 connected. Requesting player name.
+Sent message 'Name?' to player #1.
+Received message 'Name Random1' from player #1
+Connected player 'Random1' (client ID #1).
+Poker server: All players connected.
+Poker server: Round 1 started.
+Poker server: Sending current standing.
+Sent message 'Round 1' to all players.
+Standing: Random: 50 chips.
+Sent message 'Chips Random 50' to all players.
+Sent message 'Chips Random1 50' to all players.
+Standing: Random1: 50 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: Random has  Ks 3s Ad Qh 5d on hand.
+Sent message 'Cards Ks 3s Ad Qh 5d' to player #0.
+Sent message 'Cards 3d Th 9h Qc Ts' to player #1.
+Hand: Random1 has  3d Th 9h Qc Ts on hand.
+Poker server: Forcing ante bets.
+Sent message 'Ante_Changed 10' to all players.
+Sent message 'Forced_Bet Random 10' to all players.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Random1 10' to all players.
+Sent message 'Open? 11 10 40' to player #0.
+Received message 'All-in' from player #0
+Received expected message from client #0. Message is 'All-in'.
+Player Random: State changed to 2
+Maximum bet is 50, minimum raise is 40 (to 90).
+Sent message 'Player_All-in Random 50' to all players.
+Sent message 'Call/Raise? 50 90 10 40' to player #1.
+Received message 'All-in' from player #1
+Received expected message from client #1. Message is 'All-in'.
+Player Random1: State changed to 2
+Maximum bet is 50, minimum raise is 40 (to 90).
+Poker server: Betting round ended.
+Sent message 'Player_All-in Random1 50' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws 3s ' from player #0
+Received expected message from client #0. Message is 'Throws 3s '.
+Sent message 'Cards Ks 3h Ad Qh 5d' to player #0.
+Sent message 'Player_Draw Random 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws Th ' from player #1
+Received expected message from client #1. Message is 'Throws Th '.
+Poker server: Draw ended.
+Hand: Random has  Ks 3h Ad Qh 5d on hand.
+Sent message 'Cards 3d Jc 9h Qc Ts' to player #1.
+Sent message 'Player_Draw Random1 1' to all players.
+Hand: Random1 has  3d Jc 9h Qc Ts on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player Random: Status is 2, chips in pot is 50.
+Player Random1: Status is 2, chips in pot is 50.
+Poker server: Pot data: 2 player(s), 50 chips/player, 1 winner(s).
+Poker server: Player Random won 100 chips.
+Poker server: Showdown ended.
+Player Random: State changed to 0
+Player Random1: State changed to 0
+Player Random1: State changed to 3
+Sent message 'Player_Hand Random Ks 3h Ad Qh 5d' to all players.
+Sent message 'Player_Hand Random1 3d Jc 9h Qc Ts' to all players.
+Sent message 'Round_result Random 100' to all players.
+Sent message 'Result Random 2 100' to all players.
+Sent message 'Result Random1 1 0' to all players.
+Sent message 'Game_Over' to all players.
+Disconnected player #1.
+Disconnected player #0.
+Poker Server: Thread finished.
+
+
+
+Final results:
+1: Random, 2 rounds, 100 chips.
+2: Random1, 1 rounds, 0 chips.
+Poker Server: The socket server has closed.
