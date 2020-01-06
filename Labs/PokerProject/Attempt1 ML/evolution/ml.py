@@ -6,23 +6,10 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 import warnings
 import copy
+from itertools import repeat,
 
 '''
 TODO:
-Parameters:
-INFO:
-    RANKS: No point in checking since we dont know until after? What happens if they play risky with bad hand
-        0: highcard, 
-        1: onepair, 
-        2: twopair, 
-        3: 3ofakind, 
-        4: straight,
-        5: flush, 
-        6: fullhouse,
-        7: 4ofakind, 
-        8: straightflush    
-        Unknown: -1
-
     ACTION: 
         Fold: 0, 
         Call: 1, 
@@ -32,143 +19,141 @@ INFO:
         Check: 5
         Unknown: -1
 
-All data for training:
-    Sample	p1HandCategory	p1HandRank	p1Coin	p1AvgRaise	p1RaiseRatio	p2HandCategory	p2HandRank	p2Coin	p2AvgRaise	p2RaiseRatio	p1Action1	p1RaiseCoin1	p2Action1	p2RaiseCoin1	p1Action2	p1RaiseCoin2	p2Action2	p2RaiseCoin2	p1Action3	p1RaiseCoin3	p2Action3	p2RaiseCoin3	p1Action4	p1RaiseCoin4	p2Action4	p2RaiseCoin4	p1CntRaises	p2CntRaises
+[-1, 50, 0, 50, 50, 'Forced_Bet', 'Player_Fold', 'Forced_Bet', 'Player_Fold', 'Forced_Bet', None]
 
-Known at the beginning: 
-    Sample	p1HandCategory	p1HandRank	p1Coin	p1AvgRaise	p1RaiseRatio, p2Coin, p2AvgRaise	p2RaiseRatio
-
-Actions: Only check between two users at a time, take best action after checking everyone
-    p1Action1		p2Action1		
-    p1Action2		p2Action2		
-    p1Action3		p2Action3		
-    p1Action4		p2Action4		
-
-Interesting actions:
-    Open & Betting
-
-Statistics: 
-    p1CntRaises	p2CntRaises
-
-Unknown until after one round: 
-    p2HandCategory	p2HandRank
-
-What player1 knows before doing action:
-    [Player2] = [Sample, p1HandCategory,p1HandRank,p1Coin,p1AvgRaise,p1RaiseRatio, p2Coin,p2AvgRaise,p2RaiseRatio, p1CntRaises, p2CntRaises, Actionsx3]]
-
-Interesting data and what to expect:
-    Input: [Round, p1HandCategory,p1HandRank, p1Coin, p2Coin, Actionsx3]]
-    Target: [p2HandRank] # The higher value the better - Not gonna work on server since we are never told what opponents have, Which is stupid
-
-Notes:
-Raise removed to minimize model, sample=Rounds
+[-1, 40, 0, 40, 70, 'Forced_Bet', 'Player_Fold', 'Forced_Bet', 'Player_Fold', 'Forced_Bet', 'Player_Check']
 '''
 
-
-
-def generateModel():
-    warnings.filterwarnings("ignore")
-
-    # Define training stuff
-    classifiers =[('Nearest Neighbors Classification',KNeighborsClassifier(5))]
-    metrics = [('manhattan')]
-    # Agents to check towards, Currently only opponent
-    agents = ['p2']
-
-    train_set, test_set,kwarg = preprocessing()
-    print(f'Training: {len(train_set)} Testing: {len(test_set)}\n')
-
-    statistics = []
-    for agent in agents: # Create model for each agent
-        models = train(agent,classifiers,**kwarg)
-        predictions = analyseModel(models, **kwarg)
-        statistics.append(predictions)
-
-    for classType, agent, validation_avg,accuracy in sorted(statistics[0], key = lambda x: x[2], reverse=True):
-        print(f'{classType}, {agent}, Validation_avg: {round(validation_avg,2)}%')
-
-def determineAction():
-    '''
-    Determine which action to take based on results from the Model on all players
-    '''
-
-def preprocessing():
-    '''
-    Use same data as Lab4, this will decide what we do next
-    '''
-    data = np.loadtxt(open("pokerStatistic.csv", "rb"), delimiter=",", skiprows=1) 
-
-    # Training label of p1 is included since we only try to predict p2
-    inputLabels = list(range(0,13)) 
-    # Target labels
-    targetLabel=list(range(14,15)) 
-
+def main():
+    
+    # load data
+    ABS_PATH = 'evolution/minedData.txt'
+    file = open(ABS_PATH)
+    data = []
+    for row in file:
+        info = row[1:-2].split(', ')
+        casted_info = []
+        for item in info:
+            try: # Int
+                casted_info.append(int(item))
+            except: # String
+                casted_info.append(item if item == 'None' else item[1:-1])
+        data.append(casted_info)
+    print(*data[:5],sep='\n')
+    
+    # split data
+    np.random.seed(420) # set random seed for reproducibility
     Train_set, Test_set = train_test_split(data, test_size=0.2)
 
-    # Working for two agents only
-    Input_train = Train_set[:, inputLabels]    
-    Target_train = Train_set[:, targetLabel] 
+    # preprocess
+    print('Before prepro:', *Train_set[:1], sep='\n')
+    Train_set = preprocess_columns([preprocess_row(row) for row in Train_set])
+    Test_set = preprocess_columns([preprocess_row(row) for row in Test_set])
+    print('After prepro:', *Train_set[:1], sep='\n')  
 
-    Input_test = Test_set[:, inputLabels] # Should be Test_set
-    Target_test = Test_set[:, targetLabel]
+def preprocess_row(row:list) -> list:
+    ''' Preprocess row for poker data 
 
-    kwarg = {
-        'Input_train':Input_train,
-        'Target_train':Target_train,
-        'Input_test':Input_test, 
-        'Target_test':Target_test,
+    If targetHandStrength is -1 the row is dropped by returning an empty list.
+    Turn classifiers into one hot encoding. 
+        Forced_Bet: 0,
+        Player_Open: 1,
+        Player_Check: 2,
+        Player_Fold: 3,
+        Player_Call: 4, 
+        Player_Raise: 5, 
+        Player_All-in: 6,
+        None: 7
+
+    ---------------------
+    Example: 
+    [-1, 50, 0, 50, 50, 'Forced_Bet', 'Player_Fold', 'Forced_Bet', 'Player_Fold', 'Forced_Bet', None]
+    -->
+    []
+    ---------------------
+    [6983, 10, 0, 100, 40, 'Player_All-in', None, 'Forced_Bet', None, 'Player_All-in', None]
+    -->
+    [6983, 10, 0, 100, 40, 0, 0, 0, 0, 0, 0, 1, 0,
+                           0, 0, 0, 0, 0, 0, 0, 1,
+                           1, 0, 0, 0, 0, 0, 0, 0,
+                           0, 0, 0, 0, 0, 0, 0, 1,
+                           0, 0, 0, 0, 0, 0, 1, 0,
+                           0, 0, 0, 0, 0, 0, 0, 1]
+    '''
+    targetHandStrength, *_ = row
+    if targetHandStrength == -1: return []
+
+    action2int = {
+        'Forced_Bet': 0,
+        'Player_Open': 1,
+        'Player_Check': 2,
+        'Player_Fold': 3,
+        'Player_Call': 4, 
+        'Player_Raise': 5, 
+        'Player_All-in': 6,
+        'None': 7
     }
-    
-    return Train_set, Test_set, kwarg
 
-def train(agent,
-            classifiers, 
-            Input_train=None, 
-            Input_test=None,
-            Target_train=None, 
-            **kwarg
-        ):
-    '''
-    * Generate a fit model for each classifier
-    * Returns the models as a list
-    '''
-    models = []
-    
-    for name, classifier in classifiers:
-        models.append((name,agent,classifier.fit(Input_train,Target_train)))
+    processed_row = []
+    for item in row:
+        if isinstance(item, int): 
+            preprocess_row.append(item)
+        else:
+            val = action2int[item]
+            length = len(action2int)
+            preprocess_row.extend(one_hot_encode(val, length))
 
-    return models
+    return processed_row
 
-def analyseModel(
-            models,
-            Input_test=None, 
-            Input_train=None,
-            Target_test=None, 
-            **kwarg):
-    '''
-    * Predict the fit model
-    * Returns Classification type, agent, validation_avg, accuracy 
-    '''
-    
-    model_accuracy = []
-    
-    for Classtype, agent, dataModel in models:
-        predict = predictData(dataModel,Input_test)
+def preprocess_columns(data:List[list]) -> List[list]:
+    """ Preprocesses columns for a simple poker dataset. What is applied
+to each column is decided by the process list"""
+    norm_quantile = lambda x:normalize(quantile(x))
+    echo = lambda x:x
+    process = [ # functions to apply to the corresponding columns
+        norm_quantile,
+        normalize,
+        norm_quantile,
+        normalize,
+        normalize,
+        normalize,
+        normalize,
+        normalize,
+        normalize,
+        normalize,
+        normalize,
+        echo]
+    assert len(process) == len(data[0])
+    norm = [func(col) for col, func in zip(zip(*data),process)]
+    return list(zip(*norm))
 
-        correct_predict = len([i for i, j in zip(predict, Target_test) if i == j])
-        validation = cross_val_score(dataModel, Input_test, Target_test, cv=5)
-        accuracy = (correct_predict/float(len(predict)))*100
-        validation_avg = sum(validation)/float(len(validation))*100 # Calculate average validation
+def normalize(vector: list) -> list:
+    """ Normalizes a vector """
+    high = max(vector)
+    low = min(vector)
+    if high-low == 0: return [zerp for zerp in repeat(0,len(vector))]
+    return [(item-low)/(high-low) for item in vector]
 
-        model_accuracy.append((Classtype, agent, validation_avg,accuracy))
-    return model_accuracy
+def one_hot_encode(value:int, length:int):
+    zeros = [0 for _ in repeat(None,length)]
+    zeros[value] = 1
+    return zeros
 
-def save():
-    pass
-def load():
-    pass
-def predictData(dataModel,inputData):
-    return dataModel.predict(inputData)
+def saveModel(PATH):
+    ''' Save mined data into path file '''
+    try:
+        with open(PATH+"/"+name, mode='a') as file:
+            print(*data,sep='\n',file=file)
+
+    except:
+        raise Exception('Shit no work')
+
+def loadModel(PATH):
+    ''' Try to load Path file'''
+    try:
+        return open(PATH)
+    except:
+        raise Exception(f'Me no find: {PATH}')
 
 if __name__ == "__main__":
-    generateModel()
+    main()
