@@ -15,7 +15,7 @@ RESPONSE_DELAY = 1.5 # In seconds
 
 def main():
     
-    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
+    agents = [('Subject_1',True),('Subject_2',False),('Subject_3',False),('Subject_4',False),('Subject_5',False)]
     print("Starting game.. Waiting for server")
 
     for name, observe in agents:
