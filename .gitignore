@@ -8,3 +8,4 @@ __MACOSX/
 /build/
 /dist/
 *.egg-info/
+.~lock
