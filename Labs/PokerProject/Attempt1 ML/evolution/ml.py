@@ -53,7 +53,7 @@ import numpy as np
 import pandas as pd
 import warnings
 import copy
-from itertools import repeat
+from itertools import repeat, product
 from typing import List
 
 from sklearn.model_selection import train_test_split,cross_val_score
@@ -84,6 +84,22 @@ def main():
         predictions = classifi.fit(Input_train, Target_train).predict(Input_test)
         name = classifi.__doc__.split('.')[0]
         print(f'Accuracy: {accuracy(Target_test, predictions)}\tClassifier: {name}')
+
+def cross_valid_example():
+    Input_train, Target_train, Input_test, Target_test = init()
+    
+    # do cross validation
+    params = {'n_neighbors':range(1,10),'metric':['euclidean','manhattan','chebyshev']}
+    score = cross_valid_testing(KNeighborsClassifier, Input_train, Target_train, params,5)
+    
+    # present parameters and result
+    best = max(score, key=lambda x:x[0])
+    acc, kwargs = best
+    classi = KNeighborsClassifier(**kwargs)
+    classi.fit(Input_train, Target_train)
+    predictions = classi.predict(Input_test)
+    print(f'Best parameters: {kwargs}\n\
+        Cross valid accuracy: {acc} vs test accuracy: {accuracy(Target_test, predictions)}')
 
 def init(seed=420):
     # load data
@@ -238,6 +254,22 @@ def one_hot_encode(value:int, length:int):
 def quantile(vector: list) -> list:
     "Discretize variable into sqrt(len(vector)) semi-equal-sized buckets"
     return pd.qcut(vector, int(len(vector)**.5), labels=False, duplicates='drop')
+
+def cross_valid_testing(algorithm, Input_train:List[list], Target_train:list, parameters:dict, k_folds:int=5) -> List[tuple]:
+    # build a bunch of dicts from this one dict
+    # This is unreadable but it turns {key1:[val1_1,val1_2],key2:[val2_1,val2_2]}
+    # into -> [{key1:val1_1,key2:val2_1},{key1:val1_1,key2:val2_2},{key1:val1_2,key2:val2_1},{{key1:val1_2,key2:val2_2}}]
+    list_of_dicts = [[{key:val} for val in values] for key, values in parameters.items()]
+    list_of_dicts = [{key:val for dic in tup for key,val in dic.items()} for tup in product(*list_of_dicts)]
+
+    # run the stuff
+    results = []
+    for kwargs in list_of_dicts:
+        alg = algorithm(**kwargs)
+        score = cross_val_score(alg, Input_train, Target_train, cv=k_folds)
+        accuracy = sum(score)/len(score)
+        results.append((accuracy, kwargs))
+    return results
 
 def accuracy(Target_test:list, predictions:list) -> int:
     "Computes prediction accuracy metric"
