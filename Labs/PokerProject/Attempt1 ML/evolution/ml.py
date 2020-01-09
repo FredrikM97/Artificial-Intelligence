@@ -110,10 +110,10 @@ def init(seed=420):
     Test_set = preprocess_columns([preprocess_row(row) for row in Test_set])
     print('After prepro:', *Train_set[:1], sep='\n')
 
-    Input_train = Train_set[:2] + Train_set[3:]
-    Target_train = Train_set[2]
-    Input_test = Test_set[:2] + Test_set[3:]
-    Target_test = Test_set[2]
+    Input_train = [s[:2] + s[3:] for s in Train_set]
+    Target_train = [s[2] for s in Train_set]
+    Input_test = [s[:2] + s[3:] for s in Test_set]
+    Target_test = [s[2] for s in Test_set]
     return Input_train, Target_train, Input_test, Target_test
 
 def predict(model, data):
