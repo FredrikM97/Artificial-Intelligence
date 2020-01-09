@@ -20,7 +20,6 @@ Meaning of input data:
 [targetHandStrength, targetChips, targetWin, p1Chips,p2Chips, targetAction1,targetAction2, p1Action1,p1Action2, p2Action1, p2Action2]
 
 TODO:
--Pad data when needed (in preprocess_row)
 -Figure out what our label is. Suggest starting in the other end a.k.a the client.
     If we predict ALL actions that result in win:
         Pro:
@@ -46,6 +45,8 @@ TODO:
     Random forest           RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
     Neural net              MLPClassifier(alpha=1, max_iter=1000),
 
+IF TIME is TRUE:
+# FIXME: Do we know the opponents action on current turn? Most likely no. Yet it's in the training data. 
 '''
 
 import numpy as np
@@ -60,8 +61,17 @@ from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 
+# Setup 
+actions_per_player  = 2
+encoding_size       = 8
+number_of_players   = 5
+number_of_actions   = actions_per_player * encoding_size * number_of_players
+
 def main():
+    Input_train, Target_train, Input_test, Target_test = init()
     
+
+def init(seed=420):
     # load data
     ABS_PATH = 'evolution/minedData.txt'
     file = open(ABS_PATH)
@@ -75,10 +85,9 @@ def main():
             except: # String
                 casted_info.append(item if item == 'None' else item[1:-1])
         data.append(casted_info)
-    print(*data[:5],sep='\n')
     
     # split data
-    np.random.seed(420) # set random seed for reproducibility
+    np.random.seed(seed) # set random seed for reproducibility
     Train_set, Test_set = train_test_split(data, test_size=0.2)
 
     # preprocess
@@ -87,15 +96,12 @@ def main():
     Test_set = preprocess_columns([preprocess_row(row) for row in Test_set])
     print('After prepro:', *Train_set[:1], sep='\n')
 
-    # FIXME: Do we know the opponents action on current turn? Most likely no. Yet it's in the training data. 
-    # TODO: exctract target label
-    """
-    Input_train = [i for *i,_ in Train_set]
-    Target_train = [i for *_,i in Train_set]
-    Input_test = [i for *i,_ in Test_set]
-    Target_test = [i for *_,i in Test_set]
-    """
-    
+    Input_train = Train_set[:2] + Train_set[3:]
+    Target_train = Train_set[2]
+    Input_test = Test_set[:2] + Test_set[3:]
+    Target_test = Test_set[2]
+    return Input_train, Target_train, Input_test, Target_test
+
 def preprocess_row(row:list) -> list:
     ''' Preprocess row for poker data 
 
@@ -118,17 +124,32 @@ def preprocess_row(row:list) -> list:
     ---------------------
     [6983, 10, 0, 100, 40, 'Player_All-in', None, 'Forced_Bet', None, 'Player_All-in', None]
     -->
-    [6983, 10, 0, 100, 40, 0, 0, 0, 0, 0, 0, 1, 0,
-                           0, 0, 0, 0, 0, 0, 0, 1,
-                           1, 0, 0, 0, 0, 0, 0, 0,
-                           0, 0, 0, 0, 0, 0, 0, 1,
-                           0, 0, 0, 0, 0, 0, 1, 0,
-                           0, 0, 0, 0, 0, 0, 0, 1]
+    [6983, 10, 0, 100, 40, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, # Target
+                                 0, 0, 0, 0, 0, 0, 0, 1, # Target
+                                 1, 0, 0, 0, 0, 0, 0, 0, # P1
+                                 0, 0, 0, 0, 0, 0, 0, 1, # P1
+                                 0, 0, 0, 0, 0, 0, 1, 0, # P2
+                                 0, 0, 0, 0, 0, 0, 0, 1, # P2
+                                 0, 0, 0, 0, 0, 0, 0, 1, # P3
+                                 0, 0, 0, 0, 0, 0, 0, 1, # P3
+                                 0, 0, 0, 0, 0, 0, 0, 1, # P4
+                                 0, 0, 0, 0, 0, 0, 0, 1] # P4
     '''
-
+    # Discard data if handstrength -1
     targetHandStrength, *_ = row
     if targetHandStrength == -1: return []
 
+    # Padding row 
+    player_in_row = (len(row)-2)/(1+actions_per_player)
+    index_to_insert_chip = int(player_in_row) + 2
+    players_to_add = int(number_of_players-player_in_row)
+
+    padded_row = row[:index_to_insert_chip]  + \
+                 [*repeat(0,players_to_add)] + \
+                 row[index_to_insert_chip:]  + \
+                 [*repeat('None',players_to_add*actions_per_player)]
+
+    # Cast string to int
     action2int = {
         'Forced_Bet': 0,
         'Player_Open': 1,
@@ -141,7 +162,7 @@ def preprocess_row(row:list) -> list:
     }
 
     processed_row = []
-    for item in row:
+    for item in padded_row:
         if isinstance(item, int): 
             processed_row.append(item)
         else:
@@ -168,38 +189,35 @@ def preprocess_columns(data:List[list]) -> List[list]:
                                0, 0, 0, 0, 0, 0, 0, 1]
 
     """
+    # Drop Empty rows
+    processed = [row for row in data if len(row) != 0]
 
-    # Setup list of processes
-    actions_per_player  = 2
-    encoding_size       = 8
-    number_of_players   = 5
-    number_of_actions   = actions_per_player * encoding_size * number_of_players
-
+    # Setup list of processes 
     norm_quantile = lambda x:normalize(quantile(x))
     echo = lambda x:x
     process = [ # functions to apply to the corresponding columns
         norm_quantile,  # targetHandStrength
         norm_quantile,  # targetChips
-        normalize,      # targetWin
-        ]
+        echo,           # targetWin
+    ]
 
-    process.extend([e for e in repeat(norm_quantile, number_of_players-1)]) # Process for player chips
-    process.extend([e for e in repeat(echo, number_of_actions)]) # Process for player actions
-
+    process.extend([*repeat(norm_quantile, number_of_players-1)]) # Process for player chips
+    process.extend([*repeat(echo, number_of_actions)]) # Process for player actions
+    
     # Run processes
-    assert len(process) == len(data[0])
-    processed = [func(col) for col, func in zip(zip(*data),process)]
+    assert len(process) == len(processed[0])
+    processed = [func(col) for col, func in zip(zip(*processed),process)]
     return list(zip(*processed))
 
 def normalize(vector: list) -> list:
     "Normalizes a vector"
     high = max(vector)
     low = min(vector)
-    if high-low == 0: return [zerp for zerp in repeat(0,len(vector))]
+    if high-low == 0: return [*repeat(0,len(vector))]
     return [(item-low)/(high-low) for item in vector]
 
 def one_hot_encode(value:int, length:int):
-    zeros = [0 for _ in repeat(None,length)]
+    zeros = [*repeat(0,length)]
     zeros[value] = 1
     return zeros
 
@@ -210,7 +228,7 @@ def quantile(vector: list) -> list:
 def saveModel(PATH):
     ''' Save mined data into path file '''
     try:
-        with open(PATH+"/"+name, mode='a') as file:
+        with open(PATH, mode='a') as file:
             print(*data,sep='\n',file=file)
 
     except:
