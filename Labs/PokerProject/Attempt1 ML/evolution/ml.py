@@ -57,9 +57,10 @@ from itertools import repeat
 from typing import List
 
 from sklearn.model_selection import train_test_split,cross_val_score
-from sklearn import svm
+from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
 
 # Setup 
 actions_per_player  = 2
@@ -70,7 +71,19 @@ number_of_actions   = actions_per_player * encoding_size * number_of_players
 def main():
     Input_train, Target_train, Input_test, Target_test = init()
     
+    # prepare some classifiers from scikit library
+    classifiers = [
+        KNeighborsClassifier(5),
+        SVC(gamma=2, C=1),
+        RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
+        MLPClassifier(alpha=1, max_iter=1000),
+    ]
     
+    # run all classifiers
+    for classifi in classifiers:
+        predictions = classifi.fit(Input_train, Target_train).predict(Input_test)
+        name = classifi.__doc__.split('.')[0]
+        print(f'Accuracy: {accuracy(Target_test, predictions)}\tClassifier: {name}')
 
 def init(seed=420):
     # load data
@@ -228,6 +241,12 @@ def one_hot_encode(value:int, length:int):
 def quantile(vector: list) -> list:
     "Discretize variable into sqrt(len(vector)) semi-equal-sized buckets"
     return pd.qcut(vector, int(len(vector)**.5), labels=False, duplicates='drop')
+
+def accuracy(Target_test:list, predictions:list) -> int:
+    "Computes prediction accuracy metric"
+    assert len(Target_test) == len(predictions)
+    true_positives = len([real for real, prediction in zip(Target_test, predictions) if real==prediction])
+    return true_positives/len(Target_test)
 
 def saveModel(PATH):
     ''' Save mined data into path file '''
