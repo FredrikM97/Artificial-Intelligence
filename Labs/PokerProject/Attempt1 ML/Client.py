@@ -1,5 +1,6 @@
 import random
 import ClientBase
+from copy import deepcopy
 from deuces import Card, Evaluator# https://github.com/FredrikM97/deuces python3
 
 class Agent:
@@ -80,14 +81,25 @@ class ml_agent(Agent):
         
         
     def get_features(self):
-        feature = [self.hand_strength]
+        feature = [self.hand]
         """ TODO: finish this part
+        {player1:{hand,chips,Actions},player2:{hand,chips,Actions}}
+
         
+
         feature.extend(["Every players chip"])
         feature.extend(["every players actions"])
 
         ml.predict(feature)
         """
+        chips = [self.Chips]
+        actions = self.players[self.name]['action']
+        playerCopy = deepcopy(self.players)
+        del playerCopy[self.name]
+
+        for info in playerCopy.values():
+
+            
         pass
 
 class RandomAgent(Agent):
@@ -195,10 +207,10 @@ class RandomAgent(Agent):
                 print("True face:",data,type(data))
         
         if player not in self.players:
-            self.players.update({player:{'hand':0,'chips':0, 'Action':[]}})
+            self.players.update({player:{'hand':0,'chips':0, 'action':[]}})
 
         if action in actions: # Add action to player if it exists
-            self.players[player]['Action'].append(action)
+            self.players[player]['action'].append(action)
             
         elif action in states:
             if action == 'hand':  # Evaluate if hand is action
