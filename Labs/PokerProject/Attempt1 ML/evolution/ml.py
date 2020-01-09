@@ -70,6 +70,7 @@ number_of_actions   = actions_per_player * encoding_size * number_of_players
 def main():
     Input_train, Target_train, Input_test, Target_test = init()
     
+    
 
 def init(seed=420):
     # load data
