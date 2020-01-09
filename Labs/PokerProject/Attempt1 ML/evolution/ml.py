@@ -61,7 +61,11 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
+#from sklearn.utils.testing import ignore_warnings
+#from sklearn.exceptions import ConvergenceWarning
+import warnings
 
+#warnings.filterwarnings("ignore") #TODO: Remove this
 # Setup 
 actions_per_player  = 2
 encoding_size       = 8
@@ -70,36 +74,63 @@ number_of_actions   = actions_per_player * encoding_size * number_of_players
 
 def main():
     Input_train, Target_train, Input_test, Target_test = init()
-    
-    # prepare some classifiers from scikit library
+    test_classifiers(Input_train, Target_train, Input_test, Target_test)
+    #parameter_tuning(Input_train, Target_train, Input_test, Target_test)
+
+def create_model():
+    Input_train, Target_train, Input_test, Target_test = init()
+    classifier = SVC(C=2.5, kernel='linear')
+
+    return classifier.fit(Input_train+Input_test, Target_train+Target_test)
+
+
+def test_classifiers(Input_train, Target_train, Input_test, Target_test):
     classifiers = [
-        KNeighborsClassifier(5),
-        SVC(gamma=2, C=1),
-        RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
-        MLPClassifier(alpha=1, max_iter=1000),
+        SVC(C=2.5, kernel='linear'),
+        RandomForestClassifier(max_depth=None, criterion='gini', n_estimators=115, max_features='auto'),
+        MLPClassifier(hidden_layer_sizes=(100,50), alpha=2, solver='lbfgs',batch_size=50,max_iter=1000),
     ]
-    
     # run all classifiers
     for classifi in classifiers:
         predictions = classifi.fit(Input_train, Target_train).predict(Input_test)
         name = classifi.__doc__.split('.')[0]
         print(f'Accuracy: {accuracy(Target_test, predictions)}\tClassifier: {name}')
 
-def cross_valid_example():
+def parameter_tuning(Input_train, Target_train, Input_test, Target_test):
+    # prepare some classifiers from scikit library
+    classifiers = [
+        SVC,
+        RandomForestClassifier,
+        MLPClassifier,
+    ]
+    params = [  
+        {'C':[0.5,1.0,2.0,3.0,4.0],'kernel':['rbf', 'linear','poly']},
+        {'max_depth':[None,10],'criterion':['gini','entropy'],'n_estimators':[50,100,150],'max_features':['auto','log2']},
+        {'hidden_layer_sizes':[(100,),(100,50)],'solver':['lbfgs', 'adam'],'batch_size':['auto',50],'alpha':[1,2,5],'max_iter':[1000,3000]}
+    ]
+    # run all classifiers
+    for classifi, params in zip(classifiers,params):
+        cross_valid_example(classifi,params)
+
+def cross_valid_example(classifier,params):
     Input_train, Target_train, Input_test, Target_test = init()
     
     # do cross validation
-    params = {'n_neighbors':range(1,10),'metric':['euclidean','manhattan','chebyshev']}
-    score = cross_valid_testing(KNeighborsClassifier, Input_train, Target_train, params,5)
+    name = classifier.__doc__.split('.')[0]
+    score = cross_valid_testing(classifier, Input_train, Target_train, params,5)
     
     # present parameters and result
+    score.sort(key=lambda x:x[0], reverse=True)
+    
     best = max(score, key=lambda x:x[0])
     acc, kwargs = best
-    classi = KNeighborsClassifier(**kwargs)
+    classi = classifier(**kwargs)
     classi.fit(Input_train, Target_train)
     predictions = classi.predict(Input_test)
-    print(f'Best parameters: {kwargs}\n\
-        Cross valid accuracy: {acc} vs test accuracy: {accuracy(Target_test, predictions)}')
+
+    print(f'\n{name}\nBest parameters: {kwargs}',
+        f'Cross valid accuracy: {acc} vs test accuracy: {accuracy(Target_test, predictions)}',
+        'top 5:',*score[:10],sep='\n')
 
 def init(seed=420):
     # load data
@@ -121,19 +152,16 @@ def init(seed=420):
     Train_set, Test_set = train_test_split(data, test_size=0.2)
 
     # preprocess
-    print('Before prepro:', *Train_set[:1], sep='\n')
+    #print('Before prepro:', *Train_set[:1], sep='\n')
     Train_set = preprocess_columns([preprocess_row(row) for row in Train_set])
     Test_set = preprocess_columns([preprocess_row(row) for row in Test_set])
-    print('After prepro:', *Train_set[:1], sep='\n')
+    #print('After prepro:', *Train_set[:1], sep='\n')
 
     Input_train = [s[:2] + s[3:] for s in Train_set]
     Target_train = [s[2] for s in Train_set]
     Input_test = [s[:2] + s[3:] for s in Test_set]
     Target_test = [s[2] for s in Test_set]
     return Input_train, Target_train, Input_test, Target_test
-
-def predict(model, data):
-    model.predict(data)
     
 def preprocess_row(row:list) -> list:
     ''' Preprocess row for poker data 
