@@ -103,6 +103,9 @@ def init(seed=420):
     Target_test = Test_set[2]
     return Input_train, Target_train, Input_test, Target_test
 
+def predict(model, data):
+    model.predict(data)
+    
 def preprocess_row(row:list) -> list:
     ''' Preprocess row for poker data 
 
