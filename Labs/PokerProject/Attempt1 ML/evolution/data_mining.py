@@ -40,7 +40,7 @@ class miner:
 
     def runForest(self, f):
         ''' Extract data from data in file '''
-        mydicisbig = {
+        key2set = {
             'hand':{ # String, List
                 'Player_Hand'           # 'Player_Hand Subject_1 4s 6c 8s Kd 5c'
             },
@@ -71,17 +71,15 @@ class miner:
         }
 
         for line in f:
-            #print(number,line)
-            if 'all players' in line: # Check sent message :D
+            if 'all players' in line: # Check sent message
                 if "Sent message 'Round " in line: self.round = line.split(' ')[3]
  
-                for key,value in mydicisbig.items():
-                    for keyword in value:
+                for key, key_set in key2set.items():
+                    for keyword in key_set:
                         if keyword in line:
                             name, info = split_handlers[key](line.split("'")[1]) # call the handle function
-                            
                             self.newPlayer(name, key, info) # add to dict
-                            break
+                            break # Only one keyword per line
 
 
     def evaluateHand(self,data:list):
@@ -98,7 +96,7 @@ class miner:
             Data:
                 [-1, 50, 0, 50, 50, 'Forced_Bet', 'Player_Fold', 'Forced_Bet', 'Player_Fold', 'Forced_Bet', None]
             Parameters:
-                targetHandStrength, targetChips, targetWin, p1Chips,p2Chips, targetAction1,targetAction2, p1Action1,p1Action2, p2Action1, p2Action2,  
+                [targetHandStrength, targetChips, targetWin, p1Chips,p2Chips, targetAction1,targetAction2, p1Action1,p1Action2, p2Action1, p2Action2]  
 
              
         """
@@ -132,17 +130,14 @@ class miner:
             orderd_data = [[*the_rest[player].values()] for player in orderd_players]
             orderd_data = [*self.flatten(orderd_data)]
             result.extend([orderd_data+[*self.flatten(actions)] for actions in orderd_actions])
-            #print(*result,sep='\n')
         return result
         
-        
-        
     def flatten(self,list_of_lists):
-        "Flatten one level of nesting"
+        """Flatten one level of nesting"""
         return chain.from_iterable(list_of_lists)
 
     def pairwise(self,iterable, n=2):
-        "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+        """s -> (s0,s1), (s1,s2), (s2, s3), ..."""
         A = tee(iterable,n)
         for i, a in enumerate(A):
             for _ in repeat(None,i): next(a, None)

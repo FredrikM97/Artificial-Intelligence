@@ -18,21 +18,22 @@ def main():
     agents = [('Subject_1',True),('Subject_2',False)]#,('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
     print("Starting game.. Waiting for server")
 
-    for (name, observe), ip in zip(agents,range(1,len(agents)+1)):
-        c = client(RandomAgent(name, ip='localhost'), observe)
+    for name, observe in agents:
+        c = client(RandomAgent(name=name), hawkeye=observe)
         t = Thread(target=c.run)
         t.start()
         
 class client:
-    def __init__(self, agent, hawkeye):
+    def __init__(self, agent, ip='localhost', port=5000, hawkeye=False):
         # Connect agent
         self.agent = agent # Import the agent info
         self.hawkeye = hawkeye
         self.phase = 'info'
+        self.BUFFER_SIZE = 1024
 
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.settimeout(8.0)
-        self.s.connect((self.agent.IP, self.agent.PORT))
+        self.s.connect((ip, port))
 
         # Declare constants
         self.SIGNAL_ALIVE = '==================ALIVE======================' 
@@ -135,7 +136,7 @@ class client:
     ''' 
     
     def guessPhase(self,agent,RequestType):
-        # Try to figure out which phase
+        "Try to figure out which phase the server is in"
         # black magic fuckery to save us from creating the sets every call
         if 'phase2set' not in self.guessPhase.__dict__:
             infoSet = {
@@ -203,7 +204,7 @@ class client:
         # Is this an action phase?
         if self.phase == 'info': # wrong phase
             self.nextPhase()
-            print('Wong face!!')
+            print('Wrong phase!!')
 
         agent = self.agent if agent is None else agent # use local agent if none
         
@@ -213,7 +214,7 @@ class client:
             'betting':self.handle_Call_or_Raise,
             'draw':self.handle_Draw
         }
-        #TODO: do the all in case
+        #TODO: do the all-in case
         minimumPotAfterOpen = agent.Ante * 5 # TODO: reeee member it's 5 as in 5 players
         CurrentBet = agent.CurrentBet
         maximumBet = agent.maxBet
@@ -229,12 +230,13 @@ class client:
         phase2action[self.phase](agent=agent, MsgFractions=phase2msg[self.phase], **kwarg)
     def hourglass(self, *args, **kwargs):
         global RESPONSE_DELAY
-        # if bomb defuse then make bomb
-        
+
+        # if timer is already started: stop it
         if self.response_thread.is_alive():
             self.response_thread.cancel()
             self.response_thread.join()
 
+        # Make new timer
         t = Timer(RESPONSE_DELAY, self.guessAction, args=args, kwargs=kwargs)
         t.setDaemon(True)
         t.start()
@@ -271,7 +273,7 @@ class client:
 
         while True:
             try:
-                data = self.s.recv(self.agent.BUFFER_SIZE) # Get data
+                data = self.s.recv(self.BUFFER_SIZE) # Get data
                 if not data: break
                 MsgFractions = data.split() # split string into fraction
 
@@ -294,7 +296,6 @@ class client:
                 infoTablets[RequestType](MsgFractions, **kwarg)
                     
             except socket.timeout as evil:
-                #sys.stdout = sys.__stdout__ # Turn on prints
                 print(f'{self.agent.name} has commited soduko because {evil}')
                 break
         if self.hawkeye:

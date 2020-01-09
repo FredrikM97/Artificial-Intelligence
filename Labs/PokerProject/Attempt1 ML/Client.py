@@ -1,9 +1,9 @@
-import socket
 import random
 import ClientBase
 from deuces import Card, Evaluator# https://github.com/FredrikM97/deuces python3
 
 class Agent:
+    "Template class for poker agents"
     def __init__(self, name):
         self.name = name
         self.round = 0
@@ -16,24 +16,23 @@ class Agent:
         self.opponentStates = {}
         self.agentStates = {}
         
-    '''
-    * Called during the betting phases of the game when the player needs to decide what open
-    * action to choose.
-    '''
     def queryOpenAction(self, minimumPotAfterOpen, playersCurrentBet, playersRemainingChips):
+        '''
+        Called during the betting phases of the game when the player needs to decide what open
+        action to choose.
+        '''
         raise NotImplementedError
    
-    '''
-    * Called during the betting phases of the game when the player needs to decide what call/raise
-    * action to choose.
-    '''
+
     def queryCallRaiseAction(self, maximumBet, minimumAmountToRaiseTo, playersCurrentBet, playersRemainingChips):
+        '''
+        Called during the betting phases of the game when the player needs to decide what call/raise
+        action to choose.
+        '''
         raise NotImplementedError
 
-    '''
-    * Strategy to throw cards
-    '''
     def queryCardsToThrow(self, _hand):
+        "Strategy to throw cards"
         raise NotImplementedError
     
     def bet(self,number):
@@ -61,15 +60,36 @@ class Agent:
 
     def raiseAction(self, bet=0, **kwargs):
         self.bet(bet)
-        
+
+class ml_agent(Agent):
+    def __init__(self, name="Classy"):
+        Agent.__init__(self, name)
+
+    def queryOpenAction(self, min_pot_after_open, current_bet, remaining_chips):
+        # Check what actions we can do
+        possible_actions = [
+            ClientBase.BettingAnswer.ACTION_CHECK,
+            ClientBase.BettingAnswer.ACTION_ALLIN,
+        ]
+        can_open = current_bet + remaining_chips > min_pot_after_open
+        bet = 10 + min_pot_after_open \
+        if current_bet + remaining_chips + 10> min_pot_after_open \
+        else min_pot_after_open
+        if can_open: possible_actions.append(ClientBase.BettingAnswer.ACTION_OPEN, bet)
+
+        # Evaluate actions
+        """ TODO: finish this part
+        feature = [self.hand_strength]
+        feature.extend(["Every players chip"])
+        feature.extend(["every players actions"])
+
+        ml.predict(feature)
+        """
+
 
 class RandomAgent(Agent):
-    def __init__(self, name="Random", hand=[], ip='127.0.0.1', port=5000):
+    def __init__(self, name="Random"):
         Agent.__init__(self, name)
-        # IP address and port
-        self.IP = ip
-        self.PORT = port
-        self.BUFFER_SIZE = 1024
 
     def queryOpenAction(self, _minimumPotAfterOpen, _playersCurrentBet, _playersRemainingChips):
         print("Player requested to choose an opening action.")
