@@ -90,7 +90,7 @@ def infoPlayerFold(msg, verbose=False, agent=None, **kwargs):
 def infoPlayerAllIn(msg, verbose=False, agent=None, **kwargs):
     _playerName, _allInChipCount, *_ = msg
 
-    agent.addGameStatus(player=_playerName, action='allin', data=_allInChipCount, **kwargs)
+    agent.addGameStatus(player=_playerName, action='all-in', data=_allInChipCount, **kwargs)
     if verbose:
         print("Player "+_playerName +" goes all-in with a pot of "+_allInChipCount+" chips.")
 
