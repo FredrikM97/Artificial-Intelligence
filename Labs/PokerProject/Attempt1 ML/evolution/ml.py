@@ -73,16 +73,14 @@ number_of_players   = 5
 number_of_actions   = actions_per_player * encoding_size * number_of_players
 
 def main():
-    Input_train, Target_train, Input_test, Target_test = init()
-    test_classifiers(Input_train, Target_train, Input_test, Target_test)
-    #parameter_tuning(Input_train, Target_train, Input_test, Target_test)
+    Input_train, Target_train, Input_test, Target_test, *_ = init()
+    #test_classifiers(Input_train, Target_train, Input_test, Target_test)
+    parameter_tuning(Input_train, Target_train, Input_test, Target_test)
 
-def create_model():
-    Input_train, Target_train, Input_test, Target_test = init()
-    classifier = SVC(C=2.5, kernel='linear')
-
-    return classifier.fit(Input_train+Input_test, Target_train+Target_test)
-
+def create_model(ABS_PATH):
+    Input_train, Target_train, Input_test, Target_test, process, args = init(ABS_PATH)
+    classifier = SVC(C=2.5, kernel='linear',gamma='scale',probability=True)
+    return classifier.fit(Input_train+Input_test, Target_train+Target_test), process, args
 
 def test_classifiers(Input_train, Target_train, Input_test, Target_test):
     classifiers = [
@@ -104,16 +102,16 @@ def parameter_tuning(Input_train, Target_train, Input_test, Target_test):
         MLPClassifier,
     ]
     params = [  
-        {'C':[0.5,1.0,2.0,3.0,4.0],'kernel':['rbf', 'linear','poly']},
+        {'C':[0.5,1.0,2.0,3.0,4.0],'kernel':['rbf', 'linear','poly'],'gamma':['scale']},
         {'max_depth':[None,10],'criterion':['gini','entropy'],'n_estimators':[50,100,150],'max_features':['auto','log2']},
-        {'hidden_layer_sizes':[(100,),(100,50)],'solver':['lbfgs', 'adam'],'batch_size':['auto',50],'alpha':[1,2,5],'max_iter':[1000,3000]}
+        {'hidden_layer_sizes':[(100,),(50,50,50)],'solver':['lbfgs', 'adam'],'batch_size':[40,50],'alpha':[1],'max_iter':[1000]}
     ]
     # run all classifiers
     for classifi, params in zip(classifiers,params):
         cross_valid_example(classifi,params)
 
 def cross_valid_example(classifier,params):
-    Input_train, Target_train, Input_test, Target_test = init()
+    Input_train, Target_train, Input_test, Target_test, *_ = init()
     
     # do cross validation
     name = classifier.__doc__.split('.')[0]
@@ -132,9 +130,8 @@ def cross_valid_example(classifier,params):
         f'Cross valid accuracy: {acc} vs test accuracy: {accuracy(Target_test, predictions)}',
         'top 5:',*score[:10],sep='\n')
 
-def init(seed=420):
+def init(ABS_PATH='evolution/minedData.txt',seed=420):
     # load data
-    ABS_PATH = 'evolution/minedData.txt'
     file = open(ABS_PATH)
     data = []
     for row in file:
@@ -146,24 +143,29 @@ def init(seed=420):
             except: # String
                 casted_info.append(item if item == 'None' else item[1:-1])
         data.append(casted_info)
+
+    # drop poor data
+    data = [d for d in data if d[0] != -1] # drop if missing hand data
     
     # split data
     np.random.seed(seed) # set random seed for reproducibility
-    Train_set, Test_set = train_test_split(data, test_size=0.2)
+    Train_set, Test_set = train_test_split(data, test_size=0.3)
 
-    # preprocess
-    #print('Before prepro:', *Train_set[:1], sep='\n')
-    Train_set = preprocess_columns([preprocess_row(row) for row in Train_set])
-    Test_set = preprocess_columns([preprocess_row(row) for row in Test_set])
-    #print('After prepro:', *Train_set[:1], sep='\n')
-
+    # Extract target label
     Input_train = [s[:2] + s[3:] for s in Train_set]
     Target_train = [s[2] for s in Train_set]
     Input_test = [s[:2] + s[3:] for s in Test_set]
     Target_test = [s[2] for s in Test_set]
-    return Input_train, Target_train, Input_test, Target_test
+
+    # preprocess
+    #print('Before prepro:', *Train_set[:1], sep='\n')
+    Input_train, process, args = preprocess_columns([preprocess_row(row) for row in Input_train])
+    Input_test, _, _ = preprocess_columns([preprocess_row(row) for row in Input_test])
+    #print('After prepro:', *Train_set[:1], sep='\n')
+
+    return Input_train, Target_train, Input_test, Target_test, process, args
     
-def preprocess_row(row:list) -> list:
+def preprocess_row(row:list, process:list=None, args:List[dict]=None) -> list:
     ''' Preprocess row for poker data 
 
     If targetHandStrength is -1 the row is dropped by returning an empty list.
@@ -201,8 +203,8 @@ def preprocess_row(row:list) -> list:
     if targetHandStrength == -1: return []
 
     # Padding row 
-    player_in_row = (len(row)-2)/(1+actions_per_player)
-    index_to_insert_chip = int(player_in_row) + 2
+    player_in_row = (len(row)-1)/(1+actions_per_player)
+    index_to_insert_chip = int(player_in_row) + 1
     players_to_add = int(number_of_players-player_in_row)
 
     padded_row = row[:index_to_insert_chip]  + \
@@ -221,7 +223,6 @@ def preprocess_row(row:list) -> list:
         'Player_All-in': 6,
         'None': 7
     }
-
     processed_row = []
     for item in padded_row:
         if isinstance(item, int): 
@@ -231,6 +232,14 @@ def preprocess_row(row:list) -> list:
             length = len(action2int)
             processed_row.extend(one_hot_encode(val, length))
 
+    # If additional processing is requsted
+    if process != None and args != None:
+        args2 =  []
+        for d in args:
+            if 'ret' in d: del d['ret']
+            args2.append(d)
+        args = args2
+        processed_row = [func([row], **kwargs)[0][0] for row, func, kwargs in zip(processed_row, process, args)]
     return processed_row
 
 def preprocess_columns(data:List[list]) -> List[list]:
@@ -254,37 +263,47 @@ def preprocess_columns(data:List[list]) -> List[list]:
     processed = [row for row in data if len(row) != 0]
 
     # Setup list of processes 
-    norm_quantile = lambda x:normalize(quantile(x))
-    echo = lambda x:x
+    norm_quantile = lambda x,**kw:normalize(*quantile(x, ret=True, **kw))
+    echo = lambda x,**kw:(x,kw)
     process = [ # functions to apply to the corresponding columns
         norm_quantile,  # targetHandStrength
-        norm_quantile,  # targetChips
-        echo,           # targetWin
     ]
-
-    process.extend([*repeat(norm_quantile, number_of_players-1)]) # Process for player chips
+    
+    process.extend([*repeat(norm_quantile, number_of_players)]) # Process for player chips
     process.extend([*repeat(echo, number_of_actions)]) # Process for player actions
     
     # Run processes
     assert len(process) == len(processed[0])
     processed = [func(col) for col, func in zip(zip(*processed),process)]
-    return list(zip(*processed))
+    args = [kw for _,kw in processed]
+    processed = [p for p,_ in processed]
+    return list(zip(*processed)), process, args
 
-def normalize(vector: list) -> list:
+def normalize(vector:list,ret:bool=False, low:int=None, high:int=None, **kwargs) -> list:
     "Normalizes a vector"
-    high = max(vector)
-    low = min(vector)
-    if high-low == 0: return [*repeat(0,len(vector))]
-    return [(item-low)/(high-low) for item in vector]
+    h = max(vector) if high == None else high
+    l = min(vector) if low == None else low
+    out = [*repeat(0,len(vector))] if h == l \
+    else [(item-l)/(h-l) for item in vector]
 
+    if ret: 
+        kwargs.update({'low':l,'high':h})
+        return out, kwargs
+    return out
+    
 def one_hot_encode(value:int, length:int):
     zeros = [*repeat(0,length)]
     zeros[value] = 1
     return zeros
 
-def quantile(vector: list) -> list:
+def quantile(vector:list, q:list=None, ret:bool=False, **kwargs) -> list:
     "Discretize variable into sqrt(len(vector)) semi-equal-sized buckets"
-    return pd.qcut(vector, int(len(vector)**.5), labels=False, duplicates='drop')
+    if q == None: q = int(len(vector)**.5)
+    out, *bins = pd.qcut(vector, q, labels=False,retbins=ret, duplicates='drop')
+    if len(bins) > 0: 
+        kwargs.update({'q':bins[0]})
+        return out, kwargs
+    return out
 
 def cross_valid_testing(algorithm, Input_train:List[list], Target_train:list, parameters:dict, k_folds:int=5) -> List[tuple]:
     # build a bunch of dicts from this one dict

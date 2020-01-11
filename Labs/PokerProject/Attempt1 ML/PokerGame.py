@@ -7,19 +7,24 @@ import ClientBase
 import time
 import sys, os
 from threading import Thread, Timer
+from itertools import repeat
 
-from Client import RandomAgent
+from Client import RandomAgent, ml_agent
 from game.serverInfo import * 
 
 RESPONSE_DELAY = 0.5 # In seconds
 
 def main():
     
-    agents = [('Subject_1',True),('Subject_2',False)]#,('Subject_3',False)]#,('Subject_4',False),('Subject_5',False)
+    agents = [
+        ml_agent(name='Synthesis_1'),
+        ml_agent(name='Synthesis_2'),
+    ]
+    observe = [True]+[*repeat(False,len(agents)-1)]
     print("Starting game.. Waiting for server")
 
-    for name, observe in agents:
-        c = client(RandomAgent(name=name), hawkeye=observe)
+    for agent, eye in zip(agents, observe):
+        c = client(agent, hawkeye=eye)
         t = Thread(target=c.run)
         t.start()
         
@@ -284,7 +289,7 @@ class client:
 
                 MsgFractions = [msg.decode('utf-8') for msg in MsgFractions] # Get Request type
                 RequestType, *MsgFractions = MsgFractions
-                self.guessPhase(self.agent,RequestType)
+                #self.guessPhase(self.agent,RequestType)
                 
                 self.iMsg += 1  # No. of Msg
 
@@ -299,8 +304,7 @@ class client:
                 print(f'{self.agent.name} has commited soduko because {evil}')
                 break
         if self.hawkeye:
-            print(*self.agent.opponentStates.items(),sep='\n')
-            print(*self.agent.agentStates.items(),sep='\n')
+            print(*self.agent.players.items(),sep='\n')
         self.s.close()
         
 if __name__ == "__main__":
