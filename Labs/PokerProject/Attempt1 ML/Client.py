@@ -98,6 +98,7 @@ class ml_agent(Agent):
         del playerCopy[self.name]
 
         for info in playerCopy.values():
+            chips.append()
 
             
         pass
