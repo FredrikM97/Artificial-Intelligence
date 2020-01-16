@@ -121,8 +121,8 @@ class ml_agent(Agent):
         # Evaluate actions
         prob_of_action = [(self.model.predict_proba(self.get_feature(action))[0][1], action, value) \
             for action, value in possible_actions]
-        print(prob_of_action)
         prob, best_action, value = max(prob_of_action, key=lambda x:x[0])
+        #print(prob_of_action)
         print('prob', prob, 'best_action', best_action, 'value', value)
 
         # Inform agent of what we do

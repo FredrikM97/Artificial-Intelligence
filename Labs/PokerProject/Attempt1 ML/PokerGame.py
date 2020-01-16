@@ -87,8 +87,8 @@ class client:
     ***** ACTIONS to server *****
     '''    
     def send_but_working(self,string): # use this when doing python 3+
-        self.response_thread.cancel()
-        self.nextPhase()
+        #self.response_thread.cancel()
+        #self.nextPhase()
         self.s.send(str.encode(string + '\n'))
         
     # Return agent name to Server
@@ -115,7 +115,7 @@ class client:
         print("Open:",to_send)
         self.send_but_working(to_send)
         
-        print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
+        #print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
 
     # Do a call or raise depending on Agent
     def handle_Call_or_Raise(self, *_, agent=None, MsgFractions=[], **kwargs):
@@ -128,7 +128,7 @@ class client:
         print("Call:",to_send)
         self.send_but_working(to_send)
         
-        print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
+        #print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
 
     # Throw agent hand   
     def handle_Draw(self, *_, agent=None, MsgFractions=[], **kwargs):
@@ -273,24 +273,58 @@ class client:
             'Round_result':infoRoundResult, # Target: Who won?
             'Result':infoResult,
             'Game_Over':infoGameOver, 
-            'unknown_action':self.hourglass#self.guessAction#lambda *arg,**kwarg:None#
+            'unknown_action':lambda *a,**kw:None#self.hourglass#self.guessAction#lambda *arg,**kwarg:None#
         }
 
+        msg2len = { # Maps message to excepted length of message
+            'Name?':0,
+            'Chips':2,
+            'Ante_Changed':1,
+            'Forced_Bet':2,
+            'Open?':3,
+            'Call/Raise?':4,
+            'Cards':5,
+            'Draw?':0,
+            'Round':1, # Parameter
+            'Player_Open':2, # Parameter
+            'Player_Check':1, # Parameter
+            'Player_Raise':2, # Parameter
+            'Player_Call':1, # Parameter
+            'Player_Fold':1, # Parameter
+            'Player_All-in':2, # Parameter
+            'Player_Hand':6, 
+            'Player_Draw':2, 
+            'Round_Win_Undisputed':2, # Target: Who won?
+            'Round_result':2, # Target: Who won?
+            'Result':3,
+            'Game_Over':0, 
+            'unknown_action':0
+        }
+
+        nagle_buffer = []
         while True:
             try:
                 data = self.s.recv(self.BUFFER_SIZE) # Get data
                 if not data: break
                 MsgFractions = data.split() # split string into fraction
-
+                
+                #print('agent',self.agent.name,'buffer',*nagle_buffer,'message',MsgFractions)
                 if len(MsgFractions) == 0: 
-                    print("Data from server:",MsgFractions)
-                    MsgFractions = [b'unknown_action']
-                    continue
+                    if len(nagle_buffer) == 0:
+                        #print("Data from server:",MsgFractions)
+                        continue #MsgFractions = [b'unknown_action'] 
+                    else:
+                        MsgFractions = []
 
                 MsgFractions = [msg.decode('utf-8') for msg in MsgFractions] # Get Request type
-                RequestType, *MsgFractions = MsgFractions
-                #self.guessPhase(self.agent,RequestType)
                 
+                # Queue message and pick real message from queue
+                nagle_buffer.extend(MsgFractions)
+                RequestType = nagle_buffer.pop(0)
+                msg_len = msg2len[RequestType]
+                MsgFractions = nagle_buffer[:msg_len]
+                del nagle_buffer[:msg_len]
+
                 self.iMsg += 1  # No. of Msg
 
                 kwarg = {
