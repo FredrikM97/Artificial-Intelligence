@@ -90,7 +90,9 @@ class Agent:
             try:
                 self.__dict__[action] = int(data) # Overwrite local data
             except:
-                print("True face:",data,type(data))
+                pass
+                #print("True face:",data,type(data))
+                
         
         if player not in self.players and player != None:
             self.players.update({player:{'chips':0, 'action':['None', 'None']}})
