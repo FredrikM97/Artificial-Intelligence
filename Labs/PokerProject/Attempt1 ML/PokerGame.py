@@ -115,7 +115,7 @@ class client:
 
         # For check and All-in/ Open
         to_send = tmp if issubclass(tmp.__class__, str) else ' '.join([str(item) for item in tmp])
-        print("Open:",to_send)
+        #print("Open:",to_send)
         self.send_but_working(to_send)
         
         #print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
@@ -128,7 +128,7 @@ class client:
 
         # For fold, all-in, call / For raise
         to_send = tmp if issubclass(tmp.__class__,str) else ' '.join([str(item) for item in tmp])
-        print("Call:",to_send)
+        #print("Call:",to_send)
         self.send_but_working(to_send)
         
         #print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
@@ -137,7 +137,7 @@ class client:
     def handle_Draw(self, *_, agent=None, MsgFractions=[], **kwargs):
         discardCards = agent.queryCardsToThrow(agent.CurrentHand)
         self.send_but_working('Throws ' + discardCards)
-        print(agent.name, 'Action:','Throws', discardCards)
+        #print(agent.name, 'Action:','Throws', discardCards)
         
     '''
     *****  Guess current phase of server *****
