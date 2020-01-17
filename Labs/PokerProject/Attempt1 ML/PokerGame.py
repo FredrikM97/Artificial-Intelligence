@@ -19,6 +19,9 @@ def main():
     agents = [
         ml_agent(name='Synthesis_1'),
         ml_agent(name='Synthesis_2'),
+        ml_agent(name='Synthesis_3'),
+        ml_agent(name='Synthesis_4'),
+        ml_agent(name='Synthesis_5'),
     ]
     observe = [True]+[*repeat(False,len(agents)-1)]
     print("Starting game.. Waiting for server")

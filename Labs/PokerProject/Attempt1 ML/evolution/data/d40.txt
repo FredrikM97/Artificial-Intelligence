@@ -1,0 +1,887 @@
+Starting poker server...
+...done
+Poker server: Starting...
+Poker server: Awaiting players...
+Poker server started.
+Local address: 0.0.0.0
+Public address: null
+Port: 5000
+Player #0 connected. Requesting player name.
+Sent message 'Name?' to player #0.
+Player #1 connected. Requesting player name.
+Sent message 'Name?' to player #1.
+Received message 'Name Synthesis_2' from player #1
+Player #2 connected. Requesting player name.
+Connected player 'Synthesis_2' (client ID #1).
+Sent message 'Name?' to player #2.
+Player #3 connected. Requesting player name.
+Received message 'Name Synthesis_4' from player #3
+Sent message 'Name?' to player #3.
+Connected player 'Synthesis_4' (client ID #3).
+Player #4 connected. Requesting player name.
+Received message 'Name Synthesis_5' from player #4
+Sent message 'Name?' to player #4.
+Connected player 'Synthesis_5' (client ID #4).
+Received message 'Name Synthesis_1' from player #0
+Connected player 'Synthesis_1' (client ID #0).
+Received message 'Name Synthesis_3' from player #2
+Connected player 'Synthesis_3' (client ID #2).
+Poker server: All players connected.
+Poker server: Round 1 started.
+Poker server: Sending current standing.
+Sent message 'Round 1' to all players.
+Standing: Synthesis_2: 100 chips.
+Sent message 'Chips Synthesis_2 100' to all players.
+Sent message 'Chips Synthesis_4 100' to all players.
+Sent message 'Chips Synthesis_5 100' to all players.
+Sent message 'Chips Synthesis_1 100' to all players.
+Sent message 'Chips Synthesis_3 100' to all players.
+Standing: Synthesis_4: 100 chips.
+Standing: Synthesis_5: 100 chips.
+Standing: Synthesis_1: 100 chips.
+Standing: Synthesis_3: 100 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Sent message 'Cards 5h 4h Qs 9s Kh' to player #1.
+Sent message 'Cards Td 3c 2c Jd 4s' to player #3.
+Sent message 'Cards 7c 5c 2h 7h 4d' to player #4.
+Sent message 'Cards Ad 3s 9d As 8s' to player #0.
+Hand: Synthesis_2 has  5h 4h Qs 9s Kh on hand.
+Sent message 'Cards 8h 9h Qh 2d Th' to player #2.
+Hand: Synthesis_4 has  Td 3c 2c Jd 4s on hand.
+Hand: Synthesis_5 has  7c 5c 2h 7h 4d on hand.
+Hand: Synthesis_1 has  Ad 3s 9d As 8s on hand.
+Hand: Synthesis_3 has  8h 9h Qh 2d Th on hand.
+Poker server: Forcing ante bets.
+Sent message 'Ante_Changed 10' to all players.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_2 10' to all players.
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Forced_Bet Synthesis_1 10' to all players.
+Sent message 'Forced_Bet Synthesis_3 10' to all players.
+Sent message 'Open? 11 10 90' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_2 ' to all players.
+Sent message 'Open? 11 10 90' to player #3.
+Received message 'All-in' from player #3
+Received expected message from client #3. Message is 'All-in'.
+Player Synthesis_4: State changed to 2
+Maximum bet is 100, minimum raise is 90 (to 190).
+Sent message 'Player_All-in Synthesis_4 100' to all players.
+Sent message 'Call/Raise? 100 190 10 90' to player #4.
+Received message 'Fold' from player #4
+Received expected message from client #4. Message is 'Fold'.
+Player Synthesis_5: State changed to 1
+Maximum bet is 100, minimum raise is 90 (to 190).
+Sent message 'Player_Fold Synthesis_5 ' to all players.
+Sent message 'Call/Raise? 100 190 10 90' to player #0.
+Received message 'Fold' from player #0
+Received expected message from client #0. Message is 'Fold'.
+Player Synthesis_1: State changed to 1
+Maximum bet is 100, minimum raise is 90 (to 190).
+Sent message 'Player_Fold Synthesis_1 ' to all players.
+Sent message 'Call/Raise? 100 190 10 90' to player #2.
+Received message 'All-in' from player #2
+Received expected message from client #2. Message is 'All-in'.
+Player Synthesis_3: State changed to 2
+Maximum bet is 100, minimum raise is 90 (to 190).
+Sent message 'Player_All-in Synthesis_3 100' to all players.
+Sent message 'Call/Raise? 100 190 10 90' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player Synthesis_2: State changed to 1
+Maximum bet is 100, minimum raise is 90 (to 190).
+Sent message 'Player_Fold Synthesis_2 ' to all players.
+Poker server: Betting round ended.
+Poker server: Draw started...
+Sent message 'Draw?' to player #1.
+Received message 'Throws 5h' from player #1
+Received expected message from client #1. Message is 'Throws 5h'.
+Sent message 'Cards Js 4h Qs 9s Kh' to player #1.
+Sent message 'Player_Draw Synthesis_2 1' to all players.
+Sent message 'Draw?' to player #3.
+Received message 'Throws Jd' from player #3
+Received expected message from client #3. Message is 'Throws Jd'.
+Sent message 'Cards Td 3c 2c 3h 4s' to player #3.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Sent message 'Draw?' to player #4.
+Received message 'Throws 2h' from player #4
+Received expected message from client #4. Message is 'Throws 2h'.
+Sent message 'Cards 7c 5c Ac 7h 4d' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws 3s' from player #0
+Received expected message from client #0. Message is 'Throws 3s'.
+Sent message 'Cards Ad 7d 9d As 8s' to player #0.
+Sent message 'Player_Draw Synthesis_1 1' to all players.
+Sent message 'Draw?' to player #2.
+Received message 'Throws 2d' from player #2
+Received expected message from client #2. Message is 'Throws 2d'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has  Js 4h Qs 9s Kh on hand.
+Sent message 'Cards 8h 9h Qh 4c Th' to player #2.
+Sent message 'Player_Draw Synthesis_3 1' to all players.
+Hand: Synthesis_4 has  Td 3c 2c 3h 4s on hand.
+Hand: Synthesis_5 has  7c 5c Ac 7h 4d on hand.
+Hand: Synthesis_1 has  Ad 7d 9d As 8s on hand.
+Hand: Synthesis_3 has  8h 9h Qh 4c Th on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player Synthesis_2: Status is 1, chips in pot is 10.
+Player Synthesis_4: Status is 2, chips in pot is 100.
+Player Synthesis_5: Status is 1, chips in pot is 10.
+Player Synthesis_1: Status is 1, chips in pot is 10.
+Player Synthesis_3: Status is 2, chips in pot is 100.
+Poker server: Pot data: 5 player(s), 10 chips/player, 1 winner(s).
+Poker server: Pot data: 2 player(s), 90 chips/player, 1 winner(s).
+Poker server: Player Synthesis_4 won 230 chips.
+Poker server: Showdown ended.
+Player Synthesis_2: State changed to 0
+Player Synthesis_4: State changed to 0
+Sent message 'Player_Hand Synthesis_4 Td 3c 2c 3h 4s' to all players.
+Player Synthesis_5: State changed to 0
+Player Synthesis_1: State changed to 0
+Sent message 'Player_Hand Synthesis_3 8h 9h Qh 4c Th' to all players.
+Player Synthesis_3: State changed to 0
+Sent message 'Round_result Synthesis_4 230' to all players.
+Player Synthesis_3: State changed to 3
+Poker server: Round 2 started.
+Poker server: Sending current standing.
+Sent message 'Round 2' to all players.
+Sent message 'Chips Synthesis_2 90' to all players.
+Sent message 'Chips Synthesis_4 230' to all players.
+Sent message 'Chips Synthesis_5 90' to all players.
+Standing: Synthesis_2: 90 chips.
+Sent message 'Chips Synthesis_1 90' to all players.
+Sent message 'Chips Synthesis_3 0' to all players.
+Standing: Synthesis_4: 230 chips.
+Standing: Synthesis_5: 90 chips.
+Standing: Synthesis_1: 90 chips.
+Standing: Synthesis_3: 0 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Sent message 'Cards 8d 9d 6s 5c 8h' to player #1.
+Sent message 'Cards 2h Jc Ah As 5h' to player #3.
+Sent message 'Cards 2s Ks 7h Jd Td' to player #4.
+Hand: Synthesis_2 has  8d 9d 6s 5c 8h on hand.
+Sent message 'Cards 7d Kh Kd 2d 4h' to player #0.
+Hand: Synthesis_4 has  2h Jc Ah As 5h on hand.
+Hand: Synthesis_5 has  2s Ks 7h Jd Td on hand.
+Hand: Synthesis_1 has  7d Kh Kd 2d 4h on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Forced_Bet Synthesis_1 10' to all players.
+Sent message 'Forced_Bet Synthesis_2 10' to all players.
+Sent message 'Open? 11 10 220' to player #3.
+Received message 'Check' from player #3
+Received expected message from client #3. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_4 ' to all players.
+Sent message 'Open? 11 10 80' to player #4.
+Received message 'Check' from player #4
+Received expected message from client #4. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_5 ' to all players.
+Sent message 'Open? 11 10 80' to player #0.
+Received message 'Check' from player #0
+Received expected message from client #0. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_1 ' to all players.
+Sent message 'Open? 11 10 80' to player #1.
+Received message 'Open 20' from player #1
+Received expected message from client #1. Message is 'Open 20'.
+Maximum bet is 20, minimum raise is 10 (to 30).
+Sent message 'Player_Open Synthesis_2 20' to all players.
+Sent message 'Call/Raise? 20 30 10 220' to player #3.
+Received message 'Call' from player #3
+Received expected message from client #3. Message is 'Call'.
+Maximum bet is 20, minimum raise is 10 (to 30).
+Sent message 'Player_Call Synthesis_4 ' to all players.
+Sent message 'Call/Raise? 20 30 10 80' to player #4.
+Received message 'All-in' from player #4
+Received expected message from client #4. Message is 'All-in'.
+Player Synthesis_5: State changed to 2
+Maximum bet is 90, minimum raise is 70 (to 160).
+Sent message 'Player_All-in Synthesis_5 90' to all players.
+Sent message 'Call/Raise? 90 160 10 80' to player #0.
+Received message 'All-in' from player #0
+Received expected message from client #0. Message is 'All-in'.
+Player Synthesis_1: State changed to 2
+Maximum bet is 90, minimum raise is 70 (to 160).
+Sent message 'Player_All-in Synthesis_1 90' to all players.
+Sent message 'Call/Raise? 90 160 20 70' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player Synthesis_2: State changed to 1
+Maximum bet is 90, minimum raise is 70 (to 160).
+Sent message 'Player_Fold Synthesis_2 ' to all players.
+Sent message 'Call/Raise? 90 160 20 210' to player #3.
+Received message 'Fold' from player #3
+Received expected message from client #3. Message is 'Fold'.
+Player Synthesis_4: State changed to 1
+Maximum bet is 90, minimum raise is 70 (to 160).
+Poker server: Betting round ended.
+Sent message 'Player_Fold Synthesis_4 ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #3.
+Received message 'Throws As' from player #3
+Received expected message from client #3. Message is 'Throws As'.
+Sent message 'Cards 2h Jc Ah Qs 5h' to player #3.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Sent message 'Draw?' to player #4.
+Received message 'Throws Jd' from player #4
+Received expected message from client #4. Message is 'Throws Jd'.
+Sent message 'Cards 2s Ks 7h 4d Td' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws Kd' from player #0
+Received expected message from client #0. Message is 'Throws Kd'.
+Sent message 'Cards 7d Kh 9s 2d 4h' to player #0.
+Sent message 'Player_Draw Synthesis_1 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws 8d' from player #1
+Received expected message from client #1. Message is 'Throws 8d'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has  4c 9d 6s 5c 8h on hand.
+Sent message 'Cards 4c 9d 6s 5c 8h' to player #1.
+Sent message 'Player_Draw Synthesis_2 1' to all players.
+Hand: Synthesis_4 has  2h Jc Ah Qs 5h on hand.
+Hand: Synthesis_5 has  2s Ks 7h 4d Td on hand.
+Hand: Synthesis_1 has  7d Kh 9s 2d 4h on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player Synthesis_2: Status is 1, chips in pot is 20.
+Player Synthesis_4: Status is 1, chips in pot is 20.
+Player Synthesis_5: Status is 2, chips in pot is 90.
+Player Synthesis_1: Status is 2, chips in pot is 90.
+Poker server: Pot data: 4 player(s), 20 chips/player, 2 winner(s).
+Poker server: Pot data: 2 player(s), 70 chips/player, 2 winner(s).
+Sent message 'Player_Hand Synthesis_5 2s Ks 7h 4d Td' to all players.
+Sent message 'Player_Hand Synthesis_1 7d Kh 9s 2d 4h' to all players.
+Poker server: Player Synthesis_5 won 110 chips.
+Sent message 'Round_result Synthesis_5 110' to all players.
+Poker server: Player Synthesis_1 won 110 chips.
+Poker server: Showdown ended.
+Player Synthesis_2: State changed to 0
+Player Synthesis_4: State changed to 0
+Player Synthesis_5: State changed to 0
+Player Synthesis_1: State changed to 0
+Sent message 'Round_result Synthesis_1 110' to all players.
+Poker server: Round 3 started.
+Poker server: Sending current standing.
+Sent message 'Round 3' to all players.
+Standing: Synthesis_2: 70 chips.
+Sent message 'Chips Synthesis_2 70' to all players.
+Sent message 'Chips Synthesis_4 210' to all players.
+Sent message 'Chips Synthesis_5 110' to all players.
+Sent message 'Chips Synthesis_1 110' to all players.
+Sent message 'Chips Synthesis_3 0' to all players.
+Standing: Synthesis_4: 210 chips.
+Standing: Synthesis_5: 110 chips.
+Standing: Synthesis_1: 110 chips.
+Standing: Synthesis_3: 0 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Sent message 'Cards 8s Kd 6d 9d 5s' to player #1.
+Sent message 'Cards 7d Td 9c Ts 3h' to player #3.
+Sent message 'Cards 9h 5c Ac 4d 2s' to player #4.
+Hand: Synthesis_2 has  8s Kd 6d 9d 5s on hand.
+Sent message 'Cards Qs 4c Jc 3d 7c' to player #0.
+Hand: Synthesis_4 has  7d Td 9c Ts 3h on hand.
+Hand: Synthesis_5 has  9h 5c Ac 4d 2s on hand.
+Hand: Synthesis_1 has  Qs 4c Jc 3d 7c on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Forced_Bet Synthesis_1 10' to all players.
+Sent message 'Forced_Bet Synthesis_2 10' to all players.
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Open? 11 10 100' to player #4.
+Received message 'Check' from player #4
+Received expected message from client #4. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_5 ' to all players.
+Sent message 'Open? 11 10 100' to player #0.
+Received message 'Check' from player #0
+Received expected message from client #0. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_1 ' to all players.
+Sent message 'Open? 11 10 60' to player #1.
+Received message 'Check' from player #1
+Received expected message from client #1. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_2 ' to all players.
+Sent message 'Open? 11 10 200' to player #3.
+Received message 'Open 19' from player #3
+Received expected message from client #3. Message is 'Open 19'.
+Maximum bet is 19, minimum raise is 9 (to 28).
+Sent message 'Player_Open Synthesis_4 19' to all players.
+Sent message 'Call/Raise? 19 28 10 100' to player #4.
+Received message 'Raise 38' from player #4
+Received expected message from client #4. Message is 'Raise 38'.
+Maximum bet is 38, minimum raise is 19 (to 57).
+Sent message 'Player_Raise Synthesis_5 38' to all players.
+Sent message 'Call/Raise? 38 57 10 100' to player #0.
+Received message 'Fold' from player #0
+Received expected message from client #0. Message is 'Fold'.
+Player Synthesis_1: State changed to 1
+Maximum bet is 38, minimum raise is 19 (to 57).
+Sent message 'Player_Fold Synthesis_1 ' to all players.
+Sent message 'Call/Raise? 38 57 10 60' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 38, minimum raise is 19 (to 57).
+Sent message 'Player_Call Synthesis_2 ' to all players.
+Sent message 'Call/Raise? 38 57 19 191' to player #3.
+Received message 'Call' from player #3
+Received expected message from client #3. Message is 'Call'.
+Maximum bet is 38, minimum raise is 19 (to 57).
+Poker server: Betting round ended.
+Sent message 'Player_Call Synthesis_4 ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #4.
+Received message 'Throws 2s' from player #4
+Received expected message from client #4. Message is 'Throws 2s'.
+Sent message 'Cards 9h 5c Ac 4d 4h' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws 3d' from player #0
+Received expected message from client #0. Message is 'Throws 3d'.
+Sent message 'Cards Qs 4c Jc 2c 7c' to player #0.
+Sent message 'Player_Draw Synthesis_1 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws 9d' from player #1
+Received expected message from client #1. Message is 'Throws 9d'.
+Sent message 'Cards 8s Kd 6d 7h 5s' to player #1.
+Sent message 'Player_Draw Synthesis_2 1' to all players.
+Sent message 'Draw?' to player #3.
+Received message 'Throws 9c' from player #3
+Received expected message from client #3. Message is 'Throws 9c'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has  8s Kd 6d 7h 5s on hand.
+Sent message 'Cards 7d Td Qd Ts 3h' to player #3.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Hand: Synthesis_4 has  7d Td Qd Ts 3h on hand.
+Hand: Synthesis_5 has  9h 5c Ac 4d 4h on hand.
+Hand: Synthesis_1 has  Qs 4c Jc 2c 7c on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Betting round started.
+Maximum bet is 38, minimum raise is 1 (to 39).
+Sent message 'Open? 39 38 72' to player #4.
+Received message 'Open 43' from player #4
+Received expected message from client #4. Message is 'Open 43'.
+Maximum bet is 43, minimum raise is 5 (to 48).
+Maximum bet is 43, minimum raise is 5 (to 48).
+Sent message 'Player_Open Synthesis_5 43' to all players.
+Sent message 'Call/Raise? 43 48 38 32' to player #1.
+Received message 'Call' from player #1
+Received expected message from client #1. Message is 'Call'.
+Maximum bet is 43, minimum raise is 5 (to 48).
+Sent message 'Player_Call Synthesis_2 ' to all players.
+Sent message 'Call/Raise? 43 48 38 172' to player #3.
+Received message 'All-in' from player #3
+Received expected message from client #3. Message is 'All-in'.
+Player Synthesis_4: State changed to 2
+Maximum bet is 210, minimum raise is 167 (to 377).
+Sent message 'Player_All-in Synthesis_4 210' to all players.
+Sent message 'Call/Raise? 210 377 43 67' to player #4.
+Received message 'Fold' from player #4
+Received expected message from client #4. Message is 'Fold'.
+Player Synthesis_5: State changed to 1
+Maximum bet is 210, minimum raise is 167 (to 377).
+Maximum bet is 210, minimum raise is 167 (to 377).
+Sent message 'Player_Fold Synthesis_5 ' to all players.
+Sent message 'Call/Raise? 210 377 43 27' to player #1.
+Received message 'Fold' from player #1
+Received expected message from client #1. Message is 'Fold'.
+Player Synthesis_2: State changed to 1
+Maximum bet is 210, minimum raise is 167 (to 377).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player Synthesis_2: Status is 1, chips in pot is 43.
+Sent message 'Player_Fold Synthesis_2 ' to all players.
+Player Synthesis_4: Status is 2, chips in pot is 210.
+Player Synthesis_5: Status is 1, chips in pot is 43.
+Player Synthesis_1: Status is 1, chips in pot is 10.
+Poker server: Player Synthesis_4 won 306 chips undisputed.
+Poker server: Showdown ended.
+Sent message 'Round_Win_Undisputed Synthesis_4 306' to all players.
+Player Synthesis_2: State changed to 0
+Player Synthesis_4: State changed to 0
+Player Synthesis_5: State changed to 0
+Player Synthesis_1: State changed to 0
+Poker server: Round 4 started.
+Poker server: Sending current standing.
+Sent message 'Round 4' to all players.
+Sent message 'Chips Synthesis_2 27' to all players.
+Sent message 'Chips Synthesis_4 306' to all players.
+Sent message 'Chips Synthesis_5 67' to all players.
+Sent message 'Chips Synthesis_1 100' to all players.
+Standing: Synthesis_2: 27 chips.
+Sent message 'Chips Synthesis_3 0' to all players.
+Standing: Synthesis_4: 306 chips.
+Standing: Synthesis_5: 67 chips.
+Standing: Synthesis_1: 100 chips.
+Standing: Synthesis_3: 0 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: Synthesis_2 has  7s 3h Jc 8c 6h on hand.
+Sent message 'Cards 7s 3h Jc 8c 6h' to player #1.
+Sent message 'Cards 4d 7h Ad 3d 9c' to player #3.
+Sent message 'Cards 5s 5h 5c Ks Ah' to player #4.
+Sent message 'Cards Ts 3s 7c 2h Qh' to player #0.
+Hand: Synthesis_4 has  4d 7h Ad 3d 9c on hand.
+Hand: Synthesis_5 has  5s 5h 5c Ks Ah on hand.
+Hand: Synthesis_1 has  Ts 3s 7c 2h Qh on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_1 10' to all players.
+Sent message 'Forced_Bet Synthesis_2 10' to all players.
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Open? 11 10 90' to player #0.
+Received message 'Check' from player #0
+Received expected message from client #0. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_1 ' to all players.
+Sent message 'Open? 11 10 17' to player #1.
+Received message 'All-in' from player #1
+Received expected message from client #1. Message is 'All-in'.
+Player Synthesis_2: State changed to 2
+Maximum bet is 27, minimum raise is 17 (to 44).
+Sent message 'Player_All-in Synthesis_2 27' to all players.
+Sent message 'Call/Raise? 27 44 10 296' to player #3.
+Received message 'All-in' from player #3
+Received expected message from client #3. Message is 'All-in'.
+Player Synthesis_4: State changed to 2
+Maximum bet is 306, minimum raise is 279 (to 585).
+Sent message 'Player_All-in Synthesis_4 306' to all players.
+Sent message 'Call/Raise? 306 585 10 57' to player #4.
+Received message 'Fold' from player #4
+Received expected message from client #4. Message is 'Fold'.
+Player Synthesis_5: State changed to 1
+Maximum bet is 306, minimum raise is 279 (to 585).
+Sent message 'Player_Fold Synthesis_5 ' to all players.
+Sent message 'Call/Raise? 306 585 10 90' to player #0.
+Received message 'Fold' from player #0
+Received expected message from client #0. Message is 'Fold'.
+Player Synthesis_1: State changed to 1
+Maximum bet is 306, minimum raise is 279 (to 585).
+Poker server: Betting round ended.
+Sent message 'Player_Fold Synthesis_1 ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #0.
+Received message 'Throws Qh' from player #0
+Received expected message from client #0. Message is 'Throws Qh'.
+Sent message 'Cards Ts 3s 7c 2h Jd' to player #0.
+Sent message 'Player_Draw Synthesis_1 1' to all players.
+Sent message 'Draw?' to player #1.
+Received message 'Throws Jc' from player #1
+Received expected message from client #1. Message is 'Throws Jc'.
+Sent message 'Cards 7s 3h 9s 8c 6h' to player #1.
+Sent message 'Player_Draw Synthesis_2 1' to all players.
+Sent message 'Draw?' to player #3.
+Received message 'Throws 9c' from player #3
+Received expected message from client #3. Message is 'Throws 9c'.
+Sent message 'Cards 4d 7h Ad 3d 5d' to player #3.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Sent message 'Draw?' to player #4.
+Received message 'Throws Ah' from player #4
+Received expected message from client #4. Message is 'Throws Ah'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has  7s 3h 9s 8c 6h on hand.
+Sent message 'Cards 5s 5h 5c Ks 8h' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Hand: Synthesis_4 has  4d 7h Ad 3d 5d on hand.
+Hand: Synthesis_5 has  5s 5h 5c Ks 8h on hand.
+Hand: Synthesis_1 has  Ts 3s 7c 2h Jd on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player Synthesis_2: Status is 2, chips in pot is 27.
+Player Synthesis_4: Status is 2, chips in pot is 306.
+Player Synthesis_5: Status is 1, chips in pot is 10.
+Player Synthesis_1: Status is 1, chips in pot is 10.
+Poker server: Pot data: 4 player(s), 10 chips/player, 1 winner(s).
+Poker server: Pot data: 2 player(s), 17 chips/player, 1 winner(s).
+Poker server: Pot data: 1 player(s), 279 chips/player, 1 winner(s).
+Sent message 'Player_Hand Synthesis_2 7s 3h 9s 8c 6h' to all players.
+Sent message 'Player_Hand Synthesis_4 4d 7h Ad 3d 5d' to all players.
+Poker server: Player Synthesis_4 won 353 chips.
+Poker server: Showdown ended.
+Sent message 'Round_result Synthesis_4 353' to all players.
+Player Synthesis_2: State changed to 0
+Player Synthesis_4: State changed to 0
+Player Synthesis_5: State changed to 0
+Player Synthesis_1: State changed to 0
+Player Synthesis_2: State changed to 3
+Poker server: Round 5 started.
+Poker server: Sending current standing.
+Sent message 'Round 5' to all players.
+Standing: Synthesis_2: 0 chips.
+Sent message 'Chips Synthesis_2 0' to all players.
+Sent message 'Chips Synthesis_4 353' to all players.
+Sent message 'Chips Synthesis_5 57' to all players.
+Sent message 'Chips Synthesis_1 90' to all players.
+Sent message 'Chips Synthesis_3 0' to all players.
+Standing: Synthesis_4: 353 chips.
+Standing: Synthesis_5: 57 chips.
+Standing: Synthesis_1: 90 chips.
+Standing: Synthesis_3: 0 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Sent message 'Cards Tc 6d Jd 6h Ad' to player #3.
+Sent message 'Cards 5s Ks 9s 7s Jc' to player #4.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards 8s 2h 4s As Qc' to player #0.
+Hand: Synthesis_4 has  Tc 6d Jd 6h Ad on hand.
+Hand: Synthesis_5 has  5s Ks 9s 7s Jc on hand.
+Hand: Synthesis_1 has  8s 2h 4s As Qc on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Forced_Bet Synthesis_1 10' to all players.
+Sent message 'Open? 11 10 343' to player #3.
+Received message 'Open 19' from player #3
+Received expected message from client #3. Message is 'Open 19'.
+Maximum bet is 19, minimum raise is 9 (to 28).
+Sent message 'Player_Open Synthesis_4 19' to all players.
+Sent message 'Call/Raise? 19 28 10 47' to player #4.
+Received message 'All-in' from player #4
+Received expected message from client #4. Message is 'All-in'.
+Player Synthesis_5: State changed to 2
+Maximum bet is 57, minimum raise is 38 (to 95).
+Sent message 'Player_All-in Synthesis_5 57' to all players.
+Sent message 'Call/Raise? 57 95 10 80' to player #0.
+Received message 'All-in' from player #0
+Received expected message from client #0. Message is 'All-in'.
+Player Synthesis_1: State changed to 2
+Maximum bet is 90, minimum raise is 38 (to 128).
+Sent message 'Player_All-in Synthesis_1 90' to all players.
+Sent message 'Call/Raise? 90 128 19 334' to player #3.
+Received message 'All-in' from player #3
+Received expected message from client #3. Message is 'All-in'.
+Player Synthesis_4: State changed to 2
+Maximum bet is 353, minimum raise is 263 (to 616).
+Poker server: Betting round ended.
+Sent message 'Player_All-in Synthesis_4 353' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #3.
+Received message 'Throws Tc' from player #3
+Received expected message from client #3. Message is 'Throws Tc'.
+Sent message 'Cards Qs 6d Jd 6h Ad' to player #3.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Sent message 'Draw?' to player #4.
+Received message 'Throws 7s' from player #4
+Received expected message from client #4. Message is 'Throws 7s'.
+Sent message 'Cards 5s Ks 9s Js Jc' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Sent message 'Draw?' to player #0.
+Received message 'Throws 8s' from player #0
+Received expected message from client #0. Message is 'Throws 8s'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards 3s 2h 4s As Qc' to player #0.
+Sent message 'Player_Draw Synthesis_1 1' to all players.
+Hand: Synthesis_4 has  Qs 6d Jd 6h Ad on hand.
+Hand: Synthesis_5 has  5s Ks 9s Js Jc on hand.
+Hand: Synthesis_1 has  3s 2h 4s As Qc on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player Synthesis_4: Status is 2, chips in pot is 353.
+Player Synthesis_5: Status is 2, chips in pot is 57.
+Player Synthesis_1: Status is 2, chips in pot is 90.
+Poker server: Pot data: 3 player(s), 57 chips/player, 1 winner(s).
+Poker server: Pot data: 2 player(s), 33 chips/player, 1 winner(s).
+Poker server: Pot data: 1 player(s), 263 chips/player, 1 winner(s).
+Poker server: Player Synthesis_4 won 329 chips.
+Sent message 'Player_Hand Synthesis_4 Qs 6d Jd 6h Ad' to all players.
+Sent message 'Player_Hand Synthesis_5 5s Ks 9s Js Jc' to all players.
+Sent message 'Player_Hand Synthesis_1 3s 2h 4s As Qc' to all players.
+Sent message 'Round_result Synthesis_4 329' to all players.
+Poker server: Player Synthesis_5 won 171 chips.
+Poker server: Showdown ended.
+Sent message 'Round_result Synthesis_5 171' to all players.
+Player Synthesis_4: State changed to 0
+Player Synthesis_5: State changed to 0
+Player Synthesis_1: State changed to 0
+Player Synthesis_1: State changed to 3
+Poker server: Round 6 started.
+Sent message 'Round 6' to all players.
+Poker server: Sending current standing.
+Sent message 'Chips Synthesis_2 0' to all players.
+Sent message 'Chips Synthesis_4 329' to all players.
+Sent message 'Chips Synthesis_5 171' to all players.
+Standing: Synthesis_2: 0 chips.
+Sent message 'Chips Synthesis_1 0' to all players.
+Sent message 'Chips Synthesis_3 0' to all players.
+Standing: Synthesis_4: 329 chips.
+Standing: Synthesis_5: 171 chips.
+Standing: Synthesis_1: 0 chips.
+Standing: Synthesis_3: 0 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards 7d Ah 8h 8c 8s' to player #3.
+Sent message 'Cards 5d As 6h Tc 3h' to player #4.
+Hand: Synthesis_4 has  7d Ah 8h 8c 8s on hand.
+Hand: Synthesis_5 has  5d As 6h Tc 3h on hand.
+Hand: Synthesis_1 has null on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Open? 11 10 161' to player #4.
+Received message 'Check' from player #4
+Received expected message from client #4. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Player_Check Synthesis_5 ' to all players.
+Sent message 'Open? 11 10 319' to player #3.
+Received message 'Check' from player #3
+Received expected message from client #3. Message is 'Check'.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Poker server: Betting round ended.
+Sent message 'Player_Check Synthesis_4 ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #4.
+Received message 'Throws Tc' from player #4
+Received expected message from client #4. Message is 'Throws Tc'.
+Sent message 'Cards 5d As 6h 7c 3h' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Sent message 'Draw?' to player #3.
+Received message 'Throws Ah' from player #3
+Received expected message from client #3. Message is 'Throws Ah'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards 7d Ac 8h 8c 8s' to player #3.
+Hand: Synthesis_4 has  7d Ac 8h 8c 8s on hand.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Hand: Synthesis_5 has  5d As 6h 7c 3h on hand.
+Hand: Synthesis_1 has null on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Open? 11 10 161' to player #4.
+Received message 'Open 20' from player #4
+Received expected message from client #4. Message is 'Open 20'.
+Maximum bet is 20, minimum raise is 10 (to 30).
+Sent message 'Player_Open Synthesis_5 20' to all players.
+Sent message 'Call/Raise? 20 30 10 319' to player #3.
+Received message 'Fold' from player #3
+Received expected message from client #3. Message is 'Fold'.
+Player Synthesis_4: State changed to 1
+Maximum bet is 20, minimum raise is 10 (to 30).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Sent message 'Player_Fold Synthesis_4 ' to all players.
+Player Synthesis_4: Status is 1, chips in pot is 10.
+Player Synthesis_5: Status is 0, chips in pot is 20.
+Poker server: Player Synthesis_5 won 30 chips undisputed.
+Poker server: Showdown ended.
+Player Synthesis_4: State changed to 0
+Sent message 'Round_Win_Undisputed Synthesis_5 30' to all players.
+Poker server: Round 7 started.
+Poker server: Sending current standing.
+Sent message 'Round 7' to all players.
+Sent message 'Chips Synthesis_2 0' to all players.
+Sent message 'Chips Synthesis_4 319' to all players.
+Sent message 'Chips Synthesis_5 181' to all players.
+Sent message 'Chips Synthesis_1 0' to all players.
+Standing: Synthesis_2: 0 chips.
+Sent message 'Chips Synthesis_3 0' to all players.
+Standing: Synthesis_4: 319 chips.
+Standing: Synthesis_5: 181 chips.
+Standing: Synthesis_1: 0 chips.
+Standing: Synthesis_3: 0 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards 7h Qd 4c 9c 8h' to player #3.
+Sent message 'Cards 5h Ts 7d 8c 8s' to player #4.
+Hand: Synthesis_4 has  7h Qd 4c 9c 8h on hand.
+Hand: Synthesis_5 has  5h Ts 7d 8c 8s on hand.
+Hand: Synthesis_1 has null on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Open? 11 10 309' to player #3.
+Received message 'Open 11' from player #3
+Received expected message from client #3. Message is 'Open 11'.
+Maximum bet is 11, minimum raise is 1 (to 12).
+Sent message 'Player_Open Synthesis_4 11' to all players.
+Sent message 'Call/Raise? 11 12 10 171' to player #4.
+Received message 'Raise 15' from player #4
+Received expected message from client #4. Message is 'Raise 15'.
+Maximum bet is 15, minimum raise is 4 (to 19).
+Sent message 'Player_Raise Synthesis_5 15' to all players.
+Sent message 'Call/Raise? 15 19 11 308' to player #3.
+Received message 'Call' from player #3
+Received expected message from client #3. Message is 'Call'.
+Maximum bet is 15, minimum raise is 4 (to 19).
+Poker server: Betting round ended.
+Sent message 'Player_Call Synthesis_4 ' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #3.
+Received message 'Throws Qd' from player #3
+Received expected message from client #3. Message is 'Throws Qd'.
+Sent message 'Cards 7h Kc 4c 9c 8h' to player #3.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Sent message 'Draw?' to player #4.
+Received message 'Throws 5h' from player #4
+Received expected message from client #4. Message is 'Throws 5h'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards 4s Ts 7d 8c 8s' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Hand: Synthesis_4 has  7h Kc 4c 9c 8h on hand.
+Hand: Synthesis_5 has  4s Ts 7d 8c 8s on hand.
+Hand: Synthesis_1 has null on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Betting round started.
+Maximum bet is 15, minimum raise is 1 (to 16).
+Sent message 'Open? 16 15 304' to player #3.
+Received message 'Check' from player #3
+Received expected message from client #3. Message is 'Check'.
+Maximum bet is 15, minimum raise is 1 (to 16).
+Sent message 'Player_Check Synthesis_4 ' to all players.
+Sent message 'Open? 16 15 166' to player #4.
+Received message 'All-in' from player #4
+Received expected message from client #4. Message is 'All-in'.
+Player Synthesis_5: State changed to 2
+Maximum bet is 181, minimum raise is 166 (to 347).
+Sent message 'Player_All-in Synthesis_5 181' to all players.
+Sent message 'Call/Raise? 181 347 15 304' to player #3.
+Received message 'Fold' from player #3
+Received expected message from client #3. Message is 'Fold'.
+Player Synthesis_4: State changed to 1
+Maximum bet is 181, minimum raise is 166 (to 347).
+Poker server: Betting round ended.
+Poker server: Showdown started...
+Player Synthesis_4: Status is 1, chips in pot is 15.
+Sent message 'Player_Fold Synthesis_4 ' to all players.
+Player Synthesis_5: Status is 2, chips in pot is 181.
+Poker server: Player Synthesis_5 won 196 chips undisputed.
+Poker server: Showdown ended.
+Player Synthesis_4: State changed to 0
+Player Synthesis_5: State changed to 0
+Sent message 'Round_Win_Undisputed Synthesis_5 196' to all players.
+Poker server: Round 8 started.
+Poker server: Sending current standing.
+Sent message 'Round 8' to all players.
+Standing: Synthesis_2: 0 chips.
+Sent message 'Chips Synthesis_2 0' to all players.
+Sent message 'Chips Synthesis_4 304' to all players.
+Sent message 'Chips Synthesis_5 196' to all players.
+Sent message 'Chips Synthesis_1 0' to all players.
+Sent message 'Chips Synthesis_3 0' to all players.
+Standing: Synthesis_4: 304 chips.
+Standing: Synthesis_5: 196 chips.
+Standing: Synthesis_1: 0 chips.
+Standing: Synthesis_3: 0 chips.
+Poker server: Shuffling deck.
+Poker server: Dealing cards.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards Ac 2h Ah Th 7c' to player #3.
+Sent message 'Cards Jd 2c Tc 5d 4s' to player #4.
+Hand: Synthesis_4 has  Ac 2h Ah Th 7c on hand.
+Hand: Synthesis_5 has  Jd 2c Tc 5d 4s on hand.
+Hand: Synthesis_1 has null on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Forcing ante bets.
+Poker server: Betting round started.
+Maximum bet is 10, minimum raise is 1 (to 11).
+Sent message 'Forced_Bet Synthesis_5 10' to all players.
+Sent message 'Forced_Bet Synthesis_4 10' to all players.
+Sent message 'Open? 11 10 186' to player #4.
+Received message 'All-in' from player #4
+Received expected message from client #4. Message is 'All-in'.
+Player Synthesis_5: State changed to 2
+Maximum bet is 196, minimum raise is 186 (to 382).
+Sent message 'Player_All-in Synthesis_5 196' to all players.
+Sent message 'Call/Raise? 196 382 10 294' to player #3.
+Received message 'All-in' from player #3
+Received expected message from client #3. Message is 'All-in'.
+Player Synthesis_4: State changed to 2
+Maximum bet is 304, minimum raise is 186 (to 490).
+Poker server: Betting round ended.
+Sent message 'Player_All-in Synthesis_4 304' to all players.
+Poker server: Draw started...
+Sent message 'Draw?' to player #4.
+Received message 'Throws 2c' from player #4
+Received expected message from client #4. Message is 'Throws 2c'.
+Sent message 'Cards Jd 8d Tc 5d 4s' to player #4.
+Sent message 'Player_Draw Synthesis_5 1' to all players.
+Sent message 'Draw?' to player #3.
+Received message 'Throws 2h' from player #3
+Received expected message from client #3. Message is 'Throws 2h'.
+Poker server: Draw ended.
+Hand: Synthesis_2 has null on hand.
+Sent message 'Cards Ac 3s Ah Th 7c' to player #3.
+Sent message 'Player_Draw Synthesis_4 1' to all players.
+Hand: Synthesis_4 has  Ac 3s Ah Th 7c on hand.
+Hand: Synthesis_5 has  Jd 8d Tc 5d 4s on hand.
+Hand: Synthesis_1 has null on hand.
+Hand: Synthesis_3 has null on hand.
+Poker server: Betting round started.
+Poker server: Betting round ended due to not enough players that can make additional bets.
+Poker server: Showdown started...
+Player Synthesis_4: Status is 2, chips in pot is 304.
+Player Synthesis_5: Status is 2, chips in pot is 196.
+Poker server: Pot data: 2 player(s), 196 chips/player, 1 winner(s).
+Poker server: Pot data: 1 player(s), 108 chips/player, 1 winner(s).
+Sent message 'Player_Hand Synthesis_4 Ac 3s Ah Th 7c' to all players.
+Sent message 'Player_Hand Synthesis_5 Jd 8d Tc 5d 4s' to all players.
+Poker server: Player Synthesis_4 won 500 chips.
+Poker server: Showdown ended.
+Sent message 'Round_result Synthesis_4 500' to all players.
+Player Synthesis_4: State changed to 0
+Player Synthesis_5: State changed to 0
+Player Synthesis_5: State changed to 3
+Sent message 'Result Synthesis_2 4 0' to all players.
+Sent message 'Result Synthesis_4 9 500' to all players.
+Sent message 'Result Synthesis_5 8 0' to all players.
+Sent message 'Result Synthesis_1 5 0' to all players.
+Sent message 'Result Synthesis_3 1 0' to all players.
+Sent message 'Game_Over' to all players.
+Disconnected player #4.
+Disconnected player #3.
+Disconnected player #2.
+Disconnected player #1.
+Disconnected player #0.
+Poker Server: Thread finished.
+
+
+
+Final results:
+1: Synthesis_4, 9 rounds, 500 chips.
+2: Synthesis_5, 8 rounds, 0 chips.
+3: Synthesis_1, 5 rounds, 0 chips.
+4: Synthesis_2, 4 rounds, 0 chips.
+5: Synthesis_3, 1 rounds, 0 chips.
+Poker Server: The socket server has closed.
