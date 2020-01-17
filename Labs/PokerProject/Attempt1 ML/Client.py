@@ -226,8 +226,8 @@ class RandomAgent(Agent):
             
         action = {
             0: ClientBase.BettingAnswer.ACTION_CHECK,
-            1: ClientBase.BettingAnswer.ACTION_ALLIN,
-        }.get(random.randint(0, 2), canOpen())
+            #1: ClientBase.BettingAnswer.ACTION_ALLIN,
+        }.get(random.randint(0, 1), canOpen())
 
         switch = {
             ClientBase.BettingAnswer.ACTION_OPEN:self.openAction,
