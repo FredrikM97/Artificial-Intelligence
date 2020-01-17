@@ -17,11 +17,11 @@ RESPONSE_DELAY = 0.5 # In seconds
 def main():
     
     agents = [
-        ml_agent(name='Synthesis_1'),
-        ml_agent(name='Synthesis_2'),
-        ml_agent(name='Synthesis_3'),
-        ml_agent(name='Synthesis_4'),
-        ml_agent(name='Synthesis_5'),
+        RandomAgent(name='Synthesis_1'),
+        RandomAgent(name='Synthesis_2'),
+        RandomAgent(name='Synthesis_3'),
+        RandomAgent(name='Synthesis_4'),
+        RandomAgent(name='Synthesis_5'),
     ]
     observe = [True]+[*repeat(False,len(agents)-1)]
     print("Starting game.. Waiting for server")
@@ -323,20 +323,23 @@ class client:
                 
                 # Queue message and pick real message from queue
                 nagle_buffer.extend(MsgFractions)
-                RequestType = nagle_buffer.pop(0)
-                msg_len = msg2len[RequestType]
-                MsgFractions = nagle_buffer[:msg_len]
-                del nagle_buffer[:msg_len]
+                
+                #Empty buffer before receiving new messages
+                while len(nagle_buffer) > 0:
+                    RequestType = nagle_buffer.pop(0)
+                    msg_len = msg2len[RequestType]
+                    MsgFractions = nagle_buffer[:msg_len]
+                    del nagle_buffer[:msg_len]
 
-                self.iMsg += 1  # No. of Msg
+                    self.iMsg += 1  # No. of Msg
 
-                kwarg = {
-                    'agent':self.agent, 
-                    'MsgFractions':MsgFractions,
-                    'verbose':self.hawkeye}
+                    kwarg = {
+                        'agent':self.agent, 
+                        'MsgFractions':MsgFractions,
+                        'verbose':self.hawkeye}
 
-                infoTablets[RequestType](MsgFractions, **kwarg)
-                    
+                    infoTablets[RequestType](MsgFractions, **kwarg)
+                        
             except socket.timeout as evil:
                 print(f'{self.agent.name} has commited soduko because {evil}')
                 break
@@ -346,30 +349,3 @@ class client:
         
 if __name__ == "__main__":
     main()
-
-'''
-TODO:
-* Add value check of hand ?que?
-* What to bet, Fold, call. random
-* If to throw cards. also random
-* Threading working properly, std out is disabled by other threads while thread 1 runs
-'''
-'''
-TODO:
-* Wait before sending message (track of time)
-* Clean code - Bad structure 
-* Test daemon-thread
-* Polling server for crash
-* Try to send correct message on proper request
-* Functions in agents for unknown actions (dont update agent values)
-* Check if we get better requests if opponents disconnect
-'''
-
-'''
-Machine learning variables:
-    * Time: 
-    * Hand strength: Bad, ok, good
-    * Message count
-    * 
-
-'''
