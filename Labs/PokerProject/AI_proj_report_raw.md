@@ -1,7 +1,9 @@
 ## Abstract:
+
 [summarise everything]
 
 ## Intorduction:
+
 Games without exact solutions are common ways to learn machine learning. In this project we'll making a crude machine learning based agent for five card poker. In short, five card poker is like texas hold em but with five cards on hand and no cards on the board. All players get a hand, place some bets based on their perceptions, hands are shown and the winner takes the pot. For a more detailed description see the PEAS description in the method section. 
 
 [What types of agent and AI methods can be applied?]
@@ -24,6 +26,7 @@ Performance:
 
 Enviroment:
 Five card poker conatins a set of objects, mechanics and a flow. 
+
 	Objects: serve as achor points for actuators. Could aslo be seen as namespaces
 		Chips: A players currency. when it runs out the player loses
 		Cards: The building block of hands. Has rank and colour
@@ -64,10 +67,18 @@ Sensors:
 	
 -xPeke behavior
 
-## Experiment and tournament result:
-	-"What have you observed when playing against a random agent or any agent you have developed?" Server drops, we observed server drops. The f do we write here?
-	-"Does the result match your expectations?" Had no expectation and was still let down.
-	-"Observation from the tournament" What tournament
+## Experiment and tournament result
+
+-"What have you observed when playing against a random agent or any agent you have developed?" Server drops, we observed server drops. The f do we write here?
+-"Does the result match your expectations?" Had no expectation and was still let down.
+-"Observation from the tournament" What tournament
+
+Observations:
+During the course of the project, several problems were observed. This includes drop from the server and information did not arrive as expected. This meant that the agents lost the connection to the server and were kicked for incorrect response or lack of response. The messages could come up empty "[]" or with multiple messages in one which caused major learning problems.
+After a number of attempts, the idea was abandoned to try to solve the problem and tried to extract the data as well as it could to create a model of the game. Because of the quality of the data from the agents who came up with the project description, it was decided that being in the competition would not give a good idea of ​​how the model is constructed.
+
+Without input data, it is not possible to create a model, so it is no surprise that the model does not work to the extent that would be considered arbitrary. Currently there are 2889 data points to train on, of which 1968 data points are unusable
 
 ## Conclusion
-	[Conclusion is just abstract in reverse. Change my mind]
+
+[Conclusion is just abstract in reverse. Change my mind]
