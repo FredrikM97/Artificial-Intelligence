@@ -68,7 +68,7 @@ import warnings
 #warnings.filterwarnings("ignore") #TODO: Remove this
 # Setup 
 actions_per_player  = 2
-encoding_size       = 8
+encoding_size       = 7
 number_of_players   = 5
 number_of_actions   = actions_per_player * encoding_size * number_of_players
 
@@ -214,14 +214,14 @@ def preprocess_row(row:list, process:list=None, args:List[dict]=None) -> list:
 
     # Cast string to int
     action2int = {
-        'Forced_Bet': 0,
+        #'Forced_Bet': 0,
         'Player_Open': 1,
         'Player_Check': 2,
         'Player_Fold': 3,
         'Player_Call': 4, 
         'Player_Raise': 5, 
         'Player_All-in': 6,
-        'None': 7
+        'None': 0
     }
     processed_row = []
     for item in padded_row:

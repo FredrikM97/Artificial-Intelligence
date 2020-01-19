@@ -4,14 +4,19 @@ from functools import reduce
 import glob
 from copy import deepcopy
 PATH = 'evolution/data/'
+SAVEPATH = 'evolution/'
+FILENAME = 'minedData.txt'
 
 def main():
+    
+    open(SAVEPATH+FILENAME, mode='w').close() # Derp in order to delete file
+
     for i in glob.glob(f'{PATH}*.txt'):
         print(f'Opening folder: {i}')
         m = miner(f'{i}')
         for player in m.get_players():
             data = deepcopy(m).getPerspectronum(player)
-            m.saveFile('evolution/','minedData.txt',data)
+            m.saveFile(SAVEPATH,FILENAME,data)
 class miner:
     def __init__(self, PATH):
         f = self.loadFile(PATH)
@@ -52,7 +57,7 @@ class miner:
                 'Round_result'          # 'Round_result Subject_2 90'
             },
             'Action':{ # String, String
-                'Forced_Bet',           # 'Forced_Bet Subject_2 40'
+                #'Forced_Bet',           # 'Forced_Bet Subject_2 40'
                 'Player_Open',          # 'Player_Open ReflexB 11' 
                 'Player_Check',         # 'Player_Check RandomA '
                 'Player_Raise',         # 'Player_Raise RandomA 17'
@@ -74,7 +79,7 @@ class miner:
             if 'all players' in line: # Check sent message
                 if "Sent message 'Round " in line: self.round = line.split(' ')[3]
  
-                for key, key_set in key2set.items():
+                for key, key_set in key2set.items(): # Check so action in line exists in key2set
                     for keyword in key_set:
                         if keyword in line:
                             name, info = split_handlers[key](line.split("'")[1]) # call the handle function
