@@ -1,35 +1,64 @@
 ## Abstract:
-
 [summarise everything]
 
-## Intorduction:
-
+## Introduction:
 Games without exact solutions are common ways to learn machine learning. In this project we'll making a crude machine learning based agent for five card poker. In short, five card poker is like texas hold em but with five cards on hand and no cards on the board. All players get a hand, place some bets based on their perceptions, hands are shown and the winner takes the pot. For a more detailed description see the PEAS description in the method section. 
 
 [What types of agent and AI methods can be applied?]
-Hidden information excludes all informed search algorithms. Randomness from hand excludes all exact solutions. This leaves us with:
+
+There's more than one way to aproach this task of making a poker agent. A handful of solutions have been concidered but the set can be narrowed down by concidering the restrictions the game applies to our model. We have hidden information which excludes all informed search algorithms. There's also randomness involved which excludes all exact solutions. This leaves us with:
 
 * Uninformed search like bfs but with probability
 * Machine learning methods
 * Bayesian Network
 * Reflex agent that accounts for probabilities
-As with all opponent based games one can combine an opponent model with recursion to enhance the performance. 
+
+Another method that works with all opponent based games is to combine an opponent model with recursion to enhance the performance. This opens up for search tree optimizations such as expectiminimax.
 
 [Are any relevant work being applied to this problem? / what are your references? Explain theories]
 
 # Method
 [pick method from introduction and explain the parameters to said method]
 
+As mentioned the chosen method is to make an agent based on machine learning. We'll also give our agent a PEAS descripton 
+
+## Machine learning
+Machine learning is a method of generating a model based on past data. By classification or regression, a model is created that represents all the features and their respective target value that aims to create a generalized model. For machine learning, feature selection, data mining and processing are various steps for creating a model. This project utilizes machine learning in the hope of creating a model that can present the data and decide what move the agent should make to gain profit during a round.
+
+### Feature selection
+* How did we feature our select
+Feature selection was an early stage in which the features or data that are considered to be relevant to each other and which can influence the final decision are examined. From the poker project there are many features such as: Agent and Opponent hand, chips, actions, discarded cards, hand strength and round. However, since drops occurred in the model, the discarded cards and opponent's hand were scrapped as features as they could not generate enough data points for the model.
+
+### Data mining
+* How and why?  
+Data mining involves extracting and searching for connections between information in large amounts of data. This method extracted the relevant data to be processed. Because it was difficult to extract information from the client side of missed packets and incorrect response, the method was changed to pick data directly from the server. However, the data on the server was not filtered and included information that was not relevant to machine learning. Therefore, only the requested data was extracted which had relevance to all features.
+
+Example 1 below includes two feature vectors where one is an arbitrary feature and example 2 is not considered okay as it lacks important information, which is represented by -1 in the first row.
+
+Example 1:
+ * [6255, 250, 2, 250, 250, 250, 250, 'Player_Call', 'Player_Check', 'Player_All-in', None, 'Player_Fold', None, 'Player_Call', 'Player_Check', 'Player_Call', 'Player_Check']
+
+Example 2:
+
+* [-1, 250, 0, 250, 250, 250, 250, 'Player_Fold', None, 'Player_All-in', None, 'Player_Call', 'Player_Check', 'Player_Call', 'Player_Check', 'Player_Call', 'Player_Check']
+
+### Processing
+* Normalization
+* Quantile
+* One-hot-encoding
+* 
+
+
 -PEAS description
 "PEAS stands for Performance, Environment, Actuators, and Sensors"
-Performance:
+## Performance:
 	[Talk about metrics here]
 
 ## Enviroment:
 Five card poker conatins a set of objects, mechanics and a flow. 
 
 ### Objects: 
-serve as achor points for actuators. Could aslo be seen as namespaces
+Serve as achor points for actuators. Could aslo be seen as namespaces
 * Chips: A players currency. when it runs out the player loses
 * Cards: The building block of hands. Has rank and colour
 * Hands: A combination of 5 cards. Given to the player by the game
@@ -72,13 +101,12 @@ Mechanics that belong to the player
 ## Sensors:
 	[our feature vector]
 	
--xPeke behavior
+## xPeke behavior
 
 # Experiment and tournament result
-
--"What have you observed when playing against a random agent or any agent you have developed?" Server drops, we observed server drops. The f do we write here?
--"Does the result match your expectations?" Had no expectation and was still let down.
--"Observation from the tournament" What tournament
+* "What have you observed when playing against a random agent or any agent you have developed?" Server drops, we observed server drops. The f do we write here?
+* "Does the result match your expectations?" Had no expectation and was still let down.
+* "Observation from the tournament" What tournament
 
 Observations:
 During the course of the project, several problems were observed. This includes drop from the server and information did not arrive as expected. This meant that the agents lost the connection to the server and were kicked for incorrect response or lack of response. The messages could come up empty "[]" or with multiple messages in one which caused major learning problems.
@@ -87,5 +115,4 @@ After a number of attempts, the idea was abandoned to try to solve the problem a
 Without input data, it is not possible to create a model, so it is no surprise that the model does not work to the extent that would be considered arbitrary. Currently there are 2889 data points to train on, of which 1968 data points are unusable
 
 # Conclusion
-
 [Conclusion is just abstract in reverse. Change my mind]
