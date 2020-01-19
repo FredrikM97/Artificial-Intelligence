@@ -17,8 +17,8 @@ RESPONSE_DELAY = 0.5 # In seconds
 def main():
     
     agents = [
-        RandomAgent(name='Synthesis_1'),
-        RandomAgent(name='Synthesis_2'),
+        ml_agent(name='Synthesis_1'),
+        ml_agent(name='Synthesis_2'),
         ml_agent(name='Synthesis_3'),
         ml_agent(name='Synthesis_4'),
         ml_agent(name='Synthesis_5'),

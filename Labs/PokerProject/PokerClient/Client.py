@@ -109,14 +109,15 @@ class ml_agent(Agent):
         self.model, self.processes, self.args = ml.create_model('evolution/minedData.txt')
 
     def queryOpenAction(self, min_pot_after_open, current_bet, remaining_chips):
+        raiseValue = 9
         # Check what actions we can do
         possible_actions = [
             (ClientBase.BettingAnswer.ACTION_CHECK, 0),
             (ClientBase.BettingAnswer.ACTION_ALLIN, 0),
         ]
         can_open = current_bet + remaining_chips > min_pot_after_open
-        bet = 9 + min_pot_after_open \
-        if current_bet + remaining_chips + 9> min_pot_after_open \
+        bet = raiseValue + min_pot_after_open \
+        if current_bet + remaining_chips > min_pot_after_open + raiseValue\
         else min_pot_after_open
         if can_open: possible_actions.append((ClientBase.BettingAnswer.ACTION_OPEN, bet))
 
@@ -142,17 +143,22 @@ class ml_agent(Agent):
         return best_action
 
     def queryCallRaiseAction(self, max_bet, minimum_to_raise_to, current_bet, remaining_chips):
+        raiseValue = 9
         # Check what actions we can do
         possible_actions = [ 
             (ClientBase.BettingAnswer.ACTION_FOLD, 0),
-            (ClientBase.BettingAnswer.ACTION_ALLIN, 0),
-            (ClientBase.BettingAnswer.ACTION_CALL, 0)
+            (ClientBase.BettingAnswer.ACTION_ALLIN, 0)
         ]
+        # Check if we can Raise
         can_raise = current_bet + remaining_chips > minimum_to_raise_to
-        bet = 9 + minimum_to_raise_to \
-        if current_bet + remaining_chips + 9 > minimum_to_raise_to \
+        bet = raiseValue + minimum_to_raise_to \
+        if current_bet + remaining_chips > minimum_to_raise_to + raiseValue \
         else minimum_to_raise_to
         if can_raise: possible_actions.append((ClientBase.BettingAnswer.ACTION_RAISE, bet))
+        
+        # Check if we can Call 
+        can_call = current_bet + remaining_chips >= minimum_to_raise_to
+        if can_call: possible_actions.append((ClientBase.BettingAnswer.ACTION_CALL, 0))
 
         # Evaluate actions
         prob_of_action = [(self.model.predict_proba(self.get_feature(action))[0][1], action, value) \
@@ -178,18 +184,23 @@ class ml_agent(Agent):
         return best_action
 
     def queryCardsToThrow(self, hand:list):
-        "Strategy to throw cards. Aim is to throw when odds entailed from rank is worse than 20%"
+        """
+        Strategy to throw cards. Aim is to throw when odds entailed from rank is worse than 20%
+        
+        To not discard return ''
+        """
         hand_strength = self.hand2Strength(hand)
         hand = hand[:5] # in case server sends extra gifts
         rank2int = {rank:i for i,rank in enumerate('123456789TJQKA')}
         hand.sort(key=lambda x:rank2int[x[0]], reverse=True) # sort on card rank
         slice2str = lambda x: ' '.join(x)
         if hand_strength < 3325: # if two pair or better
-            return ' ' # top 8% is good enough
+            return '' # top 8% is good enough
         elif hand_strength < 6185: # if pair
-            index_of_pair = [index for index, (c1, c2) in enumerate(zip(hand[:-1], hand[1:])) if c1 == c2]
-            if len(index_of_pair)==0: return slice2str(hand[1:]) # Hotfix for BUG: no pair found
-            else: index_of_pair = index_of_pair[0]
+            index_of_pair = [index for index, (c1, c2) in enumerate(zip(hand[:-1], hand[1:])) if c1[0] == c2[0]]
+            #if len(index_of_pair)==0: return slice2str(hand[1:]) # Hotfix for BUG: no pair found
+            #else: 
+            index_of_pair = index_of_pair[0]
             hand_copy = copy(hand)
             del hand_copy[index_of_pair:index_of_pair+1] # remove pair from cards to throw
             return slice2str(hand_copy[1:]) # worst 2 cards
@@ -219,7 +230,7 @@ class RandomAgent(Agent):
        
         def canOpen():    
             if _playersCurrentBet + _playersRemainingChips > _minimumPotAfterOpen:
-                if _playersCurrentBet + _playersRemainingChips + 10> _minimumPotAfterOpen: 
+                if _playersCurrentBet + _playersRemainingChips > _minimumPotAfterOpen + 10: 
                     bet = (random.randint(0, 10) + _minimumPotAfterOpen)
                 else: 
                     bet = _minimumPotAfterOpen
@@ -253,7 +264,7 @@ class RandomAgent(Agent):
             # If can raise
             if  _playersCurrentBet + _playersRemainingChips > _minimumAmountToRaiseTo:
                 # do raise
-                if _playersCurrentBet+ _playersRemainingChips + 10 > _minimumAmountToRaiseTo: 
+                if _playersCurrentBet+ _playersRemainingChips > _minimumAmountToRaiseTo + 10: 
                     bet = (random.randint(0, 10) + _minimumAmountToRaiseTo) 
                 else: 
                     bet = _minimumAmountToRaiseTo
