@@ -115,8 +115,8 @@ class ml_agent(Agent):
             (ClientBase.BettingAnswer.ACTION_ALLIN, 0),
         ]
         can_open = current_bet + remaining_chips > min_pot_after_open
-        bet = 10 + min_pot_after_open \
-        if current_bet + remaining_chips + 10> min_pot_after_open \
+        bet = 9 + min_pot_after_open \
+        if current_bet + remaining_chips + 9> min_pot_after_open \
         else min_pot_after_open
         if can_open: possible_actions.append((ClientBase.BettingAnswer.ACTION_OPEN, bet))
 
@@ -149,14 +149,15 @@ class ml_agent(Agent):
             (ClientBase.BettingAnswer.ACTION_CALL, 0)
         ]
         can_raise = current_bet + remaining_chips > minimum_to_raise_to
-        bet = 10 + minimum_to_raise_to \
-        if current_bet + remaining_chips + 10 > minimum_to_raise_to \
+        bet = 9 + minimum_to_raise_to \
+        if current_bet + remaining_chips + 9 > minimum_to_raise_to \
         else minimum_to_raise_to
         if can_raise: possible_actions.append((ClientBase.BettingAnswer.ACTION_RAISE, bet))
 
         # Evaluate actions
         prob_of_action = [(self.model.predict_proba(self.get_feature(action))[0][1], action, value) \
             for action, value in possible_actions]
+        print(prob_of_action)
         prob, best_action, value = max(prob_of_action, key=lambda x:x[0])
         print('prob', prob, 'best_action', best_action, 'value', value)
 
