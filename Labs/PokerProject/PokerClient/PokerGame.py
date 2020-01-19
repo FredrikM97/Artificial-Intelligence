@@ -17,8 +17,8 @@ RESPONSE_DELAY = 0.5 # In seconds
 def main():
     
     agents = [
-        ml_agent(name='Synthesis_1'),
-        ml_agent(name='Synthesis_2'),
+        RandomAgent(name='Synthesis_1'),
+        RandomAgent(name='Synthesis_2'),
         ml_agent(name='Synthesis_3'),
         ml_agent(name='Synthesis_4'),
         ml_agent(name='Synthesis_5'),
@@ -313,11 +313,7 @@ class client:
                 
                 #print('agent',self.agent.name,'buffer',*nagle_buffer,'message',MsgFractions)
                 if len(MsgFractions) == 0: 
-                    if len(nagle_buffer) == 0:
-                        #print("Data from server:",MsgFractions)
-                        continue #MsgFractions = [b'unknown_action'] 
-                    else:
-                        MsgFractions = []
+                    continue
 
                 MsgFractions = [msg.decode('utf-8') for msg in MsgFractions] # Get Request type
                 
@@ -325,7 +321,7 @@ class client:
                 nagle_buffer.extend(MsgFractions)
                 
                 #Empty buffer before receiving new messages
-                while len(nagle_buffer) > 0:
+                while len(nagle_buffer):
                     RequestType = nagle_buffer.pop(0)
                     msg_len = msg2len[RequestType]
                     MsgFractions = nagle_buffer[:msg_len]
