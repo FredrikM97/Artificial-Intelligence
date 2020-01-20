@@ -38,7 +38,7 @@ Machine learning is a method of generating a solution based on statistics. The f
 * The input tensor
 Our model consist of a single layer SVM and output is defined as a trinary class representing whether or not the current state will lead to a loss, undisputed win or a normal win. This leaves only the input.
 
-Since Scikits framework is intended for one dimensional input the shape of the input has to be [Batch, Feature] where batch is determined by scikit. This means we only have to determine what the feature vector in order to finish the model. However the feature is the most important component so we'll be explaining it in depth. The feature vector creation can be split into three steps: feature selection, data mining and data proccessing.
+Since Scikits framework is intended for one dimensional input the shape of the input has to be [Batch, Feature] where batch is determined by Scikit. This means we only have to determine what the feature vector in order to finish the model. However the feature is the most important component so we'll be explaining it in depth. The feature vector creation can be split into three steps: feature selection, data mining and data proccessing.
 
 ### Feature selection
 
@@ -122,7 +122,7 @@ These are operations/actuators belonging to game objects.
 * Hands mechanics:
     * Discard: The act of throwing one or more cards which then gets replaced. This action can be seen by all players
 	* Display: Hands can be made visible
-	* Compare: This determines which hand is the strongest by first looking at which category each hand belongs to. The hand with the rarest category wins. If both hands fall into the same category it compares the rank of the cards specific to the category. If category and the rank is the same the hands are viewed as equal. 
+	* Compare: This determines which hand is the strongest by first looking at which category each hand belongs to. The hand with the rarest category wins. If both hands fall into the same category it compares the rank of the cards specific to the category. If category and the rank is the same the hands are viewed as equal.
 
 ### Flow: 
 The operations performed by the game itself. These can be called in any state machine fashion but in this case they are simply called in order.
@@ -177,6 +177,6 @@ As for the model. We can conclude that the chosen metric can prove missleading. 
 
 What could be reworked then? Instead of using a one dimensional feature vector one would likely be better of using an input such as [batch, phases, players, features]. Say we store four features belonging to five players over the four phases of a round then we'd have a total of batch*4*5*4 = batch*80 features as input. This is alot more features but because of the structure it would be much easier to generalize since we can now process the different dimensions with models specialiced on those types of data. 
 
-Ofcourse we wouldn't suggest changing the feature without a model in mind. Using a multi layered model we could combine the best of all ml models into one. Time series data is preferably processed by recurent models such as rnn, lstm, and gru. The data from each player could be fed one at a time into a nerual net that outputs an embedding for each. Since we know the final layer has to perform compairsons we could opt for a deep nural net or perhaps a convolutional model, that way the activator function can mimic the non-linear properties of the comparison. As a cherry on top an ad hoc model could be built to determine our opponents hand strength.
+Of course we wouldn't suggest changing the feature without a model in mind. Using a multi layered model we could combine the best of all ml models into one. Time series data is preferably processed by recurent models such as RNN, LSTM, and GRU. The data from each player could be fed one at a time into a nerual net that outputs an embedding for each. Since we know the final layer has to perform compairsons we could opt for a deep neural net or perhaps a convolutional model, that way the activator function can mimic the non-linear properties of the comparison. As a cherry on top an ad hoc model could be built to determine our opponents hand strength.
 
-These changes to the model would be challenging to implement while being constrained by scikits framework. Switching over to keras would enable alot of interesting builds to be created.
+These changes to the model would be challenging to implement while being constrained by Scikits framework. Switching over to keras would enable alot of interesting builds to be created.
