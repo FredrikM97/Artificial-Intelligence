@@ -80,7 +80,6 @@ class client:
 
     # Give hand to agent
     def handle_Cards_Changed(self, *_, agent=None, MsgFractions=[], **kwargs):
-        #infoCardsInHand(MsgFractions) # show info for hands
         agent.CurrentHand = []
         for ielem in MsgFractions: # never go full retard
             agent.CurrentHand.append(ielem)
@@ -90,8 +89,6 @@ class client:
     ***** ACTIONS to server *****
     '''    
     def send_but_working(self,string): # use this when doing python 3+
-        #self.response_thread.cancel()
-        #self.nextPhase()
         self.s.send(str.encode(string + '\n'))
         
     # Return agent name to Server
@@ -115,10 +112,8 @@ class client:
 
         # For check and All-in/ Open
         to_send = tmp if issubclass(tmp.__class__, str) else ' '.join([str(item) for item in tmp])
-        #print("Open:",to_send)
         self.send_but_working(to_send)
         
-        #print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
 
     # Do a call or raise depending on Agent
     def handle_Call_or_Raise(self, *_, agent=None, MsgFractions=[], **kwargs):
@@ -128,128 +123,13 @@ class client:
 
         # For fold, all-in, call / For raise
         to_send = tmp if issubclass(tmp.__class__,str) else ' '.join([str(item) for item in tmp])
-        #print("Call:",to_send)
         self.send_but_working(to_send)
         
-        #print(f'{self.SIGNAL_ALIVE} \n {agent.name} Action: {tmp}')
-
     # Throw agent hand   
     def handle_Draw(self, *_, agent=None, MsgFractions=[], **kwargs):
         discardCards = agent.queryCardsToThrow(agent.CurrentHand)
         self.send_but_working('Throws ' + discardCards)
-        #print(agent.name, 'Action:','Throws', discardCards)
         
-    '''
-    *****  Guess current phase of server *****
-    ''' 
-    
-    def guessPhase(self,agent,RequestType):
-        "Try to figure out which phase the server is in"
-        # black magic fuckery to save us from creating the sets every call
-        if 'phase2set' not in self.guessPhase.__dict__:
-            infoSet = {
-                'Name?',
-                'Chips',
-                'Ante_Changed',
-                'Forced_Bet',   
-                'Cards',
-                'Round',
-                'Game_Over',
-                'Player_Draw',
-                'Round_Win_Undisputed',
-                'Round_result',
-                'Player_Hand',
-                'Result',
-                'unknown_action'
-            }
-            openSet = {
-                'Open?',
-                'Player_Open',
-                'Player_Check',
-                'Player_All-in',
-                'unknown_action'
-            }
-            betttingSet = {
-                'Call/Raise?',
-                'Player_Raise',
-                'Player_Call',
-                'Player_Fold',
-                'Player_All-in',
-                'unknown_action'
-            }
-
-
-            drawSet = {
-                'Draw?'
-            }
-
-            phase2set = {
-                'info':infoSet, 
-                'open':openSet, 
-                'betting':betttingSet,
-                'draw':drawSet
-            }
-            self.guessPhase.__dict__.update({'phase2set':phase2set})
-        else:
-            phase2set = self.guessPhase.__dict__['phase2set']
-
-        # While not in current -> next
-        while RequestType not in phase2set[self.phase] and RequestType not in phase2set[self.previousPhase()]:
-            self.nextPhase()
-            if self.hawkeye:
-                print("Request:", RequestType, 'Agent phase:', self.phase)
-    def nextPhase(self):
-        self.phaseIndex += 1
-        self.phaseIndex %= len(self.gameFlow)
-        self.phase = self.gameFlow[self.phaseIndex]
-    def previousPhase(self):
-        prevPhaseIndex = self.phaseIndex + len(self.gameFlow)-1
-        prevPhaseIndex %= len(self.gameFlow)
-        return self.gameFlow[prevPhaseIndex]
-    
-    def guessAction(self, msg, agent=None, MsgFractions=[], **kwarg):
-        # Do action based on phase
-        # Is this an action phase?
-        if self.phase == 'info': # wrong phase
-            self.nextPhase()
-            print('Wrong phase!!')
-
-        agent = self.agent if agent is None else agent # use local agent if none
-        
-        phase2action={
-            'info':lambda *arg,**kwarg:None, 
-            'open':self.handle_Open, 
-            'betting':self.handle_Call_or_Raise,
-            'draw':self.handle_Draw
-        }
-        #TODO: do the all-in case
-        minimumPotAfterOpen = agent.Ante * 5 # TODO: reeee member it's 5 as in 5 players
-        CurrentBet = agent.CurrentBet
-        maximumBet = agent.maxBet
-        minimumAmountToRaiseTo = maximumBet + agent.minRaise
-        playersRemainingChips = agent.Chips
-
-        phase2msg = {
-            'info':[], 
-            'open':[minimumPotAfterOpen, CurrentBet, playersRemainingChips], 
-            'betting':[maximumBet, minimumAmountToRaiseTo, CurrentBet, playersRemainingChips],
-            'draw':[]
-        }
-        phase2action[self.phase](agent=agent, MsgFractions=phase2msg[self.phase], **kwarg)
-    def hourglass(self, *args, **kwargs):
-        global RESPONSE_DELAY
-
-        # if timer is already started: stop it
-        if self.response_thread.is_alive():
-            self.response_thread.cancel()
-            self.response_thread.join()
-
-        # Make new timer
-        t = Timer(RESPONSE_DELAY, self.guessAction, args=args, kwargs=kwargs)
-        t.setDaemon(True)
-        t.start()
-        self.response_thread = t
-
     '''
     ***** Run *****
     ''' 
@@ -263,20 +143,20 @@ class client:
             'Call/Raise?':self.handle_Call_or_Raise,
             'Cards':self.handle_Cards_Changed,
             'Draw?':self.handle_Draw,
-            'Round':infoNewRound, # Parameter
-            'Player_Open':self.handle_Player_Open_Changed, # Parameter
-            'Player_Check':infoPlayerCheck, # Parameter
-            'Player_Raise':self.handle_Raise_Changed, # Parameter
-            'Player_Call':infoPlayerCall, # Parameter
-            'Player_Fold':infoPlayerFold, # Parameter
-            'Player_All-in':infoPlayerAllIn, # Parameter
+            'Round':infoNewRound,
+            'Player_Open':self.handle_Player_Open_Changed,
+            'Player_Check':infoPlayerCheck, 
+            'Player_Raise':self.handle_Raise_Changed, 
+            'Player_Call':infoPlayerCall, 
+            'Player_Fold':infoPlayerFold,
+            'Player_All-in':infoPlayerAllIn, 
             'Player_Hand':infoPlayerHand, 
             'Player_Draw':infoPlayerDraw, 
-            'Round_Win_Undisputed':infoRoundUndisputedWin, # Target: Who won?
-            'Round_result':infoRoundResult, # Target: Who won?
+            'Round_Win_Undisputed':infoRoundUndisputedWin, 
+            'Round_result':infoRoundResult,
             'Result':infoResult,
             'Game_Over':infoGameOver, 
-            'unknown_action':lambda *a,**kw:None#self.hourglass#self.guessAction#lambda *arg,**kwarg:None#
+            'unknown_action':lambda *a,**kw:None
         }
 
         msg2len = { # Maps message to excepted length of message
@@ -288,17 +168,17 @@ class client:
             'Call/Raise?':4,
             'Cards':5,
             'Draw?':0,
-            'Round':1, # Parameter
-            'Player_Open':2, # Parameter
-            'Player_Check':1, # Parameter
-            'Player_Raise':2, # Parameter
-            'Player_Call':1, # Parameter
-            'Player_Fold':1, # Parameter
-            'Player_All-in':2, # Parameter
+            'Round':1, 
+            'Player_Open':2, 
+            'Player_Check':1,
+            'Player_Raise':2,
+            'Player_Call':1, 
+            'Player_Fold':1,
+            'Player_All-in':2, 
             'Player_Hand':6, 
             'Player_Draw':2, 
-            'Round_Win_Undisputed':2, # Target: Who won?
-            'Round_result':2, # Target: Who won?
+            'Round_Win_Undisputed':2,
+            'Round_result':2, 
             'Result':3,
             'Game_Over':0, 
             'unknown_action':0
@@ -311,7 +191,6 @@ class client:
                 if not data: break
                 MsgFractions = data.split() # split string into fraction
                 
-                #print('agent',self.agent.name,'buffer',*nagle_buffer,'message',MsgFractions)
                 if len(MsgFractions) == 0: 
                     continue
 

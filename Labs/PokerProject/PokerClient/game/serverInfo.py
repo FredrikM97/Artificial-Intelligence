@@ -1,5 +1,4 @@
 def infoResult(msg, verbose=False, **kwargs):
-    #_nrTimeRaised = 0
     _playerName, _round, _chips, *_ = msg
     if verbose:
         print(f'{_playerName} lasted {_round} rounds. Final chips: {_chips}')
@@ -9,7 +8,6 @@ def infoResult(msg, verbose=False, **kwargs):
 * @param round the round number (increased for each new round).
 '''
 def infoNewRound(msg, verbose=False, agent=None, **kwargs):
-    #_nrTimeRaised = 0
     _round, *_ = msg
     agent.addGameStatus(player=None, action='round',data=_round, **kwargs)
 

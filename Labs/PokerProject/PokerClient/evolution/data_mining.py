@@ -183,7 +183,7 @@ class miner:
                 'roundWin':0,
                 'Action':[]
             }
-        #if key == 'roundWin': print(self.players[(self.round, player)][key])
+
         if key == 'Action':
             self.players[(self.round, player)][key].append(info)
         else:

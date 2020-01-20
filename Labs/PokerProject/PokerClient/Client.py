@@ -41,7 +41,7 @@ class Agent:
     def bet(self,number):
         if issubclass(number.__class__, dict): 
             print("Yaarr, you caught my arrow:",number)
-        #assert number <= self.Chips
+
         self.Chips -= number
         self.CurrentBet += number
    
@@ -91,9 +91,7 @@ class Agent:
                 self.__dict__[action] = int(data) # Overwrite local data
             except:
                 pass
-                #print("True face:",data,type(data))
                 
-        
         if player not in self.players and player != None:
             self.players.update({player:{'chips':0, 'action':['None', 'None']}})
 
@@ -198,8 +196,7 @@ class ml_agent(Agent):
             return '' # top 8% is good enough
         elif hand_strength < 6185: # if pair
             index_of_pair = [index for index, (c1, c2) in enumerate(zip(hand[:-1], hand[1:])) if c1[0] == c2[0]]
-            #if len(index_of_pair)==0: return slice2str(hand[1:]) # Hotfix for BUG: no pair found
-            #else: 
+
             index_of_pair = index_of_pair[0]
             hand_copy = copy(hand)
             del hand_copy[index_of_pair:index_of_pair+1] # remove pair from cards to throw

@@ -159,10 +159,10 @@ def init(ABS_PATH=FILEPATH,seed=57):
     Target_test = [s[2] for s in Test_set]
 
     # preprocess
-    print('Before prepro:', *Input_train[:1], sep='\n')
+    #print('Before prepro:', *Input_train[:1], sep='\n')
     Input_train, process, args = preprocess_columns([preprocess_row(row) for row in Input_train])
     Input_test, _, _ = preprocess_columns([preprocess_row(row) for row in Input_test])
-    print('After prepro:', *Input_train[:1], sep='\n')
+    #print('After prepro:', *Input_train[:1], sep='\n')
 
     return Input_train, Target_train, Input_test, Target_test, process, args
     
