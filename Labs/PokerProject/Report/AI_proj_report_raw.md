@@ -16,6 +16,15 @@ There's more than one way to aproach this task of making a poker agent. A handfu
 Another method that works with all opponent based games is to combine an opponent model with recursion to enhance the performance. This opens up for search tree optimizations such as expectiminimax.
 
 [Are any relevant work being applied to this problem? / what are your references? Explain theories]
+refs:
+* AIMA
+  * A course book, supposed to be usefull
+* google crack course
+  * Google offers a free course focused on teaching the essentials of ml. They teach what type of ml should be used in different situations aswell as how and why preproccesing is done. 
+* keras doc
+  * keras documentation offers technical explaination of various algorithms and generalizes the syntax for them. It's gives the mindset that any model reduced to their input dimension, output dimension and model specific parameters. This is intended for structuring large models made of several smaller ad hoc models but the structure helps on smaller projects aswell.  
+* scikit doc
+  * scikit helps make ml a causal experience. The framework contains all the basic forms of ml aswell as the tools needed to for data processing. The documentation offers many examples on how to use their framework allowing you to stich several examples together rather than getting in depth with the documentation for simple implementations.
 
 # Method
 [pick method from introduction and explain the parameters to said method]
