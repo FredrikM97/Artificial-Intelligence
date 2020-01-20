@@ -71,6 +71,7 @@ actions_per_player  = 2
 encoding_size       = 7
 number_of_players   = 5
 number_of_actions   = actions_per_player * encoding_size * number_of_players
+FILEPATH = 'evolution/minedData.txt'
 
 def main():
     Input_train, Target_train, Input_test, Target_test, *_ = init()
@@ -130,7 +131,7 @@ def cross_valid_example(classifier,params):
         f'Cross valid accuracy: {acc} vs test accuracy: {accuracy(Target_test, predictions)}',
         'top 5:',*score[:10],sep='\n')
 
-def init(ABS_PATH='evolution/minedData.txt',seed=420):
+def init(ABS_PATH=FILEPATH,seed=57):
     # load data
     file = open(ABS_PATH)
     data = []
@@ -158,10 +159,10 @@ def init(ABS_PATH='evolution/minedData.txt',seed=420):
     Target_test = [s[2] for s in Test_set]
 
     # preprocess
-    #print('Before prepro:', *Train_set[:1], sep='\n')
+    print('Before prepro:', *Input_train[:1], sep='\n')
     Input_train, process, args = preprocess_columns([preprocess_row(row) for row in Input_train])
     Input_test, _, _ = preprocess_columns([preprocess_row(row) for row in Input_test])
-    #print('After prepro:', *Train_set[:1], sep='\n')
+    print('After prepro:', *Input_train[:1], sep='\n')
 
     return Input_train, Target_train, Input_test, Target_test, process, args
     
