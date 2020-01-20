@@ -8,7 +8,6 @@ Poker AI
 """
 
 from setuptools import setup
-#[metadata]
 setup(
     name='PokerAI',
     version='0.1',
