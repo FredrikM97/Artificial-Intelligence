@@ -1,0 +1,96 @@
+\documentclass[oneside, 12pt]{article}
+%%Packages
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, margin=3.5cm]{geometry}
+%Create file for each chapter
+\usepackage{subfiles}
+\usepackage{array}
+\usepackage{tabularx}
+%TODO package
+\usepackage[colorinlistoftodos]{todonotes}
+%Plots
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+%Tables
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{makecell}
+%Quotes
+\usepackage{csquotes}
+\usepackage{nameref}
+%Figure caption
+\usepackage{caption}
+\usepackage{subcaption}
+%Hyperlinks
+\usepackage{hyperref}
+
+%Coding package
+\usepackage{listings}
+\usepackage{pgfgantt}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{float} 
+\usepackage[nottoc]{tocbibind} % Makes the references appear in the table of contents
+\usepackage{svg}
+\usepackage{etoolbox}
+%\usepackage{natbib}
+\usepackage[square,sort,comma,numbers]{natbib}
+\usepackage{graphicx}
+
+%Node writing, standard setup of graphic
+\usepackage{tikz}
+
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm,text centered, draw=black, fill=white!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=white!30]
+\tikzstyle{process} = [rectangle, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=white!30]
+\tikzstyle{decision} = [diamond, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=white!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{box} = [rectangle, minimum width=2cm, minimum height=2cm, text centered, draw=black, fill=white!30]
+\tikzstyle{category} = [rectangle, rounded corners, dashed, minimum width=2.5cm, minimum height=1cm,text centered, draw=black, fill=white!30]
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=white!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=white!20, 
+    text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=white!20, node distance=3cm,
+    minimum height=2em]
+
+
+\title{Artificial Intelligence\\
+    \large Project
+}
+\author{
+    Jesper Holmblad, Fredrik Mårtensson
+}
+\date{\today}
+
+\pretocmd{\section}{\cleardoublepage}{}{}
+\graphicspath{{Figures/}{/Figures/}}
+
+\usepackage{pgffor}%
+\begin{document}
+\pagenumbering{gobble}
+\setcitestyle{square}
+\pagenumbering{roman}
+\maketitle
+% Temp solution to solve the huge space in the result part!
+\raggedbottom
+\subfile{Chapters/Abstract.tex}
+\tableofcontents
+\setlength{\parskip}{1.5em} % Paragraph spacing
+\setlength{\parindent}{0em} % Paragraph indentation
+
+\pagenumbering{arabic}
+\subfile{Chapters/Introduction.tex}
+\subfile{Chapters/Theory.tex}
+\subfile{Chapters/PEAS.tex}
+\subfile{Chapters/Method.tex}
+\subfile{Chapters/Results.tex}
+\subfile{Chapters/Conclusion.tex}
+\bibliographystyle{vancouver}
+\bibliography{Appendix/References}
+\end{document}

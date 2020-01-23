@@ -1,0 +1,11 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Experiment and tournament result}
+Prior to the tournament a problem was observed. Data from the server did not arrive as expected. This meant that the agents were kicked from  the server for incorrect response or lack of response. The messages could come up as empty arrays "[]" or with multiple messages bundled together into one which caused major problems. 
+
+This lead to most groups, with us included, withdrawing from the tournament. With only one group in our bracket there weren't enough players to host a tournament so we have nothing to show from that test.
+
+The server issue didn't just stop the tournament but also shut down any hope of testing the model in the environment it was built for. Furthermore it made it near impossible to acquire viable training data. A valiant attempt was made but out of the 1500 data points extracted only 44 were considered usable.
+
+Post tournament a fix for the server issue was acquired. This resulted to loads of bugs and errors being uncovered, both practical and theoretical. When trained data from random agents the model defaults to checking. When trained on data from random agents mixed with ML based agents it resorts to folding. Even if the other agents don't raise the model will still fold. This suggest that it's acting heavily based on a bias while disregarding most the input features. We can showcase a test accuracy of 80\% however with this kind of error it's safe to assume it guessed on losing as four out of five player do lose.
+\end{document}

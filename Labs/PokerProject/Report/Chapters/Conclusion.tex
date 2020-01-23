@@ -1,0 +1,13 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Conclusion}
+The server issue teaches us (once again) that the testing environment has the final say on the result. Unfortunately the environment comes pre-compiled and undocumented making it a dead end for anyone trying to fix it. However a fix was found which allowed us to confirm that the issue was caused by something called Nagle's algorithm.
+
+As for the model. We can conclude that the chosen metric can prove misleading. Switching metric to spearman correlation would eliminate any model that relies on bias alone. The model itself is no condition to be competing in tournament
+
+What could be reworked then? Instead of using a one dimensional feature vector one would likely be better of using an input such as [batch, phases, players, features]. Say we store four features belonging to five players over the four phases of a round then we'd have a total of batch*4*5*4 = batch*80 features as input. This is a lot more features but because of the structure it would be much easier to generalise since we can now process the different dimensions with models specialised on those types of data. 
+
+Of course we wouldn't suggest changing the feature without a model in mind. Using a multi layered model we could combine the best of all ML models into one. Time series data is preferably processed by recurrent models such as RNN, LSTM, and GRU. The data from each player could be fed one at a time into a neural net that outputs an embedding for each. Since we know the final layer has to perform comparisons we could opt for a deep neural net or perhaps a convolutional model, that way the activator function can mimic the non-linear properties of the comparison. As a cherry on top an ad hoc model could be built to determine our opponents hand strength.
+
+These changes to the model would be challenging to implement while being constrained by Sci-kits framework. Switching over to Keras would enable a lot of interesting builds to be created.
+\end{document}

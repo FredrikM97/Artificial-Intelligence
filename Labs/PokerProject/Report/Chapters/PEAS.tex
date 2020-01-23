@@ -1,0 +1,89 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{PEAS description}
+"For the acronymically minded, we call this the PEAS (Performance, Environment, Actuators, Sensors) description".\cite{AIMA}
+The following chapters will briefly explain where each part of PEAS is implemented in the project.
+
+\subsection{Performance}
+Since the project is based on classification it makes sense to use accuracy as performance measure. 
+
+\subsection{Environment}
+Five card poker contains a set of objects, mechanics and a flow as described below. 
+
+From the environment it is possible to determine the agent's design and which areas it can be used for. A short summery of environmental variables can be observed below.
+
+\begin{itemize}
+    \item \textit{Partially observable:} Since the agent can't see the opponent's hand
+    \item \textit{Multiagent:} Five agents in the game.
+    \item \textit{Stochastic:} Each time the deck is involved randomness is included.
+    \item \textit{Sequential:} The agent uses previous turn in order to decide the current action.
+    \item \textit{Dynamic:} There is a time limit and if no response given to server the agent is kicked.
+    \item \textit{Discrete:} Turned based game.
+    \item \textit{Known:} The agent knows what the actuators do.
+\end{itemize}
+
+\subsubsection{Objects} 
+Serve as anchor points for actuators. Could also be seen as name spaces.
+\begin{enumerate}
+    \item \textit{Chips:} A players currency. when it runs out the player loses.
+    \item \textit{Cards:} The building block of hands. Has rank and colour.
+    \item \textit{Hands:} A combination of 5 cards. Given to the player by the game server.
+    \item \textit{The pot:} The accumulated bets from all players. 
+    \item \textit{Player:} The player/agent playing the game. The player owns chips.
+\end{enumerate}
+
+\subsubsection{Mechanics}
+These are operations/actuators belonging to game objects.
+\newline\newline
+\textbf{Chips mechanics}
+\begin{itemize}
+    \item \textit{Match:} Means matching the highest current bet
+    \item \textit{Raise:} Raising means increasing ones bet over the highest current bet which is turn forces all other players to respond. A raise must be equal to or greater than the previous raise, this is to prevent players from stalling the game.
+\end{itemize}
+
+\textbf{Cards mechanics}
+\begin{itemize}
+    \item \textit{Display:} Cards can be made visible \newline
+    \item \textit{Compare:} Cards can be compared by both rank and colour
+\end{itemize}
+    
+\textbf{Hands mechanics}
+\begin{itemize}
+    \item \textit{Discard:} The act of throwing one or more cards which then gets replaced. This action can be seen by all players
+    \item \textit{Display:} Hands can be made visible
+    \item \textit{Compare:} This determines which hand is the strongest by first looking at which category each hand belongs to. The hand with the rarest category wins. If both hands fall into the same category it compares the rank of the cards specific to the category. If category and the rank is the same the hands are viewed as equal. 
+\end{itemize}
+	
+\subsubsection{Flow} 
+The operations performed by the game itself. These can be called in any state machine fashion but in this case they are simply called in order.
+\begin{enumerate}
+    \item Ante
+    \item The first betting round is made.
+    \item If any players remain in the game, then each player can choose to change cards.
+    \item The second betting round is made.
+    \item Showdown, where the player hands are compared and the winner(s) will receive the pot (or part of the pot, in case of multiple winners).
+\end{enumerate}
+
+\subsubsection{Actuators}
+Mechanics that belong to the player
+\begin{itemize}
+    \item \textit{Open:} Performs the raise actuator from chip without setting the minimum raise.
+    \item \textit{Call:} Trigger match actuator from chip
+    \item \textit{Check:} Also triggers chips match actuator
+    \item \textit{Raise:} Bound to chips raise actuator
+    \item \textit{Fold:} This actuator is unique for the player. It sets the agent state to folded meaning that the agent will not be affected by the game flow until the start of next round.
+    \item \textit{All-in:} Raise equal to the players chips.
+\end{itemize}
+
+
+\subsubsection{Sensors}
+The sensors of the agents are it's inputs and the inputs are the features in the feature vector. This means the sensors are:
+\begin{itemize}
+    \item The agent's hand (6255)
+    \item Chips for all players 
+    \item Previous and current action/actuator for all players.
+\end{itemize}
+
+\textbf{Example of sensor readings:} \newline
+[6255, 250, 250, 250, 250, 250, 'Player\_Call', 'Player\_Check', 'Player\_All-in', None, 'Player\_Fold', None, 'Player\_Call', 'Player\_Check', 'Player\_Call', 'Player\_Check']
+\end{document}

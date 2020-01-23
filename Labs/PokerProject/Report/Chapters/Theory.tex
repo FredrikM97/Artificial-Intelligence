@@ -1,0 +1,17 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Theory}
+\subsection{Normalisation}
+Normalisation is a method of transforming multiple features into the same scale. Without normalization, two features of different lengths with three points, such as points 1,2,3, may appear to have two (1 and 2) points which are reasonably similar. After normalization, the data can be represented differently where 2 and 3 now have greater similarities than 1 and 2. By transforming the data we can get a better picture of how the data is structured and both axes in this case are represented on the same scale.
+\subsection{One-hot encoding}
+In order for machine learning not to confuse two things like having a relationship where one is better than the other, we use one-hot encoding. 
+Let's say that the agent's feature vector consists of the following actions [Call, Raise, Fold] and each action can change place with another. It is not possible to give each action its own number [1,2,3] and use it as feature vector for the machine learning as they have no direct relation to each other were 1 is considered better than 2 and 2 is better than 3. When using one-hot encoding, the model will look like the following [0,0,0,0,0,0,0,0,0]. 
+These are three actions where each action gets a combination of numbers ex: 
+\begin{enumerate}
+    \item Call: [1,0,0]
+    \item Raise: [0,1,0]
+    \item Fold: [0,0,1] 
+\end{enumerate}
+
+This is merged into a vector as follows [1,0,0,0,1,0,0,0,1]. The method has high space complexity for many features but can quickly be built a feature vector for machine learning.
+\end{document}

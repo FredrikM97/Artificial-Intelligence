@@ -1,0 +1,34 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Introduction}
+Games without exact solutions are common ways to learn machine learning. For that purpose we'll be making a crude machine learning based agent for five card poker. In short, five card poker is like Texas hold em but with five cards on hand and no cards on the board. All players get a hand, place some bets based on their perceptions, hands are shown and the winner takes the pot. For a more detailed description see the PEAS description section. 
+
+There's more than one way to approach this task of making a poker agent. A handful of solutions have been considered but the set can be narrowed down by considering the restrictions the game applies to our model. We have hidden information which excludes all informed search algorithms. There's also randomness involved which excludes all exact solutions. This leaves us with:
+
+\begin{itemize}
+    \item Uninformed search like BFS but with probability
+    \item Machine learning methods
+    \item Bayesian Network
+    \item Reflex agent that accounts for probabilities
+\end{itemize}
+
+Another method that works with all opponent based games is to combine an opponent model with recursion to enhance the performance. This opens up for search tree optimisations such as expectiminimax.
+
+
+
+Methods and information used in this project comes from: Artificial Intelligence: A Modern Approach (AIMA), Google crash course, Keras documentation and Scikit documentation.
+
+\subsection{AIMA}
+The course book \cite{AIMA} for the course and the course material is based on.
+
+\subsection{Google crash course}
+Google offers a free course\footnote{\url{https://developers.google.com/machine-learning/crash-course}} focused on teaching the essentials of ML. They teach what type of ML should be used in different situations as well as how and why preproccesing is done. How feature selection, data mining, normalization, quantiles, embeddings is done is based on the information given in the crash course.
+
+\subsection{Keras documentation }
+Keras documentation\footnote{\url{https://keras.io/models/about-keras-models/}} offers technical explanation of various algorithms and generalises the syntax for them. It's gives the mindset that any model reduced to their input tensor, output tensor and model specific parameters. This is intended for structuring large models made of several smaller ad hoc models but the structure helps on smaller projects as well.
+
+\subsection{Scikit documentation }
+Scikit\footnote{\url{https://scikit-learn.org/stable/user_guide.html}} helps make ML a causal experience. The framework contains all the basic forms of ML as well as the tools needed for data processing. The documentation offers many examples on how to use their framework allowing you to stitch several examples together rather than getting in depth with the documentation for simple implementations.
+
+
+\end{document}

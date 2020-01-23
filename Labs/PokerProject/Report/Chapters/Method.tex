@@ -1,0 +1,73 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Method}
+As mentioned the chosen method is to make an agent based on machine learning so we'll start by explaining how this implementation is done. We'll also give our agent a PEAS description as this was requested. Finally a hypothesis about the expected result is made.
+
+\subsection{Machine learning}
+Machine learning is a method of generating a solution based on statistics. The framework Keras divides the main ML models into three attributes: 
+\begin{enumerate}
+    \item The model layers 
+    \item The output tensor
+    \item The input tensor
+\end{enumerate}
+
+Our model consist of a single layer SVM and output is defined as a trinary class representing whether or not the current state will lead to a loss, undisputed win or a normal win. This leaves only the input.
+
+Since Sci-kits framework is intended for one dimensional input the shape of the input has to be [Batch, Feature] where batch is determined by Scikit. This means we only have to determine what the feature vector in order to finish the model. However the feature is the most important component so we'll be explaining it in depth. The feature vector creation can be split into three steps: feature selection, data mining and data processing.
+
+\subsection{Feature selection}
+The basic idea behind our feature vector is to provide a state vector that covers all the data at a point in time. The game state would simply be the current pot as well as each players hand and chips for a total of $1+2*n$ where n is the number of players. However since we don't know the hand of each player these would have to be estimated by another upstream machine learning. But since this model is a single layer SVM that is not possible so the hand for each opponent has to be scraped leaving us with $2+n$ features.
+
+Since the pot is not something given from the server, this must be calculated from the client side. However, with several packet losses, a good method for extracting the information could not be produced. Thus, the pot was excluded as a possible feature for the model.
+
+Because the output is to be a trinary class we also need to include the actuator we intend to use for each player so that we may iterate the actuators to figure which of them are viable. The actuator of our opponent is only known if they make their move before us. It could be approximated upstream but once again; it's a single layer model. So a naive fix to this is to give out ML features that we do know which would correlate to the opponent actuators. Taking a stab in the dark, one can guess that the actuators from the previous turn would provide some insight to this so those were added as well putting the new feature length at $1+3*n$. 
+
+\subsection{Data mining}
+Data mining involves searching and extracting information relevant to the selected features from large amounts of data. First step is to get a large amount of data. It was difficult to extract information from the client side because of missed packets and incorrect responses. To solve this the data is picked directly from the server. Secondly the data needs to be  filtered down to the information relevant to our model. This is done by searching for keywords known to be near the information and then extracting it with string operations.
+
+ Below includes two feature vectors  extracted by data mining where example 1 is an accepted feature and example 2 is not since it's missing a feature, which is represented by the -1 in the first feature. Which in turn means that the agent will never find out what his own hand is. Thus this feature vector will be scraped. The examples below is built upon the following vector were the target agent that is playing is in a fixed position. 
+\newline\newline
+[targetHandStrength, targetChips, targetWin, p1Chips, p2Chips, targetAction1,targetAction2, p1Action1, p1Action2, p2Action1, p2Action2, p3Action, p3Action2, p4Action1, p4Action2]
+\newline\newline
+\textbf{Vector Example 1:}  \newline
+[6261, 880, 905, 730, 855, 630, 'Player\_Check', 'Player\_Check',
+                                'Player\_Check', 'Player\_Check', 
+                                'Player\_Check', 'Player\_Check', 
+                                'Player\_Check', 'Player\_Check', 
+                                'Player\_Check', 'Player\_Check']
+\newline\newline
+\textbf{Vector Example 2:} \newline
+[-1, 250, 0, 250, 250, 250, 250, 'Player\_Fold', None, 
+                                 'Player\_All-in', None, 
+                                 'Player\_Call', 'Player\_Check', 
+                                 'Player\_Call', 'Player\_Check', 
+                                 'Player\_Call', 'Player\_Check']
+
+\subsection{Processing}
+
+Before sending the data into the model it needs some processing. This involves normalization, quantisation and embedding. Normalisation isn't necessary as most ML models can adapt their weights to do this for us but it's done anyways as this speeds up the learning process in most cases. 
+
+As we're working with first order ML it's important that the features are first order polynomials as well. In other words they need to be linearized. This is trivial if you know the maths behind the generated data. However if you are clueless then there's a crude yet effective method that always works: quantiles. Simply split the data into n equally sized sets, these are called quantiles. Each data point is relabelled with the number of the set it falls into. 
+
+Finally, to handle categorical features they are processed into embedded features. To embed a feature one first needs to create an embedding. These can be quite complex so to simplify we'll resort to the most primitive embedding there is. The embedding of choice is one-hot encoding. 
+
+
+
+The following were observed from the feature vector before and after utilising normalization, quantile and one-hot encoding:
+\newline\newline
+\textbf{Before preprocessing:}\newline
+[2831, 805, 830, 855, 780, 730, 'Player\_Check', 'None', 'Player\_Check', 'None', 'Player\_Check', 'None', 'Player\_Check', 'None', 'Player\_Check', 'None']
+\newline\newline
+\textbf{After preprocessing:}\newline
+(0.08571428571428572, 0.6470588235294118, 0.5588235294117647, 0.8, 0.5428571428571428, 0.5882352941176471, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0)
+\newline\newline
+The first feature represent hand strength. Note that 2831 correspond to three of a kind according to the hand evaluator API and after being processed it turns into 0.0857 or 8.57\%. The probability of getting three of a kind or better is 2.87\%. This shows the performance of the processing method chosen. As the data set is increased the processed feature should in theory approach the mathematically derived value.
+
+\subsection{Expected behaviour}
+Using this method we expect to see no result. Why is no result expected? This is because at the time the model was created there was no way to interact with the server without getting disconnected.
+
+However in the off chance that the server does function as intended the expected result would be that the agent makes decisions that lead to slightly higher win rate than random and some ability to generalise on hand strength and chips.
+
+Also by running the model model in batches and train on the newly acquired data it should imitate genetic algorithms where the training data can be seen as the genetics. This should enable the model generate the data most needed for training.
+
+\end{document}
