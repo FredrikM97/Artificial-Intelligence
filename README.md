@@ -1,2 +1,2 @@
 # Artificial-Intelligence
-Course in AI
+Artificial-Intelligence Course at Halmstad Univeristy, winter 2020
