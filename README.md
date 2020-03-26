@@ -1,2 +1,2 @@
 # Artificial-Intelligence
-Artificial-Intelligence Course at Halmstad Univeristy, winter 2020
+Artificial-Intelligence Course at Halmstad Univeristy, winter 2019
